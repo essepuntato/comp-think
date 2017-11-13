@@ -1,0 +1,262 @@
+<html xmlns="http://www.w3.org/1999/xhtml" prefix="
+        cito: http://purl.org/spar/cito/
+        fabio: http://purl.org/spar/fabio/
+        schema: http://schema.org/
+        prism: http://prismstandard.org/namespaces/basic/2.0/"><head>
+        <!-- Visualisation requirements (mandatory for optimal reading) -->
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/rash.css">
+        <link rel="stylesheet" href="css/comment.css">
+        
+        <script src="js/jquery.min.js"> </script>
+        <script src="js/bootstrap.min.js"> </script>
+        <script src="js/rash.js"> </script>
+        
+        <!-- /END Visualisation requirements (mandatory for optimal reading) -->
+        
+        <!-- Metadata -->
+        <title property="dcterms:title">Introduction to Computational Thinking</title>
+        
+        <!-- Author's data (one or more) -->
+        <meta about="#author-1" name="dc.creator" content="Silvio Peroni">
+        <meta about="#author-1" property="schema:email" content="silvio.peroni@unibo.it">
+        <link about="#author-1" property="schema:affiliation" href="#dasplab">
+        
+        <!-- Affiliations -->
+        <meta about="#dasplab" property="schema:name" content="Digital and Semantic Publishing Laboratory, Department of Computer Science and Engineering, University of Bologna, Bologna, Italy">
+        
+        <!-- Paper keywords (one or more) -->
+        <meta property="prism:keyword" content="computational thinking">
+        <meta property="prism:keyword" content="language">
+        <meta property="prism:keyword" content="programming">
+    </head>
+    <body>
+<section role="doc-abstract">
+<h1>Abstract</h1>
+<p>These lecture notes introduce the main concepts related to <em>computational thinking</em> by providing a summary of relevant topics in the areas of Linguistics and Computing in the past 200 years. The historic hero introduced in these notes is Noam Chomsky, considered the father of modern linguistics. His works have been a huge impact in the Linguistics domain as well as in the Theoretical Computer Science domain.</p>
+<p><strong>Copyright notice.</strong> This work is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. You are free to share (i.e. copy and redistribute the material in any medium or format) and adapt (e.g. remix, transform, and build upon the material) for any purpose, even commercially, under the following terms: attribution, i.e. you must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. The licensor cannot revoke these freedoms as long as you follow the license terms.</p>
+</section>
+<section id="sec-hero">
+<h1>Historic hero: Noam Chomsky</h1>
+<p><a href="https://en.wikipedia.org/wiki/Noam_Chomsky">Noam Chomsky</a> (shown in <a href="#fig-chomsky"></a>) is one of the most prominent scholars of the last one hundred years. His contributions and research works have been disruptive and have changed the way scholars have approached several domains in science and humanities. He has been described as the father of the modern linguistics, and he is one of the very first contributors and founders of the cognitive science field &#x2013; that concerns the study of mind and its processes according to several interdisciplinary perspectives, including linguistics, psychology, and artificial intelligence.</p>
+<figure id="fig-chomsky">
+<p><img src="img/chomsky.jpg"></p>
+<figcaption>A picture of Chomsky taken in 2011. Picture by Andrew Rusk, source: <a href="https://en.wikipedia.org/wiki/Noam_Chomsky#/media/File:Noam_Chomsky_Toronto_2011.jpg">https://en.wikipedia.org/wiki/Noam_Chomsky#/media/File:Noam_Chomsky_Toronto_2011.jpg</a>.</figcaption>
+</figure>
+<p>His approach to linguistics has been really revolutionary. The main aspect of his approach to human language is that the principle underlying its structure is&#xA0;<a href="https://en.wikipedia.org/wiki/Universal_grammar">biologically determined in all humans</a> &#x2013; they are already within us since our birth &#x2013; and, as such, it is a unique characteristic that has been evolved in time and that is shared by human beings only, and not by other animals. His view of human language is in great contrast with previous ideas about the evolution of languages, that want each human being as an empty-bucket mind, without any preconfigured linguistic structure, and thus the language should be a matter of learning a radically new endeavour from scratch.</p>
+<p>Among his large series of works in linguistics, the <a href="https://en.wikipedia.org/wiki/Chomsky_hierarchy">classification of formal grammars</a> into a hierarchy of increasing expressiveness is undoubtedly one of his most important contributions, especially in the field of the Theoretical Computer Science and Programming Languages. A <a href="https://en.wikipedia.org/wiki/Formal_grammar">formal grammar</a> is a mathematical tool for defining a language (e.g. a natural language, such as English) according to a finite set of production rules, that allows one to construct any syntactic valid sentence of such language.</p>
+<p>Each formal grammar is composed of a set of production rules in the form <code>left-side ::= right-side</code> (according to the <a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form">Backus&#x2013;Naur form</a>, or BNF), where each side can contain one or more symbols of one or more of the following types:</p>
+<ul>
+<li>
+<p><em>terminal</em> (specified between quotes in BNF), which identifies all the elementary symbols of the language in consideration (such as the words, verbs, etc., in English);</p>
+</li>
+<li>
+<p><em>non-terminal</em> (specified between angular brackets in BNF), which identifies all the symbols in the formal grammar that can be replaced by a combination of terminal and non-terminal symbols.</p>
+</li>
+</ul>
+<p>In principle, the main idea of the application of a production rule is that the sequence of symbols in the <code>left-side</code> part can be replaced with those ones specified in the <code>right-side</code> part until the sequence includes only terminal symbols. For instance, the production rules <code>&lt;sentence&gt; ::= &lt;pronoun&gt; &quot;write&quot;</code>, <code>&lt;pronoun&gt; ::= &quot;I&quot;</code> and <code>&lt;pronoun&gt; ::= &quot;you&quot;</code> allows one to create all the two-word sentences having the first or second person singular pronoun accompanied by the verb <q>write</q> (e.g. <q>I write</q>). In addition, each formal grammar must specify a <em>start symbol</em>, that must be non-terminal.</p>
+<p>The hierarchy proposed by Chomsky provides a way for describing formally the relations that may exist between different grammars in terms of the possible syntactic structures that such grammars are able to generate. In practice, they are characterised by which kinds of symbols one can use in the <code>left-side</code> and <code>right-side</code> parts of production rules. These grammars are listed as follows, from the less expressive to the most expressive &#x2013; we use letters from the Greek alphabet for indicating any possible combination of terminal and non-terminal symbols, including the empty symbols (usually represented by <code>&#x3B5;</code>):</p>
+<ul>
+<li>
+<p><em>regular grammars</em> &#x2013; form of production rules: <code>&lt;non-terminal&gt; ::= &quot;terminal&quot;</code> and <code>&lt;non-terminal&gt; ::= &quot;terminal&quot; &lt;non-terminal&gt;</code>. Example:</p>
+<pre><code>&lt;sentence&gt; ::= &quot;I&quot; &lt;verb&gt;
+&lt;sentence&gt; ::= &quot;you&quot; &lt;verb&gt;
+&lt;verb&gt; ::= &quot;write&quot;
+&lt;verb&gt; ::= &quot;read&quot;</code></pre>
+</li>
+<li>
+<p><em>context-free grammars</em> &#x2013; form of production rules: <code>&lt;non-terminal&gt; ::= &#x3B3;</code>. Example:</p>
+<pre><code>&lt;sentence&gt; ::= &lt;nounphrase&gt; &lt;verbphrase&gt;
+&lt;nounphrase&gt; ::= &lt;pronoun&gt;
+&lt;nounphrase&gt; ::= &lt;noun&gt;
+&lt;pronoun&gt; ::= &quot;I&quot;
+&lt;pronoun&gt; ::= &quot;you&quot;
+&lt;noun&gt; ::= &quot;book&quot;
+&lt;noun&gt; ::= &quot;letter&quot;
+&lt;verbphrase&gt; ::= &lt;verb&gt;
+&lt;verbphrase&gt; ::= &lt;verb&gt; &quot;a&quot; &lt;noun&gt;
+&lt;verb&gt; ::= &quot;write&quot;
+&lt;verb&gt; ::= &quot;read&quot;</code></pre>
+</li>
+<li>
+<p><em>context-sensitive grammars</em> &#x2013; form of production rules: <code>&#x3B1; &lt;non-terminal&gt; &#x3B2; ::= &#x3B1; &#x3B3; &#x3B2;</code>. Example:</p>
+<pre><code>&lt;sentence&gt; ::= &lt;noun&gt; &lt;verbphrase&gt;
+&lt;sentence&gt; ::= &lt;subject pronoun&gt; &lt;verbphrase&gt;
+&quot;I&quot; &lt;verb&gt; &lt;object pronoun&gt; ::= &quot;I&quot; &quot;love&quot; &lt;object pronoun&gt;
+&quot;I&quot; &lt;verb&gt; &lt;noun&gt; ::= &quot;I&quot; &quot;read&quot; &quot;a&quot; &lt;noun&gt;
+&lt;verbphrase&gt; ::= &lt;verb&gt; &lt;noun&gt;
+&lt;verbphrase&gt; ::= &lt;verb&gt; &lt;object pronoun&gt;
+&lt;subject pronoun&gt; ::= &quot;I&quot;
+&lt;subject pronoun&gt; ::= &quot;you&quot;
+&lt;object pronoun&gt; ::= &quot;me&quot;
+&lt;object pronoun&gt; ::= &quot;you&quot;
+&lt;noun&gt; ::= &quot;book&quot;
+&lt;noun&gt; ::= &quot;letter&quot;</code></pre>
+</li>
+<li>
+<p><em>recursively enumerable grammars</em> &#x2013; form of production rules: <code>&#x3B1; ::= &#x3B2;</code> (no restriction applied). Example:</p>
+<pre><code>&lt;sentence&gt; ::= &lt;subject pronoun&gt; &lt;verbphrase&gt;
+&quot;I&quot; &lt;verb&gt; &lt;object pronoun&gt; ::= &quot;I&quot; &lt;verb&gt; &quot;you&quot;
+&quot;I&quot; &lt;verb&gt; &lt;noun&gt; ::= &quot;I&quot; &quot;read&quot; &quot;a&quot; &quot;book&quot;
+&lt;verbphrase&gt; ::= &lt;verb&gt; &lt;noun&gt;
+&lt;verbphrase&gt; ::= &lt;verb&gt; &lt;object pronoun&gt;
+&lt;subject pronoun&gt; ::= &quot;I&quot;
+&lt;subject pronoun&gt; ::= &quot;you&quot;
+&lt;object pronoun&gt; ::= &quot;me&quot;
+&lt;object pronoun&gt; ::= &quot;you&quot;
+&lt;verb&gt; ::= &quot;love&quot;
+&lt;verb&gt; ::= &quot;hate&quot;</code></pre>
+</li>
+</ul>
+</section>
+<section id="sec-computer">
+<h1>What is a computer?</h1>
+<p>The term <em>computer</em> is currently used to identify an <q>electronic device which is capable of receiving information (data) in a particular form and of performing a sequence of operations [...] to produce a result</q> <a href="#ox-dict-computer"></a>. However, the original definition of the same term, in use from the 17th century, is slightly different. In fact, it refers to someone <q>who computes</q> or to a <q>person performing mathematical calculations</q> <a href="#wiki-human-computer"></a>. In these lecture notes, when we use the term <q>computer</q> we always consider the most generic definition: <em>any agent (i.e. anything that can act if appropriately instructed, such as a person or a machine) that is able to make calculations and to produce some output starting from input information</em>.</p>
+<p><em>Human</em> computers, i.e. group of people who have to undertake long calculations for certain experiments or measurements, have been used several times in the past. For instance, in Astronomy, human computers have been used for calculating astronomical coordinates of non-terrestrial things &#x2013; such as the calculation of passages of the <a href="https://en.wikipedia.org/wiki/Halley%27s_Comet">Halley&apos;s Comet</a> by Alexis Claude Clairaut and colleagues. Similarly, human computers have been used also for addressing Governmental issues, e.g. when Napoleone Bonaparte imposed the creation of mathematical tables for converting the values from the old imperial system of measurements to the new metric system <a href="#campbellkelly2009"></a> <a href="#roegel2010"></a>).</p>
+<p>In 1822, <a href="https://en.wikipedia.org/wiki/Charles_Babbage">Charles Babbage</a>, understanding the complexity of doing all these calculations by hand without introducing any error, started the development of an incredible machine. This machine, called the <a href="https://en.wikipedia.org/wiki/Difference_engine">Difference Engine</a> (a mechanical calculator, shown in <a href="#fig-difference-engine"></a>), aimed at addressing similar tasks that were run by human computers, but in a way that was automatic, faster, and error-free. Babbage was able to build just a partial prototype of this machine, and, after the first enthusiasm, he was struggled by the limited flexibility that it offered. In fact, the Difference Engine was not a programmable machine and, thus, it was able to compute only a fixed set of operations on the inputs specified physically by changing specific configurations of the machine.</p>
+<figure id="fig-difference-engine">
+<p><img src="img/difference_engine.jpg"></p>
+<figcaption>Babbage Difference Engine No. 2 built at the Science Museum (London) and displayed at the Computer History Museum in Mountain View (California). Picture by Allan J. Cronin, source: <a href="https://commons.wikimedia.org/wiki/File:Difference_engine.JPG">https://commons.wikimedia.org/wiki/File:Difference_engine.JPG</a>.</figcaption>
+</figure>
+<p>In order to address these limitations, in 1837 Babbage started to think a new machine, the <a href="https://en.wikipedia.org/wiki/Analytical_Engine">Analytical Engine</a>, summarised in <a href="#fig-analytical-engine"></a>. While no prototypes of this machine were built by Babbage, in principle it would have enabled a user to create any possible procedural calculation, making it the very first mechanical general-purpose computer in history. In contrast to its predecessor, the Analytical Engine was able to receive the input instructions and data by means of <a href="https://en.wikipedia.org/wiki/Punched_card">punched cards</a>, without obliging its users to make any physical manipulation of the machine to get it working.</p>
+<figure id="fig-analytical-engine">
+<p><img src="img/analytical_engine.jpg"></p>
+<figcaption>A sketch by Babbage that describes the main architecture of the Analytical Engine. Source: <a href="http://www.computerhistory.org/atchm/httpwww-computhe-analytical-engine-28-plans-and-counting/">The Analytical Engine: 28 Plans and Counting</a>, Computer History Museum.</figcaption>
+</figure>
+<p>More than one century was needed for seeing the ideas presented in the Analytical Engine developed in some physical machine. In fact, the computing technology had a drastic change as a consequence of the World War II. Several calculators were built for military reasons, such as the <a href="https://en.wikipedia.org/wiki/Bombe">Bombe</a> (1940), designed by <a href="https://en.wikipedia.org/wiki/Alan_Turing">Alan Turing</a>, which was the main instrument that allowed a group of people, living in the secret British military camp at <a href="https://en.wikipedia.org/wiki/Bletchley_Park">Bletchley Park</a>, to decipher German&apos;s communications encrypted by means of the <a href="https://en.wikipedia.org/wiki/Enigma_machine">Enigma machine</a>.</p>
+<p>While the Bombe was a very effective and efficient machine, it was still partially based on mechanical components, and it allowed their users only a specific task, even if it was crucial from a purely historical point of view. The first fully-digital computer, as envisioned by Babbage with his Analytical Engine, was developed in the United States only a few years later, in 1946. It was the <a href="https://en.wikipedia.org/wiki/ENIAC">Electronic Numerical Integrator and Computer (ENIAC)</a>, shown in <a href="#fig-eniac"></a>, that was programmable by means of patch cables and switches. This invention represents one of the most important milestones of the history of computers - the fixed point in time where all the modern computers have been then generated.</p>
+<figure id="fig-eniac">
+<p><img src="img/eniac.jpg"></p>
+<figcaption>A picture of the ENIAC in the Ballistic Research Laboratory (Maryland). Source: <a href="https://en.wikipedia.org/wiki/ENIAC#/media/File:Eniac.jpg">https://en.wikipedia.org/wiki/ENIAC#/media/File:Eniac.jpg</a>.</figcaption>
+</figure>
+</section>
+<section id="sec-language">
+<h1>Natural languages vs. programming languages</h1>
+<p>There is an aspect of&#xA0;<em>computers</em> (either humans or machines) that has not directly tackled yet: which mechanism can we use for asking them to address a particular task? The way to approach this issue is extremely linked to the particular communication channel we want to adopt. Considering human computers, we can use the natural language (e.g. English) to instruct them in addressing specific actions.</p>
+<p>A <a href="https://en.wikipedia.org/wiki/Natural_language">natural language</a> is just an ordinary language (e.g. English), either written or oral, that has evolved naturally in humans, usually without a specific and premeditated planning. As we know them, natural languages have the advantage (and, on the other hand, disadvantage) of being so expressive that particular instructions provided by using them can sound ambiguous. Consider for instance <a href="https://en.wikipedia.org/wiki/List_of_linguistic_example_sentences">the sentence <q>shot an elephant in your pyjamas</q></a>. Does it mean that you have to shot an elephant (with a rifle) while you are wearing a pyjamas, or that you should shot an elephant (with a water gun) that is drawn in your pyjamas? However, often, we could come up with specific (e.g. social) conventions that would allow us to restrict the possible meaning of a piece of information &#x2013; in the previous example, the fact you are in your bedroom and you are not living in Gabon is enough for disambiguating the sentence. While natural language are not formal by definition, several studies in Linguistics try to provide their formalisation by means of some mathematical tool, e.g. <a href="#berardi2002"></a>. It is worth mentioning that, even if one can provide a formal definition of a natural language, it intrinsic vagueness are still present in the language itself &#x2013; i.e. one cannot use mathematics (or, better, logics) for removing (all) the ambiguities&#xA0;from a natural language.</p>
+<p><a href="https://en.wikipedia.org/wiki/Programming_language">Programming languages</a>, on the contrary, are formal-born languages. They oblige to specific syntactic rules, and they are usually developed in a way that avoids possible ambiguous statements (mainly by restricting their expressiveness), so as that all the sentences in such language are clearly conveying just one possible meaning. They are usually based on context-free grammars, according to the Chomsky&apos;s classification introduced in <a href="#sec-hero"></a>, and can have a large degree of abstraction. In particular, they are mainly grouped in three macro-sets:</p>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Machine_code"><em>machine language</em></a> is a set of instructions that can be executed directly by the <a href="https://en.wikipedia.org/wiki/Central_processing_unit">central processing unit (CPU)</a> of an electronic computer. For instance, the following code is the binary executable code (i.e. a sequence of 0 and 1) defining a function (i.e. a kind of tool that takes some inputs and produces some output) for calculating the n<sup>th</sup> <a href="https://en.wikipedia.org/wiki/Fibonacci_number">Fibonacci number</a>:</p>
+<pre><code>100010110101010000100100000010001000001111111010000000000111011100000110101110000000000000000000000000000000000011000011100000111111101000000010011101110000011010111000000000010000000000000000000000001100001101010011101110110000000100000000000000000000000010111001000000010000000000000000000000001000110100000100000110011000001111111010000000110111011000000111100010111101100110001001110000010100101011101011111100010101101111000011</code></pre>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Low-level_programming_language"><em>low-level programming languages</em></a> are languages that provide one abstraction level on top of the machine language, and thus it allows one to write programs in a way that is more intelligible to humans. The most famous language of this type is <a href="https://en.wikipedia.org/wiki/Assembly_language">Assembly</a>. Even if it introduces humanly understandable symbols, typically one line of assembly code represents one machine instruction in machine language. For instance, the same function for calculating the n<sup>th</sup> Fibonacci number is defined in Assembly as follows:</p>
+<pre><code>fib:
+    mov edx, [esp+8]
+    cmp edx, 0
+    ja @f
+    mov eax, 0
+    ret
+    
+    @@:
+    cmp edx, 2
+    ja @f
+    mov eax, 1
+    ret
+    
+    @@:
+    push ebx
+    mov ebx, 1
+    mov ecx, 1
+    
+    @@:
+        lea eax, [ebx+ecx]
+        cmp edx, 3
+        jbe @f
+        mov ebx, ecx
+        mov ecx, eax
+        dec edx
+    jmp @b
+    
+    @@:
+    pop ebx
+    ret</code></pre>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/High-level_programming_language"><em>high-level programming languages</em></a> are languages which are characterised by a strong abstraction from the specifiability of the machine language. In particular, it may use natural language words for specific construct, so as to be easy to use for and to understand by humans. Generally speaking, the more the abstraction from the low-level programming languages is provided, the more understandable the language is. For instance, in the following example we show how to use the <a href="https://en.wikipedia.org/wiki/C_(programming_language)">C</a> programming language for implementing the same function as before:</p>
+<pre><code>unsigned int fib(unsigned int n) {
+    if (n &lt;= 0)
+        return 0;
+    else if (n &lt;= 2)
+        return 1;
+    else {
+        unsigned int a,b,c;
+        a = 1;
+        b = 1;
+        while (1) {
+            c = a + b;
+            if (n &lt;= 3) return c;
+            a = b;
+            b = c;
+            n--;
+        }
+    }
+}</code></pre>
+</li>
+</ul>
+<p>We can also apply an additional level of abstraction to the previous example, in order to provide natural language instructions for enabling a human computer, this time, to perform the operation depicted by the function for calculating the Fibonacci number. While natural language is not included in any of the aforementioned sets defining programming languages, it would allow us to see how we can use even a more abstract language for instructing someone else in performing the same operation. In particular, a possible natural language description of the Fibonacci function is shown as follows:</p>
+<pre><code>The function for calculating the n<sup>th</sup> Fibonacci number takes as input an integer <q>n</q>. If <q>n</q> is less than or equal to 0, then 0 is returned as result. Otherwise, if <q>n</q> is less then or equal to 2, then 1 is returned. Otherwise, in all the other cases, associate the value <q>1</q> to two distinct variables <q>a</q> and <q>b</q>. Then, repeat indefinitely the following operations: set the variable <q>c</q> as the sum of <q>a</q> plus <q>b</q>; if <q>n</q> is less than or equal to 3 then return <q>c</q>, otherwise assign the value of <q>b</q> to <q>a</q> and the value of <q>c</q> to <q>b</q>, and finally decrease the value of <q>n</q> by 1 before repeating.</code></pre>
+<p>While the previous natural language definition maps perfectly the function defined in the machine binary code introduced above, other possible implementations of such Fibonacci function are possible. One of the most famous, that uses the concept of <a href="https://en.wikipedia.org/wiki/Recursion_(computer_science)"><em>recursion</em></a>, is introduced as follows:</p>
+<pre><code>The function for calculating the n<sup>th</sup> Fibonacci number takes as input an integer <q>n</q>. If <q>n</q> is less than or equal to 0, then 0 is returned as result. Otherwise, if <q>n</q> is equal to 1, then 1 is returned. Otherwise, return the sum of the same function with <q>n-1</q> as input and still the same function with <q>n-2</q> as input.</code></pre>
+</section>
+<section id="sec-abstraction">
+<h1>Abstraction is the key</h1>
+<p>We often say that we <em>program</em> a computer &#x2013; where the word <q>computer</q> there refers to an electronic computer. However, according to the definition we have provided in this document, computers can be both humans and machines. Thus, the verb <em>to program</em> is not very well suited when we refer to human computers &#x2013; we cannot really program a person, can we? In this latter case, in fact, we usually say that we <em>talk with</em> a person to instruct her to execute specific actions, by means of a particular (natural) language that is used as a communication channel. Thus, we think that, in this context, we should use the same verbs, i.e. <em>to talk</em> and <em>to instruct</em>, even when we refer to an electronic computer. Basically speaking, writing a program is exactly that: communicating to an electronic computer in a (formal) language that it and the human instructor can both understand <a href="#papert1980"></a>.</p>
+<p>Once agreed on which language to use for the communication between us and a computer (either human or machine), we should start to think about possible instructions that, if followed systematically, can return the expected result to a certain problem. In order to reach this goal, we (even unconsciously) try to figure out possible solutions to such given problem by comparing it with possible other recurring situations that happened in the past. The idea is to find some patterns that depict a possible solution for a set of abstractly-homogeneous situations, so as to reuse the same strategy for reaching our goal, if that strategy has been successful in the past. For instance, it could be possible that some of the actions that we perform at a post office are quite similar to those ones we performed when we were a child waiting for our turn to play with a slide in the playground &#x2013; as shown in <a href="#fig-queue"></a>.</p>
+<figure id="fig-queue">
+<p><img src="img/queue.png"></p>
+<figcaption>Two pictures that depict the same situation, i.e. queuing, in two different contexts: a playground (left) and a post office (right). Left picture by Prateek Rungta, source: <a href="https://www.flickr.com/photos/rungta/4409560365/">https://www.flickr.com/photos/rungta/4409560365/</a>. Right picture by Rain Rabbit, source: <a href="https://www.flickr.com/photos/37996583811@N01/6158491035/">https://www.flickr.com/photos/37996583811@N01/6158491035/</a>.</figcaption>
+</figure>
+<p>According to the aforementioned situations and context, we call <em>computational thinking</em> a particular approach to <q>solving problems, designing systems and understanding human behaviour that draws on concepts fundamental to computing</q> <a href="#wing2008"></a> &#x2013; where with the word <em>computing</em> we mean <em>calculating</em>. Computational thinking is the thought processes that are involved when we formulate a problem and express the solution by using a language that a computer (either human or machine) can understand and, thus, execute.</p>
+<p>Jeannette Wing provides an additional definition for clarifying what computational thinking is about <a href="#wing2008"></a>:</p>
+<blockquote>
+<p>Computational thinking is a kind of analytical thinking. It shares with mathematical thinking in the general ways in which we might approach solving a problem. It shares with engineering thinking in the general ways in which we might approach designing and evaluating a large, complex system that operates within the constraints of the real world. It shares with scientific thinking in the general ways in which we might approach understanding computability, intelligence, the mind and human behaviour.</p>
+</blockquote>
+<p>The main notion related to computational thinking is <em>abstraction</em>. As already highlighted in the aforementioned example in <a href="#fig-queue"></a>, the skill of abstracting situations and notions into symbols is crucial in order to automatise the execution of certain tasks by means of a computer that is responsible to interpret such abstractions. However, usually, we use these abstractions unconsciously. One of the goals of computational thinking is to <em>reshape</em> the abstractions we have ingested as consequence of our life experiences &#x2013; that we are often unconsciously reusing. Thus, being again fully conscious of such abstractions, we can use an appropriate language for making them understandable to a computer, in order to automatise them.</p>
+<p>Broadly speaking, the final goal of computational thinking is to make one think like a Computer Scientist, even when dealing with common tasks. In the future, computational thinking will become a course like Mathematics and Physics, it <q>will be an integral part of childhood education</q> <a href="#wing2008"></a>, and it will <q>affect the way people think and learn</q> and <q>the way other learning takes place</q> <a href="#papert1980"></a>.</p>
+</section>
+<section id="sec-excercise">
+<h1>Exercises</h1>
+<ol>
+<li>
+<p>What are all the possible sentences that can be produced by using the regular grammar introduced in <a href="#sec-hero"></a>?</p>
+</li>
+<li>
+<p>What is the result of applying the latest natural language definition of the Fibonacci function in <a href="#sec-language"></a> using <q>7</q> as input?</p>
+</li>
+<li>
+<p>Write down two situations that are actually referring to the same pattern if analysed from an abstract point of view, as introduced in <a href="#sec-abstraction"></a>. What are their common features?</p>
+</li>
+</ol>
+</section>
+<section id="bibreflist" property="cito:cites" role="doc-bibliography">
+<h1>References</h1>
+<ul>
+<li id="wiki-human-computer">
+<p>Article about <q>Human computer</q>. English Wikipedia. <a href="https://en.wikipedia.org/wiki/Human_computer">https://en.wikipedia.org/wiki/Human_computer</a> (last visited 20 August 2017)</p>
+</li>
+<li id="berardi2002">
+<p>Raffaella Bernardi (2002). The Logical Approach in Linguistics. In Reasoning with Polarity in Categorial Type Logic. Ph. D. Thesis, Utrecht University. <a href="http://disi.unitn.it/~bernardi/Papers/thesis-chapter1.pdf">http://disi.unitn.it/~bernardi/Papers/thesis-chapter1.pdf</a> (last visited May 30, 2017)</p>
+</li>
+<li id="campbellkelly2009" role="doc-biblioentry">
+<p>Campbell-Kelly, M. (2009). The Origin of Computing. Scientific American, 301 (September 2009): 62-69. DOI: <a href="https://doi.org/10.1038/scientificamerican0909-62">https://doi.org/10.1038/scientificamerican0909-62</a> - also available at <a about="https://doi.org/10.1038/scientificamerican0909-62" rel="fabio:hasRepresentation" href="http://www.cs.virginia.edu/~robins/The_Origins_of_Computing.pdf">http://www.cs.virginia.edu/~robins/The_Origins_of_Computing.pdf</a> (last visited 20 August 2017)</p>
+</li>
+<li id="ox-dict-computer" role="doc-biblioentry">
+<p>Definition of <q>computer</q> in English. English Oxford Living Dictionary. <a href="https://en.oxforddictionaries.com/definition/computer">https://en.oxforddictionaries.com/definition/computer</a> (last visited 20 August 2017)</p>
+</li>
+<li id="papert1980" role="doc-biblioentry">
+<p>Papert, S. (1980). Introduction: Computer for Children. In Mindstorms: children, computers, and powerful ideas: 3-18. New York, USA: Basic Books, Inc. ISBN: 0-465-04627-4. Full text available at <a href="http://worrydream.com/refs/Papert%20-%20Mindstorms%201st%20ed.pdf">http://worrydream.com/refs/Papert%20-%20Mindstorms%201st%20ed.pdf</a> (last visited 20 August 2017)</p>
+</li>
+<li id="roegel2010" role="doc-biblioentry">
+<p>Roegel, D. (2010). The great logarithmic and trigonometric tables of the French Cadastre: a preliminary investigation. Research Report. INRIA. <a href="https://hal.inria.fr/inria-00543946">https://hal.inria.fr/inria-00543946</a></p>
+</li>
+<li id="wing2008" role="doc-biblioentry">
+<p>Wing, J. M. (2008). Computational thinking and thinking about computing. Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences, 366 (1881): 3717. <a href="https://doi.org/10.1098/rsta.2008.0118">https://doi.org/10.1098/rsta.2008.0118</a></p>
+</li>
+</ul>
+</section>
+</body></html>
