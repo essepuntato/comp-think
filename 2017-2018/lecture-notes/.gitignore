@@ -1,7 +1,7 @@
 .idea/
 grammar/
 python/
-*.zip/
+*.zip
 02*/
 03*/
 04*/
