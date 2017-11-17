@@ -1,0 +1,162 @@
+<html xmlns="http://www.w3.org/1999/xhtml" prefix="schema: http://schema.org/ prism: http://prismstandard.org/namespaces/basic/2.0/"><head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/rash.css">
+
+  <!-- JQuery -->
+  <script src="js/jquery.min.js"></script>
+
+  <!-- Bootstrap.js -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <!-- Rash.js -->
+  <script src="js/rash.js"></script>
+
+  <!-- Local MathJax -->
+  <script src="js/MathJax/MathJax.js"></script>
+
+  <title>Computability</title>
+  
+  
+  
+  
+  
+<meta about="mailto:silvio.peroni@unibo.it" typeof="schema:Person" property="schema:name" name="dc.creator" content="Silvio Peroni"><meta about="mailto:silvio.peroni@unibo.it" property="schema:email" content="silvio.peroni@unibo.it"><link about="mailto:silvio.peroni@unibo.it" property="schema:affiliation" href="#affiliation_1"><meta about="#affiliation_1" typeof="schema:Organization" property="schema:name" content="Digital And Semantic Publishing Laboratory, Department of Computer Science and Engineering, University of Bologna, Bologna, Italy"><meta property="prism:keyword" content="Alan Turing"><meta property="prism:keyword" content="computability"><meta property="prism:keyword" content="halting problem"><meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0"></head>
+
+<body>
+<section role="doc-abstract" id="doc-abstract">
+<h1>Abstract</h1>
+<p>These lecture notes introduce the notion of <em>computability</em> and the <em>computational cost</em> of algorithms. The historic hero introduced in these notes is Alan Turing, considered the father of the Theoretical Computer Science and of the Artificial Intelligence. His work on a particular model of computation, known as the&#xA0;<em>Turing machine</em>, had been the main tool for highlighting the possibilities and the limits of automatic computation and, more in general, of the modern electronic computer.</p>
+<p><strong>Copyright notice.</strong> This work is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. You are free to share (i.e. copy and redistribute the material in any medium or format) and adapt (e.g. remix, transform, and build upon the material) for any purpose, even commercially, under the following terms: attribution, i.e. you must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. The licensor cannot revoke these freedoms as long as you follow the license terms.</p>
+</section>
+<section id="section1">
+<h1>Historic hero: Alan Turing</h1>
+<p><a href="https://en.wikipedia.org/wiki/Alan_Turing">Alan Mathison Turing</a>&#xA0;(shown in <a href="#img_1">&#xA0;</a>) was a computer scientist, even if his works spanned several disciplines including mathematics, logic, philosophy, and biology. He is considered the father of the&#xA0;<a href="https://en.wikipedia.org/wiki/Theoretical_computer_science">Theoretical Computer Science</a> and of the&#xA0;<a href="https://en.wikipedia.org/wiki/Artificial_intelligence">Artificial Intelligence</a>, due to its frontier contributions that provided his&#xA0;<a href="https://en.wikipedia.org/wiki/Turing_machine">theoretical machine</a> <a href="#biblioentry_1">&#xA0;</a>, that have been named after him, and his studies on the relation between electronic computers and intelligence <a href="#biblioentry_2">&#xA0;</a>, which included the thought experiment known as <a href="https://en.wikipedia.org/wiki/Turing_test">Turing test</a>.&#xA0;In addition to that, he was also one of the key figures behind the decryption of <a href="https://en.wikipedia.org/wiki/Enigma_machine">Enigma</a>, the cypher machine used by Nazi Germany for protecting communications &#x2013; story that has been recently portrayed as a movie by&#xA0;Morten Tyldum&apos;s <a href="https://en.wikipedia.org/wiki/The_Imitation_Game"><em>The Imitation Game</em></a>.</p>
+<figure id="img_1">
+<p><img src="img/turing.jpg" alt="img/turing.jpg"></p>
+<figcaption>Picture of Alan Turing taken in 1927. Source:&#xA0;<a href="https://en.wikipedia.org/wiki/File:Alan_Turing_Aged_16.jpg">https://en.wikipedia.org/wiki/File:Alan_Turing_Aged_16.jpg</a>.</figcaption>
+</figure>
+<p>In 1936, Turing developed its machine so as to answer a quite important issue related with <a href="https://en.wikipedia.org/wiki/Entscheidungsproblem">Hilbert&apos;s&#xA0;<em>decision problem</em></a>, which asks about the possibility of developing an algorithm for deciding if a <a href="https://en.wikipedia.org/wiki/First-order_logic">first-order logic</a> formula is universally valid or not &#x2013; problem that was also analysed at the same time by <a href="https://en.wikipedia.org/wiki/Alonzo_Church">Alonzo Church</a>, by addressing it from a totally different (but pragmatically equivalent) perspective compared with Turing&apos;s approach. The machine proposed by Turing was only theoretical, which means that he did not build it physically &#x2013; while, recently, several people have provided physical prototypes of Turing&apos;s idea, such as the one shown in <a href="#img_2">&#xA0;</a>.</p>
+<figure id="img_2">
+<p><img src="img/machine.jpg" alt="img/machine.jpg"></p>
+<figcaption>A physical implementation of a Turing machine with a finite tape. Picture by GabrielF, source: <a href="https://commons.wikimedia.org/wiki/File:Model_of_a_Turing_machine.jpg">https://commons.wikimedia.org/wiki/File:Model_of_a_Turing_machine.jpg</a>.</figcaption>
+</figure>
+<p>Broadly speaking, the Turing machine <strong>can be used to simulate any algorithm</strong> by means of a quite simple set of tools. In fact, it is composed of an infinite memory tape containing cells. Each cell can contain a symbol (e.g. either&#xA0;<em>0</em> or <em>1</em> in the physical prototype provided in <a href="#img_2">&#xA0;</a>, where <em>0</em> is used as the blank symbol and it is assigned to all the cells in advance) that can be read and written by the head of the machine. The state of the machine at a certain time is recorded as well (that describe the possible operations that can be done at the current stage), and the moves of the machine are defined by using a finite table of instructions, where each instruction says what to do (write a new symbol, move the head either left or right, go to a new state) according to the current state and the symbol currently under the head. In addition, an initial state and zero or more final states are provided, so as to know from where to start the process, and when to finish it.</p>
+<p>For instance, in&#xA0;<a href="#table_1">&#xA0;</a>, there is the representation of a table of instructions for a simple Turing machine, having&#xA0;<em>A</em> as initial state, no final states, and using only <em>0</em> and <em>1</em> as symbols to write on the tape. Each row in the table represents a particular instruction. For instance, the first row says that being in&#xA0;<em>A</em>, if the head reads <em>0</em> or <em>1</em> on the tape, then <em>1</em> is written down, the head is moved one cell to the right, and the new state of the machine becomes&#xA0;<em>B</em>.</p>
+<figure id="table_1">
+<table>
+<tbody>
+<tr>
+<th>Current state</th>
+<th>Tape symbol</th>
+<th>Write symbol</th>
+<th>Move tape</th>
+<th>Next state</th>
+</tr>
+<tr>
+<td>
+<p>A</p>
+</td>
+<td>
+<p>0 or 1</p>
+</td>
+<td>
+<p>1</p>
+</td>
+<td>
+<p>right</p>
+</td>
+<td>
+<p>B</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>B</p>
+</td>
+<td>
+<p>0 or 1</p>
+</td>
+<td>
+<p>0</p>
+</td>
+<td>
+<p>right</p>
+</td>
+<td>
+<p>A</p>
+</td>
+</tr>
+</tbody>
+</table>
+<figcaption>A table of instructions of a very simple Turing machine, having initial state&#xA0;<em>A</em>, with no final states.</figcaption>
+</figure>
+<p>The table of instructions of a Turing machine can be also represented graphically by using labelled circles for representing states, and arrows that point to the next state of the current one if a particular symbol is read on the tape. If an arrow is followed &#x2013; and, thus, the state is changed &#x2013; the symbol indicated in its label is written down on the table, and the head of the machine is moved according to the direction (i.e. left or right) indicated. For instance, in&#xA0;<a href="#img_3">&#xA0;</a>, it is shown the execution of the Turing machine related to the table of instructions introduced in&#xA0;<a href="#table_1">&#xA0;</a>. In particular, this Turing machine has the characteristic of running forever &#x2013; it will never stop its execution &#x2013; since it writes several&#xA0;<em></em><em>1s</em> separated by <em>0s</em> indefinitely. Practically speaking, this Turing machine demonstrates that it is possible to develop algorithms that run forever without ever ending their execution.</p>
+<figure id="img_3">
+<p><img src="img/machine-execution.png" alt="img/machine-execution.png"></p>
+<figcaption>A graphical representation of the execution of the Turing machine implementing the rules introduced in&#xA0;<a href="#table_1">&#xA0;</a>. In the various figures, the blue polygon represents the head of the machine, which is positioned in a specific cell of the tape. The blue circle represent the current state, while the solid arrow depicts the next state that is reached once the symbol in the label of the solid arrow is written in the cell pointed by the head, and the head is finally moved in the direction indicated on the label (where&#xA0;<em>R</em> stands for&#xA0;<em>right</em>).</figcaption>
+</figure>
+<p>While the Turing machine is a quite simple tool, it enables one to model&#xA0;<em>computation</em> in the broad sense. While it has not been proposed by Turing as a sketch for the development of electronic computers, its theoretical properties basically apply also to real computing machines. Thus, anything that can be computed by a Turing machine can be computed as well by an electronic computer, and it has been used to prove&#xA0;the intrinsic limitations on the power of mechanical computation.</p>
+</section>
+<section id="section2">
+<h1>Computational cost of an algorithm</h1>
+<p>In the previous lecture, we have defined what is an algorithm and the relation that exists between algorithms and computers. While we have just seen a bunch of constructs available in ThyMopani for defining algorithms (and other will be introduced in the following lectures), in this lectures we have already seen, in&#xA0;<a href="#section1">&#xA0;</a>, how even a simple machine&#xA0;(simulating an algorithm) can compute indefinitely, other machines could compute a result in a reasonable finite time, and, finally, algorithms can even spend an exaggerated time (even if still finite) to return a result. Knowing how much time, indicatively, an algorithm needs for returning a result is something that can be useful to know.</p>
+<p>This issue is the core topic of one of the most important branches of the <em>theory of computation</em>, i.e. the <em><a href="https://en.wikipedia.org/wiki/Computational_complexity_theory">computational complexity theory</a></em>. The research in this field aims at classifying <a href="https://en.wikipedia.org/wiki/Computational_problem"><em>computational problems</em></a> &#x2013; i.e. problems that can be solved algorithmically by a computer &#x2013; according to a specific hierarchy of classes that express the difficulty in solving such problems.</p>
+<p>An important subfield of the computational complexity theory is the&#xA0;<em><a href="https://en.wikipedia.org/wiki/Analysis_of_algorithms">analysis of algorithms</a></em>. Analysing an algorithm means to understand the amount of time, storage and other resources that are needed to execute such algorithm. In particular, usually, this analysis focuses on finding a particular mathematical function that relates the input of an algorithm with the number of instructions that are run to return the final result from that input. The smaller such function is, the more efficient the algorithm will be.</p>
+<p>It is worth mentioning that the measure provided by such function is not precise, since it is only an upper bound of the actual performance. However, it is enough for providing an indicative idea of the amount of time needed for executing a particular algorithm on a certain input.</p>
+<p>We do not want to introduce all the theoretical principles and the formal mathematical tools for addressing such analysis, since it is out of the scope of the course. However, the message that we would like to reinforce in this section is that the efficiency of an algorithm is directly derived and guided by the way sich algorithm has been developed. It is possible to develop two different algorithms addressing the same computational problem that take two drastic different times for returning the result. In the following lectures, we will introduce some of these algorithms and we will provide some intuitions for understanding why one algorithm is more efficient of another.</p>
+</section>
+<section id="section3">
+<h1>Can we compute everything?</h1>
+<p>The main question one could ask after reading all the material introduced in the previous sections would be: can we use algorithms for computing whatever we want? In other words: there exists a limitation on what we can compute? Or, even: is it possible to define a computational problem that cannot be solved by any algorithm?</p>
+<p>In the case of the Computer Science domain, as well as of other Mathematical-like sciences, one of the most used approaches to demonstrate that something cannot exist is to come to a paradoxical and self-contradictory situation in which, for instance, the existence of an algorithm contradicts its existence itself, by applying a&#xA0;<a href="https://en.wikipedia.org/wiki/Reductio_ad_absurdum"><em>reductio ad absurdum</em></a> approach. This kind of argument&#xA0;<q>&#x200B;seeks to establish a contention by deriving an absurdity from its denial, thus arguing that a thesis must be accepted because its rejection would be untenable</q> <a href="#biblioentry_3">&#xA0;</a>, and, eventually, generates paradoxes.</p>
+<p>The use of paradoxes has been largely used in logic in the past. While they are a funny story to tell for teaching, they are also powerful tools for showing limits or constraints of a particular formal aspect of a field or situation. For instance, one of the most famous paradoxes in mathematics is the <a href="https://en.wikipedia.org/wiki/Russell%27s_paradox" rel="noopener noreferrer">Russell paradox</a>, discovered by <a href="https://en.wikipedia.org/wiki/Bertrand_Russell" rel="noopener noreferrer">Betrand Russell</a> in 1901. It was one of the most important discoveries of the beginning of the twentieth century, since it has proved that the current set theory proposed by <a href="https://en.wikipedia.org/wiki/Georg_Cantor" rel="noopener noreferrer">Georg Cantor</a>, and used as foundation for <a href="https://en.wikipedia.org/wiki/Gottlob_Frege" rel="noopener noreferrer">Gottlob Frege</a>&apos;s work on the definition of the basic laws of arithmetic, led to a contradiction and, thus, it invalidated the set theory and the work done by Frege &#x2013; that was in print when Russell communicated his discovery to him. A variation to that paradox could be formulated as follows.</p>
+<p><strong>Librarian paradox:</strong>&#xA0;In the Library of Babel there are people of two different kinds. The first kind of people &#x2013; named <em>no-help</em> &#x2013; are those who look for a book themselves. The other kind of people &#x2013; named <em>help-needed</em> &#x2013; are those who actually do not look for a book themselves, and thus they need help for doing it. One of all the people in the library is the librarian &#x2013; who looks for a book for all those, and <strong>those only</strong>, who do not to look for a book themselves (i.e. <em></em>the <em>help-needed</em> people). The question is, does the librarian looks for a book herself?</p>
+<p><strong>Resolution:</strong> If the librarian is a person who looks for a book herself then she is a&#xA0;<em>no-help</em>&#xA0;person. However, she, as the librarian, only helps people that do not look for a book themselves. Hence, she would be also an <em>help-needed</em> person, which is self-contradictory: if the librarian is a <em>no-help</em> person, then she is an <em>help-needed</em> person. In addition, if the librarian is a person who does not look for a book herself then she is a&#xA0;<em>help-needed</em>&#xA0;person. Hence she, the librarian, looks for a book herself. And this is the second contradiction: if the librarian is a&#xA0;<em>help-needed</em> person, then she is a&#xA0;<em>no-help</em> person.</p>
+<figure id="img_4">
+<p><img src="img/paradox.png" alt="img/paradox.png"></p>
+<figcaption>A graphical representation of the librarian paradox, which is a puzzle derived from Russell&apos;s paradox.</figcaption>
+</figure>
+<p>One of the most attractive problems that were studied in Computer Science in the past was part of the <a href="https://en.wikipedia.org/wiki/Hilbert%27s_problems" rel="noopener noreferrer">23 open mathematical problems</a>&#xA0;that <a href="https://en.wikipedia.org/wiki/David_Hilbert" rel="noopener noreferrer">David Hilbert</a>&#xA0;proposed in 1900. It is known as&#xA0;<em><a href="https://en.wikipedia.org/wiki/Halting_problem" rel="noopener noreferrer">halting problem</a></em>, which is the problem of determining if a particular algorithm run with a specific input will terminate its execution at some point or it will run forever. In the previous lecture, we have developed our first algorithm, which has been defined in a way that allows it to return always a value as outcome &#x2013; which confirms that we can develop algorithms that terminate. In addition, as demonstrated in&#xA0;<a href="#section1">&#xA0;</a>, we have shown also an algorithm (implemented by the Turing machine summarised in&#xA0;<a href="#img_3">&#xA0;</a>)&#xA0;that runs indefinitely. Thus, having an approach that allows us to discover systematically if an algorithm will terminate or will not is a great utility to have, since it would enable the identification of computationally-ill algorithms.</p>
+<p>Alan Turing&apos;s development of his machine was done exactly for answering to such question, i.e. if we can develop a Turing machine (i.e. an algorithm) which is able to certainly decide if another machine will terminate its execution or will not. An approximation of the solution that Turing provided is introduced as follows, and it is entirely based on a&#xA0;<em>reductio ad absurdum</em> argument, which is very close to the one introduced in&#xA0;<a href="#img_4">&#xA0;</a> for resolving the librarian paradox.</p>
+<p>Suppose we have a <code>def does_it_halt(an_algorithm)</code> algorithm, which returns&#xA0;<em>True</em> if the execution of&#xA0;<code>an_algorithm()</code>&#xA0;terminates, while it returns&#xA0;<em>False</em> otherwise. This is just a hypothetical algorithm: we are supposing that we can develop it in some way, but we do not provide its ThyMopali description, since the goal is to check if such&#xA0;<code>&#x200B;does_it_halt</code>&#xA0;can be developed or not.</p>
+<p>Then we reuse the&#xA0;<code>does_it_halt</code>&#xA0;algorithm for developing a new algorithm, that is presented in ThyMopani in&#xA0;<a href="#listing_1">&#xA0;</a>. In particular, this new algorithm takes another algorithm as input and, if the input algorithm stops, then it runs forever. Otherwise, if the input algorithm does not terminate, then it stops.</p>
+<figure id="listing_1">
+<pre><code>&#x200B;def&#xA0;a_simple_algorithm(another_algorithm):<br>&#xA0;&#xA0;&#xA0;&#xA0;if does_it_halt(another_algorithm):<br>&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;run_forever() <br>&#xA0;&#xA0;&#xA0;&#xA0;else:<br>&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;return</code></pre>
+<figcaption>The pseudocode of an algorithm that runs forever&#xA0;if the execution of&#xA0;<code>another_algorithm()</code>&#xA0;stops, and it stops otherwise. Note that the support algorithm&#xA0;<code>run_forever</code>&#xA0;(that never stops) can be easily developed. In fact, in&#xA0;<a href="#section1">&#xA0;</a>, we have shown a simple Turing machine that implements such behaviour.</figcaption>
+</figure>
+<p>Now, the question is what happens if we try to execute&#xA0;<code>a_simple_algorithm(a_simple_algorithm)</code>? We have two possible situations:</p>
+<ul>
+<li>
+<p>if&#xA0;<code>does_it_halt</code>&#xA0;says that&#xA0;<code>a_simple_algorithm</code>&#xA0;stops (i.e. <code>does_it_halt(a_simple_algorithm)</code>&#xA0;returns <em>True</em>), then&#xA0;<code>a_simple_algorithm</code>&#xA0;run forever;</p>
+</li>
+<li>if&#xA0;<code>does_it_halt</code>&#xA0;says that&#xA0;<code>a_simple_algorithm</code>&#xA0;runs forever (i.e. <code>does_it_halt(a_simple_algorithm)</code>&#xA0;returns <em>False</em>), then&#xA0;<code>a_simple_algorithm</code>&#xA0;stops.</li>
+</ul>
+<p>Hence, whatever is the behaviour of <code>&#x200B;a_simple_algorithm</code>, it always generates a contradiction. This means that the main algorithm that is used in its body, i.e.&#xA0;<code>&#x200B;does_it_halt</code>, cannot be developed. Thus, the answer to the halting problem mentioned before is that the algorithm for checking if another one stops cannot exist.</p>
+<p>This results had a disruptive effect on the perception of computational abilities at large. In practice, Turing&apos;s machines and their analyses posed clear limits to what we can compute, and they enabled him to explicitly state that there are specific computational problems, such as the halting problem mentioned in this section, that cannot be solved.</p>
+</section>
+<section id="section4">
+<h1>Exercises</h1>
+<ol>
+<li>
+<p>Write the table of instructions of a Turing machine with three states &#x2013;&#xA0;<em>A</em> (initial state),&#xA0;<em>B</em> and&#xA0;<em>C</em>&#xA0;(final state) &#x2013; such that, once reached the final state, only the cells immediately on the left and on the right of the initial position of the head of the machine will have the value&#xA0;<em>1</em> specified. The final state must not have any&#xA0;<em>next cell</em> specified in the table.</p>
+</li>
+</ol>
+</section>
+<section id="doc-bibliography" role="doc-bibliography">
+<h1>References</h1>
+<ul>
+<li role="doc-biblioentry" id="biblioentry_3">
+<p>Rescher, N. (2017). Reductio ad Absurdum. Internet Encyclopedia of Philosophy.&#xA0;<a href="http://www.iep.utm.edu/reductio/">http://www.iep.utm.edu/reductio/</a> (last visited 7 November 2017)</p>
+</li>
+<li role="doc-biblioentry" id="biblioentry_1">
+<p>Turing, A. M. (1937). On Computable Numbers, with an Application to the Entscheidungsproblem. Proceedings of the London Mathematical Society, 2 (42): 230-265. DOI: <a href="https://doi.org/10.1112/plms/s2-42.1.230">https://doi.org/10.1112/plms/s2-42.1.230</a>&#xA0;- also available at&#xA0;<a href="https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf">https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf</a></p>
+</li>
+<li role="doc-biblioentry" id="biblioentry_2">
+<p>Turing, A. M. (1950). Computing Machinery and Intelligence. Mind, LIX (236): 433-460: DOI: <a href="https://doi.org/10.1093/mind/LIX.236.433">https://doi.org/10.1093/mind/LIX.236.433</a></p>
+</li>
+</ul>
+</section>
+</body></html>
