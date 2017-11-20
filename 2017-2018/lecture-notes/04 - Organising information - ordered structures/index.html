@@ -1,0 +1,129 @@
+<html xmlns="http://www.w3.org/1999/xhtml" prefix="schema: http://schema.org/ prism: http://prismstandard.org/namespaces/basic/2.0/"><head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/rash.css">
+
+  <!-- JQuery -->
+  <script src="js/jquery.min.js"></script>
+
+  <!-- Bootstrap.js -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <!-- Rash.js -->
+  <script src="js/rash.js"></script>
+
+  <!-- Local MathJax -->
+  <script src="js/MathJax/MathJax.js"></script>
+
+  <title>Organising information: ordered structures</title>
+  
+  
+  
+  
+  
+<meta about="mailto:silvio.peroni@unibo.it" typeof="schema:Person" property="schema:name" name="dc.creator" content="Silvio Peroni"><meta about="mailto:silvio.peroni@unibo.it" property="schema:email" content="silvio.peroni@unibo.it"><link about="mailto:silvio.peroni@unibo.it" property="schema:affiliation" href="#affiliation_1"><meta about="#affiliation_1" typeof="schema:Organization" property="schema:name" content="Digital And Semantic Publishing Laboratory, Department of Computer Science and Engineering, University of Bologna, Bologna, Italy"><meta property="prism:keyword" content="list"><meta property="prism:keyword" content="stack"><meta property="prism:keyword" content="queue"><meta property="prism:keyword" content="Donald Knuth"><meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0"></head>
+
+<body>
+<section role="doc-abstract" id="doc-abstract">
+<h1>Abstract</h1>
+<p>These lecture notes introduce the notion of ordered data structures, i.e. some basic containers of elements that can be used to organise data in a specific way. The historic hero introduced in these notes is Donald Knuth, who has been one of the most relevant scientists and contributors on the topic of the formal analysis of the computational complexity of algorithms.</p>
+<p><strong>Copyright notice.</strong> This work is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. You are free to share (i.e. copy and redistribute the material in any medium or format) and adapt (e.g. remix, transform, and build upon the material) for any purpose, even commercially, under the following terms: attribution, i.e. you must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. The licensor cannot revoke these freedoms as long as you follow the license terms.</p>
+</section>
+<section id="section1">
+<h1>Historic hero: Donald Knuth</h1>
+<p><a href="https://en.wikipedia.org/wiki/Donald_Knuth">Donald Ervin Knuth</a> is one of the most important Computer Scientist of the past 50 years. He is one of the most important contributors to the theoretical and practical development of the&#xA0;analysis of the computational complexity of algorithms, that we have introduced in the previous lecture. Among his huge list of contributions, there are especially two works that deserve a particular attention in this context: its series of monographs about algorithms and their analysis entitled <em><a href="https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming">The Art of Computer Programming</a></em>, and the <a href="https://en.wikipedia.org/wiki/TeX">TeX</a>&#xA0;typesetting system for writing academic documents, that has been used to write the aforementioned series and it is one of the most used tools for communicating and publishing scientific results in academia.</p>
+<figure id="img_1">
+<p><img src="img/knuth.jpg" alt="img/knuth.jpg"></p>
+<figcaption>Donal Knuth in 2005. Picture by&#xA0;Jacob Appelbaum, source:&#xA0;<a href="https://commons.wikimedia.org/wiki/File:KnuthAtOpenContentAlliance.jpg">https://commons.wikimedia.org/wiki/File:KnuthAtOpenContentAlliance.jpg</a>.</figcaption>
+</figure>
+<p>According to several experts, the series of monographs he has written is one of the most comprehensive works to programming and algorithmics. The project started in 1962 as a twelve-chapter book, and then split in a series of seven volumes, of which only the first four have been published so far &#x2013; while the others are still in writing. The first volume is entirely dedicated to the mathematical foundations for allowing a formal analysis of algorithms, and to a comprehensive introduction of all the basic <a href="https://en.wikipedia.org/wiki/Data_structure">data structures</a>.</p>
+<p>Data structures are the possible ways in which we organise the information to be processed and returned by a computer, so as it can be accessed and modified in an efficient and computational manner. In practice, a data structure is a sort of bucket where we can place some information, that provides some methods to add and retrieve pieces of such information. The most simple data structures are lists and, as such, they are the first data structures introduced in Knuth&apos;s first volume of&#xA0;<em>The Art of Computer Programming</em> <a href="#biblioentry_1">&#xA0;</a>. They are, probably, one of the most important building blocks of algorithms, since they have plenty of applications.</p>
+</section>
+<section id="section7">
+<h1>Ordered data structures</h1>
+<p>In this lectures, we will introduce three specific data structures, that are discussed in details in the following sections, i.e.: lists, stacks, and queues. Their main characteristic, in addition of being among the most basic and used data structures in algorithms (and, more concretely, in programs), is that the order in which their elements have been added matters. In fact, they interlink all their elements so as to create an ordered chain of elements which allows us to have a clear prediction of the behaviour of the addition and removal operations they make available.</p>
+<section id="section11">
+<h2>Lists</h2>
+<p>A <a href="https://en.wikipedia.org/wiki/List_(abstract_data_type)"><em>list</em></a> is a countable sequence of ordered and repeatable elements. It is <em>countable</em> because there is a proper way of knowing the length of the list (i.e. how many elements it contains). In particular, ThyMopani makes available a particular support algorithm, i.e.&#xA0;<code>def len(countable_object)</code>, that takes a countable element as input (like a list), and returns the number of elements that it contains. Its elements are&#xA0;<em>ordered</em> because they are placed in the list in a specific order, which is preserved even if we add or remove particular elements. Its elements are also <em>repeatable</em> since they may appear more than one time in the list.</p>
+<p>Of course, there exist several real examples of such abstract lists in real-life objects. For instance, in&#xA0;<a href="#img_2">&#xA0;</a>, we show a table of content of a book and a bibliographic reference list of an article. Both of them are concrete objects that are built starting from the abstract notion of a list.&#xA0;</p>
+<figure id="img_2">
+<p><img src="img/list.png" alt="img/list.png"></p>
+<figcaption>Two examples of a list in real objects: the table of contents of a book (left), and a bibliographic reference list in a research paper (right). Left picture by&#xA0;Marcus Holland-Moritz, source:&#xA0;<a href="https://www.flickr.com/photos/mhx/4347706564/">https://www.flickr.com/photos/mhx/4347706564/</a>. Right screenshot, source: <a href="https://doi.org/10.7717/peerj-cs.132">https://doi.org/10.7717/peerj-cs.132</a>.</figcaption>
+</figure>
+<p>In ThyMopani, a new list can be instantiated by means of the constructor&#xA0;<code>list()</code>. For instance,&#xA0;<code>my_first_list = list()</code>&#xA0;will create an empty list and associates it to the variable&#xA0;<code>my_first_list</code>. A list can be seen as a left-to-right sequence of elements, where the left-most identifies the head of the list, while the last one represents the tail of the list. Several operations can be done on lists, in particular:</p>
+<ul>
+<li>
+<p>the method&#xA0;<code>&lt;list&gt;.append(&lt;element&gt;)</code>&#xA0;is used for adding a new element to the list &#x2013; for instance,&#xA0;<code>my_first_list.append(34)</code>&#xA0;and <code>&#x200B;my_first_list.append(15)</code> will add the number&#xA0;<em>34</em>&#xA0;to the list, and the number <em>15</em> as follower of the previous one;</p>
+</li>
+<li>the method <code>&lt;list&gt;.remove(&lt;element&gt;)</code>&#xA0;is used for removing the first instance of an element in the list &#x2013; for instance,&#xA0;<code>my_first_list.remove(34)</code>&#xA0;will remove the first number&#xA0;<em>34</em> which is encountered by scanning the list from its begin (i.e. from the first-added elements to the last-added ones), obtaining, thus, a list with just the element <em>15</em> included in it;</li>
+<li>the method&#xA0;<code>&lt;list&gt;.extend(&lt;another_list&gt;)</code> is used for adding all the elements included in <code>&lt;another_list&gt;</code>&#xA0;to the current list &#x2013; for instance, if we have the list <code>my_second_list&#x200B;</code>&#xA0;containing the numbers&#xA0;<em>1</em> and&#xA0;<em>83</em>,&#xA0;<code>my_first_list.extend(my_second_list)</code>&#xA0;will add&#xA0;<em>1</em> and&#xA0;<em>83</em><em></em> as followers of&#xA0;<em>15</em>.</li>
+</ul>
+<p>In <a href="#listing_1">&#xA0;</a>, we show some examples of the use of lists in ThyMopani. In these examples, we describe with natural language comments (introduced by a&#xA0;<code>#</code>) the various aspects related to the creation and modification of lists.</p>
+<figure id="listing_1">
+<pre><code>&#x200B;my_first_list&#xA0;=&#xA0;list()&#xA0;&#xA0;#&#xA0;this&#xA0;creates&#xA0;a&#xA0;new&#xA0;list<br><br>my_first_list.append(34)&#xA0;&#xA0;#&#xA0;these&#xA0;two&#xA0;lines&#xA0;add&#xA0;two&#xA0;numbers<br>my_first_list.append(15)&#xA0;&#xA0;#&#xA0;to&#xA0;the&#xA0;list&#xA0;in&#xA0;this&#xA0;precise&#xA0;order<br># currently my_first_list contains two elements: <br># list([ 34, 15 ])<br><br>my_first_list.append(&quot;Silvio&quot;)&#xA0;&#xA0;#&#xA0;a&#xA0;list&#xA0;can&#xA0;contains&#xA0;element&#xA0;of&#xA0;any&#xA0;kind<br># now&#xA0;my_first_list&#xA0;contains:&#xA0;<br># list([34, 15, &quot;Silvio&quot;])<br><br>my_first_list.remove(34)&#xA0;&#xA0;#&#xA0;it&#xA0;removes&#xA0;the&#xA0;first&#xA0;intance&#xA0;of&#xA0;the&#xA0;number&#xA0;34<br>#&#xA0;my_first_list&#xA0;became:&#xA0;<br># list([15,&#xA0;&quot;Silvio&quot;])<br><br>my_first_list.extend(my_first_list)&#xA0;&#xA0;#&#xA0;it&#xA0;add&#xA0;again&#xA0;all&#xA0;the&#xA0;elements&#xA0;in&#xA0;my_first_list&#xA0;to&#xA0;the&#xA0;list&#xA0;itself<br>#&#xA0;current&#xA0;status&#xA0;of&#xA0;my_first_list:&#xA0;<br># list([15, &quot;Silvio&quot;, 15, &quot;Silvio&quot;])<br><br>my_first_list_len = len(my_first_list) # it stores 4 in my_first_list_len</code></pre>
+<figcaption>How ThyMopani allows us to create and handle lists &#x2013; with numbers and strings.</figcaption>
+</figure>
+</section>
+<section id="section9">
+<h2>Stacks</h2>
+<p>A <a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a> is a kind of list seen from a particular perspective, i.e. from bottom to top, and with a specific set of operations.&#xA0;<a href="#img_3">&#xA0;</a> shows two different example of stacks in real-life objects. We have a stack of chairs (left) and a pile of books (right). The main characteristic of the elements of this structure is that they follow a&#xA0;<em>last in first out</em> strategy (<em>LIFO</em>) for addition and removal. Basically, it means that the last element inserted in the structure is placed in the top of the stack and, thus, it is also the first one that will be removed when requested. In addition, to obtain the element placed, for instance, in the middle of the stack, we necessarily need to remove all the elements that have been added <em>after</em> such middle element, from the most recent elements to the eldest ones.</p>
+<figure id="img_3">
+<p><img src="img/stack.png" alt="img/stack.png"></p>
+<figcaption>Two examples of a stack of real objects: a stack of chairs (left), and a pile of books (right). Left picture by Jeremy Brooks, source:&#xA0;<a href="https://www.flickr.com/photos/jeremybrooks/16410797960/">https://www.flickr.com/photos/jeremybrooks/16410797960/</a>. Right picture by Cary Lee, source:&#xA0;<a href="https://www.flickr.com/photos/the1andonlycary/3310345438/">https://www.flickr.com/photos/the1andonlycary/3310345438/</a>.</figcaption>
+</figure>
+<p>In ThyMopeni, a new stack can be instantiated by means of the constructor&#xA0;<code>deque()</code>. For instance,&#xA0;<code>my_first_stack = deque()</code>&#xA0;will create an empty stack and associates it to the variable&#xA0;<code>my_first_stack</code>. Three main operations can be done on stacks, in particular:</p>
+<ul>
+<li>
+<p>the method&#xA0;<code>&lt;stack&gt;.append(&lt;element&gt;)</code>&#xA0;is used for adding a new element on the top of the stack &#x2013; for instance,&#xA0;<code>my_first_stack.append(34)</code>&#xA0;and <code>&#x200B;my_first_stack.append(15)</code> will add the number&#xA0;<em>34</em>&#xA0;to the stack, and the number <em>15</em> upon previous one;</p>
+</li>
+<li>the method <code>&lt;stack&gt;.pop()</code>&#xA0;is used for removing the element on the top of the stack, that will be returned &#x2013; for instance,&#xA0;<code>my_first_stack.pop()</code>&#xA0;will remove the number&#xA0;<em>15</em>&#xA0;and will be returned as well, obtaining, thus, a stack with just the element <em>34</em> included in it;</li>
+<li>the method&#xA0;<code>&lt;stack&gt;.extend(&lt;another_stack&gt;)</code> is used for adding all the elements included in <code>&lt;another_stack&gt;</code>&#xA0;on the top of the current stack &#x2013; for instance, if we have the list <code>my_second_stack</code>&#xA0;containing the numbers&#xA0;<em>1</em> and&#xA0;<em>83</em>,&#xA0;<code>my_first_stack.extend(my_second_stack)</code>&#xA0;will add&#xA0;<em>1</em> and&#xA0;<em>83</em><em></em> on top of <i>34</i>.</li>
+</ul>
+<p>In <a href="#listing_2">&#xA0;</a>, we show some examples of the use of stacks in ThyMopani. In particular, we organise in a stack some books (actually, their titles) written by <a href="https://en.wikipedia.org/wiki/Neil_Gaiman">Neil Gaiman</a>.</p>
+<figure id="listing_2">
+<pre><code>&#x200B;my_first_stack&#xA0;=&#xA0;deque()&#xA0;&#xA0;#&#xA0;this&#xA0;creates&#xA0;a&#xA0;new&#xA0;stack<br><br>my_first_stack.append(&quot;Good Omens&quot;)&#xA0;&#xA0;#&#xA0;these&#xA0;two&#xA0;lines&#xA0;add&#xA0;two&#xA0;books<br>my_first_stack.append(&quot;Neverwhere&quot;)&#xA0;&#xA0;#&#xA0;to&#xA0;the&#xA0;stack&#xA0;in&#xA0;this&#xA0;precise&#xA0;order (this is on top)<br># currently my_first_stack contains two elements: <br>#        &quot;Neverwhere&quot;])<br># deque([&quot;Good Omens&quot;,<br><br>my_first_stack.append(&quot;The Name of the Rose&quot;)&#xA0;&#xA0;#&#xA0;add a new book<br># now&#xA0;my_first_stack contains:<br>#        &quot;The Name of the Rose&quot;)]<br>#        &quot;Neverwhere&quot;,<br># deque([&quot;Good Omens&quot;,<br><br>my_first_stack.pop()&#xA0;&#xA0;#&#xA0;it&#xA0;removes&#xA0;the&#xA0;element on top of the stack, i.e. &quot;The Name of the Rose&quot;<br>#&#xA0;my_first_stack became:<br>#        &quot;Neverwhere&quot;])<br># deque([&quot;Good Omens&quot;,<br><br>&#x200B;my_second_stack&#xA0;=&#xA0;deque()&#xA0;&#xA0;#&#xA0;this&#xA0;creates&#xA0;a&#xA0;new&#xA0;stack<br>my_second_stack.append(&quot;American Gods&quot;)&#xA0;&#xA0; #&#xA0;these&#xA0;two&#xA0;lines&#xA0;add&#xA0;two&#xA0;books<br>my_second_stack.append(&quot;Fragile Things&quot;)&#xA0; #&#xA0;to&#xA0;the&#xA0;stack&#xA0;in&#xA0;this&#xA0;precise&#xA0;order (this is on top)<br># currently my_second_stack contains two elements: <br>#        &quot;Fragile Things&quot;])<br># deque([&quot;American Gods&quot;,<br><br>my_first_stack.extend(my_second_stack)&#xA0;&#xA0;#&#xA0;it&#xA0;add&#xA0;all&#xA0;the&#xA0;elements&#xA0;in&#xA0;my_second_stack on top of my_first_stack<br>#&#xA0;current&#xA0;status&#xA0;of&#xA0;my_first_stack:<br>#        &quot;Fragile Things&quot;])<br>#        &quot;American Gods&quot;,<br>#        &quot;Neverwhere&quot;,<br># deque([&quot;Good Omens&quot;,<br></code></pre>
+<figcaption>How ThyMopani allows us to create and handle stacks &#x2013; with book titles.</figcaption>
+</figure>
+</section>
+<section id="section5">
+<h2>Queue</h2>
+<p>A queue is a kind of list seen by another perspective, i.e. from left to right, and with a specific set of operations. <a href="#img_4">&#xA0;</a>&#xA0;&#xA0;shows two different example of queues in real-life objects. We have a queue of children (left) and a line of cabs (right). The main characteristic of the elements of this structure is that they follow a&#xA0;<em>first in first out</em> strategy (<em>FIFO</em>) for addition and removal. Basically, it means that the first element inserted in the structure is placed in the left-most part of the queue and, thus, it is also the first one that will be removed when requested. Similar to stacks, even in queues it is necessary to remove all the elements that have been added <em>before</em> a certain target element &#x2013; i.e. from the eldest elements to the most recent ones &#x2013; to obtain it.</p>
+<figure id="img_4">
+<p><img src="img/queue.png" alt="img/queue.png"></p>
+<figcaption>Two examples of a queue of real objects: a queue of children waiting their turn for playing with a slide (left), and a cab wait line (right).&#xA0;Left picture by Prateek Rungta, source: <a href="https://www.flickr.com/photos/rungta/4409560365/">https://www.flickr.com/photos/rungta/4409560365/</a>. Right picture by Lynda Bullock, source:&#xA0;<a href="https://www.flickr.com/photos/just1snap/5141019486/">https://www.flickr.com/photos/just1snap/5141019486/</a>.</figcaption>
+</figure>
+<p>In ThyMopeni, a new stack can be instantiated by means of the constructor&#xA0;<code>deque()</code>, which is the same used for stasks. Thus, it is the way one uses it that classifies the object instantiated as a stack or a queue. Thus, as before,&#xA0;<code>my_first_queue = deque()</code>&#xA0;will create an empty queue and associates it to the variable&#xA0;<code>my_first_queue</code>. Three main operations can be done on stacks, in particular:</p>
+<ul>
+<li>
+<p>the method&#xA0;<code>&lt;queue&gt;.append(&lt;element&gt;)</code>&#xA0;is used for adding a new element on at the first available position in the queue, i.e. from the right of the queue &#x2013; for instance,&#xA0;<code>my_first_queue.append(34)</code>&#xA0;and <code>&#x200B;my_first_queue.append(15)</code> will add the number&#xA0;<em>34</em>&#xA0;to the queue as the first element, and the number <em>15</em> after the previous one;</p>
+</li>
+<li>the method <code>&lt;queue&gt;.leftpop()</code>&#xA0;is used for removing the first element of the queue, i.e. the first appended, that will be returned &#x2013; for instance,&#xA0;<code>my_first_queue.leftpop()</code>&#xA0;will remove the number&#xA0;<em>34</em>&#xA0;and will be returned as well, obtaining, thus, a queue with just the element <em>15</em> included in it;</li>
+<li>the method&#xA0;<code>&lt;queue&gt;.extend(&lt;another_queue&gt;)</code> is used for adding all the elements included in <code>&lt;another_queue&gt;</code>&#xA0;after (i.e. on the right of) those ones already included in the current queue &#x2013; for instance, if we have the list <code>my_second_queue</code>&#xA0;containing the numbers&#xA0;<em>1</em> and&#xA0;<em>83</em>,&#xA0;<code>my_first_queue.extend(my_second_queue)</code>&#xA0;will add&#xA0;<em>1</em> and&#xA0;<em>83</em><em></em>&#xA0;after&#xA0;<i>34</i>.</li>
+</ul>
+<p>In <a href="#listing_3">&#xA0;</a>, we show some examples of the use of queues in ThyMopani. In particular, we organise in a queue some (fictional) people that are waiting in the library so as to borrow some books.</p>
+<figure id="listing_3">
+<pre><code>&#x200B;&#x200B;my_first_queue&#xA0;=&#xA0;deque()&#xA0;&#xA0;#&#xA0;this&#xA0;creates&#xA0;a&#xA0;new&#xA0;queue<br><br>my_first_stack.append(&quot;Vanessa Ives&quot;)&#xA0;&#xA0;#&#xA0;these&#xA0;two&#xA0;lines&#xA0;add&#xA0;two&#xA0;people<br>my_first_stack.append(&quot;Mike Wheeler&quot;)&#xA0;&#xA0;#&#xA0;to&#xA0;the&#xA0;stack&#xA0;in&#xA0;this&#xA0;precise&#xA0;order (this is on top)<br># currently my_first_queue contains two elements: <br># deque([&quot;Vanessa Ives&quot;, &quot;Mike Wheeler&quot;)<br><br>my_first_queue.append(&quot;Eleven&quot;)&#xA0;&#xA0;#&#xA0;add a new person<br># now&#xA0;my_first_queue contains:<br># deque([&quot;Vanessa Ives&quot;, &quot;Mike Wheeler&quot;, &quot;Eleven&quot;])<br><br>my_first_stack.popleft()&#xA0;&#xA0;#&#xA0;it&#xA0;removes&#xA0;the&#xA0;first element added in the queue, i.e. &quot;Vanessa Ives&quot;<br>#&#xA0;my_first_stack became:<br># deque([&quot;Mike Wheeler&quot;, &quot;Eleven&quot;])<br><br>&#x200B;my_second_queue&#xA0;=&#xA0;deque()&#xA0;&#xA0;#&#xA0;this&#xA0;creates&#xA0;a&#xA0;new&#xA0;queue<br>my_second_queue.append(&quot;Micheal Walsh&quot;)&#xA0;&#xA0; #&#xA0;these&#xA0;two&#xA0;lines&#xA0;add&#xA0;two&#xA0;people<br>my_second_queue.append(&quot;Lawrence Cohen&quot;)&#xA0; #&#xA0;to&#xA0;the&#xA0;queue&#xA0;in&#xA0;this&#xA0;precise&#xA0;order<br># currently my_second_queue contains two elements: <br># deque([&quot;Michael Walsh&quot;, &quot;Lawrence Cohen&quot;])<br><br>my_first_queue.extend(my_second_queue)&#xA0;&#xA0;#&#xA0;it&#xA0;add&#xA0;all&#xA0;the&#xA0;elements&#xA0;in&#xA0;my_second_queue on the right of my_first_queue<br>#&#xA0;current&#xA0;status&#xA0;of&#xA0;my_first_queue:<br># deque([&quot;Mike Wheeler&quot;,&#xA0;&quot;Eleven&quot;,&#xA0;&quot;Michael&#xA0;Walsh&quot;,&#xA0;&quot;Lawrence Cohen&quot;])</code></pre>
+<figcaption>How ThyMopani allows us to create and handle queues &#x2013; with people.</figcaption>
+</figure>
+</section>
+</section>
+<section id="section6">
+<h1>Exercises</h1>
+<ol>
+<li>
+<p>Write a pseudocode in ThyMopani so as to create a list with the following elements ordered alphabetically: <q>&#x200B;Harry</q>&#x200B;, <q>&#x200B;Draco</q>&#x200B;, <q>&#x200B;Hermione</q>&#x200B;, &#x200B;<q>&#x200B;Ron</q>&#x200B;, <q>&#x200B;Severus</q>&#x200B;.</p>
+</li>
+<li>Consider to have a stack obtained by processing, one by one, the elements included in the previous list, i.e. <code>my_stack = deque([&quot;Draco&quot;, &quot;Harry&quot;, &quot;Hermione&quot;, &quot;Ron&quot;, &quot;Severus&quot;])</code>. Describe the status of <code>my_stack</code>&#xA0;after the execution of each of the following operations:&#xA0;<code>my_stack.pop()</code>,&#xA0;<code>my_stack.pop()</code>,&#xA0;<code>my_stack.append(&quot;Voldemort&quot;)</code>.</li>
+<li>Consider to have a queue obtained by processing, one by one, the elements included in the previous list, i.e. <code>my_queue = deque([&quot;Draco&quot;, &quot;Harry&quot;, &quot;Hermione&quot;, &quot;Ron&quot;, &quot;Severus&quot;])</code>. Describe the status of <code>my_queue</code>&#xA0;after the execution of each of the following operations:&#xA0;<code>my_queue.popleft()</code>,&#xA0;<code>my_queue.append(&quot;Voldemort&quot;)</code>,&#xA0;<code>my_queue.popleft()</code>.</li>
+</ol>
+</section>
+<section id="doc-bibliography" role="doc-bibliography">
+<h1>References</h1>
+<ul>
+<li role="doc-biblioentry" id="biblioentry_1">
+<p>Knuth, D. (1997). The Art of Computer Programming, Vol. 1: Fundamental Algorithms. 3rd Edition. Addison-Wesley Professional. ISBN:&#xA0;978-0201896831. Also available at&#xA0;<a href="http://broiler.astrometry.net/~kilian/The_Art_of_Computer_Programming%20-%20Vol%201.pdf">http://broiler.astrometry.net/~kilian/The_Art_of_Computer_Programming%20-%20Vol%201.pdf</a>.</p>
+</li>
+</ul>
+</section></body></html>
