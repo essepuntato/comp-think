@@ -1,0 +1,415 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Algorithms</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/simple.css">
+		<link rel="stylesheet" href="css/ctc.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="css/addon.css"></link>
+		<link rel="stylesheet" href="css/font-awesome.min.css"></link>
+		<link rel="stylesheet" href="css/academicons.min.css"></link>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section id="title" class="title_slide" role="doc-cover">
+					<h1>Algorithms</h1>
+					<div class="author">
+						<p><a href="https://www.unibo.it/sitoweb/silvio.peroni/en">Silvio Peroni</a></p>
+						<p class="contact">
+							<i class="fa fa-envelope" aria-hidden="true"></i> <a href="mailto:silvio.peroni@unibo.it">silvio.peroni@unibo.it</a>
+							<i class="ai ai-orcid" aria-hidden="true"></i> <a href="https://orcid.org/0000-0003-0530-4305">0000-0003-0530-4305</a>
+							<i class="fa fa-twitter" aria-hidden="true"></i> <a href="https://twitter.com/essepuntato">@essepuntato</a>
+						</p>
+						<p class="sst mtl"><a href="http://www.artshumanitiesculturalheritage.unibo.it/en/programmes/course-unit-catalogue/course-unit/2017/424624">Computational Thinking and Programming (A.Y. 2017/2018)</p>
+						<p class="ssst"><a href="corsi.unibo.it/2cycle/digitalhumanitiesdigitalknowledge/">Second Cycle Degree in Digital Humanities and Digital Knowledge</a></p>
+						<p class="ssst"><a href="http://www.unibo.it/en">Alma Mater Studiorum - Università di Bologna</p>
+						<p class="license"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"></a> <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a></p>
+					</div>
+				</section>
+				
+				<section>
+					<h2>Communication 1</h2>
+					<p>As of yesterday, only 11 people have subscribed to the mailing list</p>
+					<p><strong class="fragment highlight-red">Please subscribe to the mailing list as soon as possible</strong></p>
+					<ol>
+						<li><p>Open a browser and go to <a href="https://www.dsa.unibo.it/">https://www.dsa.unibo.it/</a></p></li>
+						<li><p>Log in with your University email</p></li>
+						<li><p>Look for the mailing list (<q>Liste docenti-studenti</q>) - the name of the list is <q>compthink1718</p></li>
+						<li><p>Subscribe to it (password needed, please ask it to me)</p></li>
+					</ol>
+					<p>Then, you can send directly emails to <a href="mailto:silvio.peroni.compthink1718@studio.unibo.it">silvio.peroni.compthink1718@studio.unibo.it</a></p>
+				</section>
+				
+				<section>
+					<h2>Communication 2</h2>
+					<p>Exam sessions dates (informal):</p>
+					<ul>
+						<li><p>23 January 2018</p></li>
+						<li><p>26 February 2018</p></li>
+						<li><p>10 May 2018</p></li>
+						<li><p>22 June 2018</p></li>
+						<li><p>25 September 2018</p></li>
+						<li><p>23 October 2018</p></li>
+					</ul>
+					<div class="fragment">
+						<p>For each date:</p>
+						<ul>
+							<li><p>written examination: 10-12</p></li>
+							<li><p>project oral colloquium: 13-16</p></li>
+						</ul>
+					</div>
+				</section>
+				
+				<section>
+					<h2>Any question about the previous lecture?</h2>
+				</section>
+
+				<section>
+					<h2>Historic hero: Ada Lovelace</h2>
+					<img class="wm fr mlm" src="img/ada.jpg" />
+					<p>English mathematicians</p>
+					<p>English translator of the first article about Babbage's Analytical Engine, written by Luigi Federico Menabrea in French</p>
+					<p class="fragment">She enriched the English translation of the article with several annotations</p>
+					<p class="fragment">Original article: ~8000 words</p>
+					<p class="fragment">Notes by Ada: additional ~19000 words</p>
+				</section>
+				
+				<section>
+					<h2>Ada's heritage</h2>
+					<p>First mechanical computer programmer: in the article notes, there is a description of how to use the Analytical Engine to calculate the Bernoulli numbers</p>
+					<blockquote class="ssst"><p>The operating mechanism can even be thrown into action independently of any object to operate upon (although of course no result could then be developed). Again, <span class="fragment highlight-red">it might act upon other things besides number</span>, were objects found whose mutual fundamental relations could be expressed by those of the abstract <span class="fragment highlight-red">science of operations</span>, and which should be also susceptible of adaptations to the action of the operating notation and mechanism of the engine. Supposing, for instance, that the fundamental relations of pitched sounds in the science of harmony and of musical composition were susceptible of such expression and adaptations, the <span class="fragment highlight-red">engine might compose elaborate and scientific pieces of music</span> of any degree of complexity or extent.</p></blockquote>
+					<p class="fragment">Science of Operations = Computer Science</p>
+				</section>
+				
+				<section>
+					<h2>Common features</h2>
+					<p>What do recipes and instructions for assembling objects have in common?</p>
+					<p class="tc"><img class="wxl" src="img/recipe-ikea.png" /></p>
+					<p class="fragment">Shared <span class="fragment highlight-red">abstract</span> notion: step-by-step procedure for producing something starting from some initial material we have<span class="fragment"> = algorithm</span></p>
+				</section>
+				
+				<section>
+					<h2>Algorithm</h2>
+					<p>The word <q>algorithm</q> is a combination of the Latin word <em>algorismus</em> (that is the Latinization of the name Al-Khwarizmi, who was a great mathematician from Persia in the 8th century) and the Greek word <em>arithmos</em>, meaning <em>number</em></p>
+					<p class="fragment">Each algorithm is written in a specific <span class="fragment highlight-red">language</span> which is functional to communicate its instruction to a computer</p>
+					<p class="fragment">Computer programmer: anyone that creates algorithms that can be interpreted by any computer</p>
+				</section>
+				
+				<section>
+					<h2>Pseudocode</h2>
+					<p>A pseudocode in an informal language that could be interpreted easily by any computer</p>
+					<p>It is used by Computer Scientists for sketching an algorithm before to implement it in a particular programming language</p>
+					<p>Checking if an algorithm can be interpretable by a computer: provide a colleague with the pseudocode of the algorithm and ask her to execute it using a particular input, writing down all the passages of the execution on a piece of paper</p>
+				</section>
+				
+				<section>
+					<h2>ThyMopani</h2>
+					<p>It is a pseudocode enough expressive for allowing one to describe any kind of algorithm that can be implemented in any programming language</p>
+					<p>Our first algorithm: taking in input three different strings, i.e. two words and a bibliographic entry of a published paper, return 2 if both the words are contained in the bibliographic entry, 1 if at least one of the words is contained in the bibliographic entry, and 0 otherwise</p>
+					<p class="st">E.g.: input <code>"Berners-Lee"</code>, <code>"web"</code> and <code>"Tim Berners-Lee:
+Designing the web for an open society. WWW 2011: 3-4"</code>; output <code>2</code>.</p>
+				</section>
+				
+				<section>
+					<h2>Defining an algorithm</h2>
+					<p class="sst"><code>def &lt;algorithm_name>(&lt;parameter_1>, &lt;parameter_2>, ...)</code></p>
+					<p class="fragment"><code>&lt;algorithm_name></code> and <code>&lt;parameter_i></code> cannot contain spaces and cannot start with a number</p>
+					<div class="fragment">
+						<pre><code>def contains_word(first_word, second_word, bibliographic_entry):
+    ...
+    ...
+    ...</code></pre>
+						<p>All the instructions of the algorithm must be specified in the following lines, as an indented block</p>
+						<p class="fragment">A <em>variable</em> is a symbolic name that contains some information referred to as a value (e.g. <code>first_word</code>, which is a particular kind of variable, called parameter)</p>
+    				</div>
+				</section>
+				
+				<section>
+					<h2>A first step</h2>
+					<p>Partial algorithm: <span class="fragment highlight-red" data-fragment-index="0">if</span> the first input word is <span class="fragment highlight-red" data-fragment-index="2">contained in</span> the bibliographic entry, then the number 1 is <span class="fragment highlight-red" data-fragment-index="4">returned</span>, <span class="fragment highlight-red" data-fragment-index="0">otherwise</span> 0 is <span class="fragment highlight-red" data-fragment-index="4">returned</span></p>
+					<p>We need:</p>
+					<ul>
+						<li class="fragment" data-fragment-index="1"><p>a mechanism to return a particular value if a specific condition is true</p></li>
+						<li class="fragment" data-fragment-index="3"><p>a way for checking if the input word is contained in the bibliographic reference</p></li>
+						<li class="fragment" data-fragment-index="5"><p>a command for returning the result</p></li>
+					</ul>
+				</section>
+				
+				<section>
+					<h2>Conditional block</h2>
+					<p>It allows one to execute a particular instruction if a condition is true (the <code>if</code> statement), while an alternative set of instructions is executed instead if the condition specified is false (the <code>else</code> statement)</p>
+					<pre><code>if &lt;condition>:
+    ...
+    ...
+else:
+    ...
+    ...</code></pre>
+				</section>
+				
+				<section>
+					<h2>Specify the condition</h2>
+					<p>The command <code>in</code> ise used to check if a certain string is contained in another one</p>
+					<p><code>&lt;string1> in &lt;string2></code> would be true if the value &lt;string1> is contained in &lt;string2></p>
+					<p class="fragment">A <em>string</em> is a particular type of value that records a sequence of characters, and it is usually defined by using the quotes – e.g. <code>"Berners-Lee"</code></p>
+				</section>
+				
+				<section>
+					<h2>Return statement</h2>
+					<p><code>return &lt;value_to_return></code></p>
+					<p>The execution of a return statement finishes the whole execution of an algorithm, and all the instructions that follow that statement are not processed anymore</p>
+					<p class="fragment">E.g.: <code>return 1</code></p>
+					<p class="fragment">A <em>number</em> is defined by writing it down as it is – e.g. 42 and -42 for positive/negative integers, 1.625 and -1.625 for positive/negative decimals</p>
+					<p class="fragment"><code>"42"</code> is different from <code>42</code></p>
+				</section>
+				
+				<section>
+					<h2>Partial algorithm</h2>
+					<pre><code>def contains_word(first_word, second_word, bibliographic_entry):
+    if first_word in bibliographic_entry: 
+        return 1
+    else:
+        return 0</code></pre>
+				</section>
+				
+				<section>
+					<h2>Boolean values</h2>
+					<p>The description of the algorithm says to return 2 if <span class="fragment highlight-red">both</span> the input words are contained in the bibliographic entry</p>
+					<p class="fragment">A <em>boolean</em> can be assigned to one out of two distinct and disjoint values, <code>True</code> and <code>False</code></p>
+					<p class="fragment">E.g.: <code>first_word in bibliographic_entry</code> returns a boolean value</p>
+				</section>
+				
+				<section>
+					<h2>Logical operations</h2>
+					<p><code>&lt;operator> &lt;B1></code>, where <code>&lt;operator></code> can be only <code>not</code></p>
+					<p><code>&lt;B1> &lt;operator> &lt;B2></code>, where <code>&lt;operator></code> can be either <code>or</code> or <code>and</code></p>
+					<table class="fragment" data-fragment-index="0">
+						<tr>
+							<th>B1</th>
+							<th class="fragment" data-fragment-index="2">B2</th>
+							<th class="fragment" data-fragment-index="1">not B1</th>
+							<th class="fragment" data-fragment-index="3">B1 and B2</th>
+							<th class="fragment" data-fragment-index="4">B1 or B2</th>
+						</tr>
+						<tr>
+							<td><p>True</p></td>
+							<td class="fragment" data-fragment-index="2"><p>True</p></td>
+							<td class="fragment" data-fragment-index="1"><p>False</p></td>
+							<td class="fragment" data-fragment-index="3"><p>True</p></td>
+							<td class="fragment" data-fragment-index="4"><p>True</p></td>
+						</tr>
+						<tr>
+							<td class="fragment" data-fragment-index="2"><p>True</p></td>
+							<td class="fragment" data-fragment-index="2"><p>False</p></td>
+							<td class="fragment" data-fragment-index="2"><p>False</p></td>
+							<td class="fragment" data-fragment-index="3"><p>False</p></td>
+							<td class="fragment" data-fragment-index="4"><p>True</p></td>
+						</tr>
+						<tr>
+							<td><p>False</p></td>
+							<td class="fragment" data-fragment-index="2"><p>True</p></td>
+							<td class="fragment" data-fragment-index="1"><p>True</p></td>
+							<td class="fragment" data-fragment-index="3"><p>False</p></td>
+							<td class="fragment" data-fragment-index="4"><p>True</p></td>
+						</tr>
+						<tr>
+							<td class="fragment" data-fragment-index="2"><p>False</p></td>
+							<td class="fragment" data-fragment-index="2"><p>False</p></td>
+							<td class="fragment" data-fragment-index="2"><p>True</p></td>
+							<td class="fragment" data-fragment-index="3"><p>False</p></td>
+							<td class="fragment" data-fragment-index="4"><p>False</p></td>
+						</tr>
+					</table>
+				</section>
+				
+				<section>
+					<h2>Comparisons</h2>
+					<p>Strings: <code>&lt;S1> &lt;operator> &lt;S2></code></p>
+					<table class="ssst">
+						<tr>
+						<th>S1</th>
+							<th>S2</th>
+							<th>S1 &lt; S2</th>
+							<th>S1 &lt;= S2</th>
+							<th>S1 &gt; S2</th>
+							<th>S1 &gt;= S2</th>
+							<th>S1 == S2</th>
+							<th>S1 != S2</th>
+							<th>S1 in S2</th>
+							<th>S1 not in S2</th>
+						</tr>
+						<tr>
+							<td><p>"Alice"</p></td>
+							<td><p>"Bob"</p></td>
+							<td><p>True</p></td>
+							<td><p>True</p></td>
+							<td><p>False</p></td>
+							<td><p>False</p></td>
+							<td><p>False</p></td>
+							<td><p>True</p></td>
+							<td><p>False</p></td>
+							<td><p>True</p></td>
+						</tr>
+						<tr>
+							<td><p>"Alice"</p></td>
+							<td><p>"Alice"</p></td>
+							<td><p>False</p></td>
+							<td><p>True</p></td>
+							<td><p>False</p></td>
+							<td><p>True</p></td>
+							<td><p>True</p></td>
+							<td><p>False</p></td>
+							<td><p>True</p></td>
+							<td><p>False</p></td>
+						</tr>
+					</table>
+					<p class="mtl">Numbers: <code>&lt;N1> &lt;operator> &lt;N2></code></p>
+					<table class="ssst">
+						<tr>
+							<th>N1</th>
+							<th>N2</th>
+							<th>N1 &lt; N2</th>
+							<th>N1 &lt;= N2</th>
+							<th>N1 &gt; N2</th>
+							<th>N1 &gt;= N2</th>
+							<th>N1 == N2</th>
+							<th>N1 != N2</th>
+						</tr>
+							<tr>
+							<td><p>3</p></td>
+							<td><p>4</p></td>
+							<td><p>True</p></td>
+							<td><p>True</p></td>
+							<td><p>False</p></td>
+							<td><p>False</p></td>
+							<td><p>False</p></td>
+							<td>True</td>
+						</tr>
+						<tr>
+							<td><p>4</p></td>
+							<td><p>4</p></td>
+							<td><p>False</p></td>
+							<td><p>True</p></td>
+							<td><p>False</p></td>
+							<td><p>True</p></td>
+							<td><p>True</p></td>
+							<td>False</td>
+						</tr>
+					</table>
+				</section>
+				
+				<section>
+					<h2>Complete algorithm</h2>
+					<pre><code>def contains_word(first_word, second_word, bibliographic_entry):
+    if first_word in bibligraphic_entry and 
+       second_word in bibliographic_entry:
+        return 2
+    else:
+        if first_word in bibliographic_entry or 
+           second_word in bibliographic_entry:
+            return 1
+        else:
+            return 0</code></pre>
+				</section>
+				
+				<section>
+					<h2>Avoiding repetitions</h2>
+					<p><code>first_word in bibliographic_entry</code> and <code>second_word in bibliographic_entry</code> used and evaluated twice</p>
+					<p class="fragment">It can be avoided defining new variables: <code>&lt;variable_name> = &lt;variable_value></code></p>
+					<p class="fragment">For instance:</p>
+					<ul>
+						<li class="fragment sst"><p><code>contains_first_word = first_word in bibliographic_entry</code></p></li>
+						<li class="fragment sst"><p><code>contains_second_word = second_word in bibliographic_entry</code></p></li>
+					</ul>
+				</section>
+				
+				<section>
+					<h2>Collapsing else-if blocks</h2>
+					<p>It is possible to collapse occurrences of <code>else</code> statements when these contain an <code>if</code> statement as their first instruction.</p> 
+					<p>In this case, the <em>else-if</em> pair can be safely replaced by an <code>elif</code> statement</p>
+					<div class="fragment">
+						<pre class="fl wmm"><code>if &lt;condition1>:
+    ...
+else:
+    if &lt;condition2>:
+        ...
+    else:
+        ...</code></pre>
+						<pre class="Python fr wmm fragment"><code>if &lt;condition1>:
+    ...
+elif &lt;condition2>:
+    ...
+else:
+    ...</code></pre>
+    				</div>
+				</section>
+				
+				<section>
+					<h2>Final algorithm</h2>
+					<pre><code>def contains_word(first_word, second_word, bibliographic_entry):
+    contains_first_word = first_word in bibliographic_entry 
+    contains_second_word = second_word in bibliographic_entry 
+    
+    if contains_first_word and contains_second_word: 
+        return 2
+    elif contains_first_word or contains_second_word: 
+        return 1
+    else: 
+        return 0</code></pre>
+				</section>
+				
+				<section class="title_slide">
+					<h2>
+						END
+						<span class="subtitle">Algorithms</span>
+					</h2>
+					<div class="author">
+						<p><a href="https://www.unibo.it/sitoweb/silvio.peroni/en">Silvio Peroni</a></p>
+						<p class="contact">
+							<i class="fa fa-envelope" aria-hidden="true"></i> <a href="mailto:silvio.peroni@unibo.it">silvio.peroni@unibo.it</a>
+							<i class="ai ai-orcid" aria-hidden="true"></i> <a href="https://orcid.org/0000-0003-0530-4305">0000-0003-0530-4305</a>
+							<i class="fa fa-twitter" aria-hidden="true"></i> <a href="https://twitter.com/essepuntato">@essepuntato</a>
+						</p>
+						<p class="sst mtl"><a href="http://www.artshumanitiesculturalheritage.unibo.it/en/programmes/course-unit-catalogue/course-unit/2017/424624">Computational Thinking and Programming (A.Y. 2017/2018)</p>
+						<p class="ssst"><a href="corsi.unibo.it/2cycle/digitalhumanitiesdigitalknowledge/">Second Cycle Degree in Digital Humanities and Digital Knowledge</a></p>
+						<p class="ssst"><a href="http://www.unibo.it/en">Alma Mater Studiorum - Università di Bologna</p>
+					</div>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
