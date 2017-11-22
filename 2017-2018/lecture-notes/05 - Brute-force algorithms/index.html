@@ -1,0 +1,215 @@
+<html xmlns="http://www.w3.org/1999/xhtml" prefix="schema: http://schema.org/ prism: http://prismstandard.org/namespaces/basic/2.0/"><head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/rash.css">
+
+  <!-- JQuery -->
+  <script src="js/jquery.min.js"></script>
+
+  <!-- Bootstrap.js -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <!-- Rash.js -->
+  <script src="js/rash.js"></script>
+
+  <!-- Local MathJax -->
+  <script src="js/MathJax/MathJax.js"></script>
+
+  <title>Brute-force algorithms</title>
+  
+  
+  
+  
+  
+<meta about="mailto:silvio.peroni@unibo.it" typeof="schema:Person" property="schema:name" name="dc.creator" content="SIlvio Peroni"><meta about="mailto:silvio.peroni@unibo.it" property="schema:email" content="silvio.peroni@unibo.it"><link about="mailto:silvio.peroni@unibo.it" property="schema:affiliation" href="#affiliation_1"><meta about="#affiliation_1" typeof="schema:Organization" property="schema:name" content="Digital And Semantic Publishing Laboratory, Department of Computer Science and Engineering, University of Bologna, Bologna, Italy"><meta property="prism:keyword" content="Betty Holberton"><meta property="prism:keyword" content="linear search"><meta property="prism:keyword" content="insertion sort"><meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0"></head>
+
+<body>
+<section role="doc-abstract" id="doc-abstract">
+<h1>Abstract</h1>
+<p>These lecture notes introduce the notion of <em>brute-force algorithms</em> with the implementation of two algorithms of this kind: <em>linear search</em> and <em>insertion sort</em>. The historic hero introduced in these notes is Betty Holberton, who was one of the first programmers of the ENIAC, and one of the key people for the development of several programming languages and algorithms for sorting objects.</p>
+<p><strong>Copyright notice.</strong> This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. You are free to share (i.e. copy and redistribute the material in any medium or format) and adapt (e.g. remix, transform, and build upon the material) for any purpose, even commercially, under the following terms: attribution, i.e. you must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. The licensor cannot revoke these freedoms as long as you follow the license terms.</p>
+</section>
+<section id="section1">
+<h1>Historic hero: Betty Holberton</h1>
+<p><a href="https://en.wikipedia.org/wiki/Betty_Holberton">Frances Elizabeth &#x2013; knows as Betty &#x2013; Holberton</a> was one of the first programmers of the&#xA0;<a href="https://en.wikipedia.org/wiki/ENIAC">Electronic Numerical Integrator and Computer (ENIAC)</a>,&#xA0;the earliest electronic and general-purpose computers developed between 1943 and 1946 with the funds of the United States Army. In addition, she was also involved in the development of several programming languages, such as <a href="https://en.wikipedia.org/wiki/COBOL">COBOL</a> and <a href="https://en.wikipedia.org/wiki/Fortran">FORTRAN</a>, and the creator of the first statistical analysis tool, that was used for analysing the data of the United States Census in 1950.&#xA0;</p>
+<figure id="img_1">
+<p><img src="img/holberton.jpg" alt="img/holberton.jpg"></p>
+<figcaption>Picture of Betty Holberton in front of the ENIAC. Source:&#xA0;<a href="https://commons.wikimedia.org/wiki/File:Betty_Holberton.jpg">https://commons.wikimedia.org/wiki/File:Betty_Holberton.jpg</a>.</figcaption>
+</figure>
+<p>She dedicated a huge part of her work in the development of algorithms for <a href="https://en.wikipedia.org/wiki/Mainframe_sort_merge">sorting the elements in a list</a>. The activity of sorting things is a typical human activity, which can be of course automatised by means of computers, and it is a property to have for several tasks.</p>
+<p>Of course, sorting things is an expensive task, in particular if you have to order billions of items. However, having such items sorted in some way is so crucial for several additional tasks that we can perform on the list that contains them. For instance, in libraries, books are ordered according to specific guidelines &#x2013; e.g. <a href="https://en.wikipedia.org/wiki/Dewey_Decimal_Classification">Dewey classification</a> for clustering books according to particular fields, where each cluster contains books ordered according to the authors&apos; name and the book title. With this kind of order, the librarian can find a requested title avoiding to look all the billion books available one by one, thus saving a huge amount of time, after all. Thus, to sort things in advance is a winning practice, if one has to search these things several times in the future.</p>
+</section>
+<section id="section2">
+<h1>May the (brute) force be with you</h1>
+<p>In this lecture, for the very first time, we start to talk about <a href="https://en.wikipedia.org/wiki/Problem_solving">problem-solving methods</a>. In Computer Science &#x2013; and, generally speaking, in Computational Thinking &#x2013;&#xA0;<em>problem-solving</em> is the activity of creating a computer-interpretable process (i.e. an algorithm) for solving some given problem, e.g. ordering alphabetically all the books in a library. There exist several different methods for solving problems that have been proposed in Computer Science, and all of those are grouped into general categories. Probably, the simpler category of problem-solving methods is the&#xA0;<a href="https://en.wikipedia.org/wiki/Brute-force_search"><em>brute-force</em> approach</a>.</p>
+<p>Brute-force algorithms are these processes that reach the perfect solution of a problem by analysing all the possible candidates that may provide a solution to a certain computational problem, and then check if each candidate solves the problem question. There are advantages and disadvantages in adopting such kind of approach. Usually, a brute-force approach is simple to implement and it will always find a solution to the computational problem. However, its computational cost depends strictly on the number of possible candidate solutions that are available. Thus, often, for practical problems with a huge solution space, it is a rather slow, even if simple, approach to adopt. A good suggestion is to use such approach when the problem size is small.</p>
+<p><a href="https://en.wikipedia.org/wiki/Abstract_strategy_game">Abstract strategy board games</a>, such as <a href="https://en.wikipedia.org/wiki/Chess">Chess</a> or <a href="https://en.wikipedia.org/wiki/Go_(game)">Go</a>, belong to that set of computational problems that have a quite huge solution space. For instance, for writing a brute-force algorithm which is able to play appropriately the game (and, hopefully, win), one needs to consider all the possible legal moves that are available on the board (shown in <a href="#img_2">&#xA0;</a>). According to John Tromp, the number of all the possible legal moves in Go was determined to be <em>208168199381979984699478633344862770286522453884530548425639456820927419612738015378525648451698519643907259916015628128546089888314427129715319317557736620397247064840935</em> <a href="#biblioentry_1"></a>. That makes a brute-force approach totally untractable, even for an electronic computer.</p>
+<figure id="img_2">
+<p><img src="img/go.jpg" alt="img/go.jpg"></p>
+<figcaption>The game of Go, which cannot be solved efficiently by means of a pure brute-force approach. Picture by Goban1, source: <a href="https://commons.wikimedia.org/wiki/File:FloorGoban.JPG">https://commons.wikimedia.org/wiki/File:FloorGoban.JPG</a>.</figcaption>
+</figure>
+<p>However, there are other kinds of problems that are tractable using brute-force algorithms. In order to solve these problems, usually, we need to <em></em><a href="https://en.wikipedia.org/wiki/Iteration">iterate</a> some block of instructions several times. For instance, generally speaking, for ordering a sequence of books on a bookshelf, one would have to look to each of them and to put it in the right position, and this operation should be repeated for each book in the bookshelf.</p>
+<p>ThyMopani has two alternatives for creating iterative blocks:&#xA0;<em><a href="https://en.wikipedia.org/wiki/Foreach_loop">foreach loops</a></em> and&#xA0;<em><a href="https://en.wikipedia.org/wiki/While_loop">while loops</a></em>. The first kind of iteration mechanism is provided in ThyMopani by means of a&#xA0;<code>for</code> statement, which is briefly illustrated in&#xA0;<a href="#listing_3">&#xA0;</a>. In practice, all the instructions within the <code>&#x200B;for</code> block are repeated for each item included in a collection &#x2013; any of them: a list, a queue, etc.</p>
+<figure id="listing_3">
+<pre><code>for item in &lt;collection&gt;:
+&#x200B;    # do something using the current item&#x200B;</code></pre>
+<figcaption>The general structure of a foreach loop in ThyMopani.</figcaption>
+</figure>
+<p>The foreach loop is very useful when we want to iterate on all the elements of a list for applying some sort of operation on each of them, or to find a particular value &#x2013; something that we discuss in more detail in <a href="#section3">&#xA0;</a>. For instance, we can use a foreach loop for creating a stack with all the elements included in a list, as shown by the simple algorithm in <a href="#listing_5">&#xA0;</a>.</p>
+<figure id="listing_5">
+<pre><code>def stack_from_list(input_list):
+&#x200B;    output_stack = deque()  # the stack to create
+&#x200B;    
+&#x200B;    # Iterate each element in the input list and add it to the stack
+&#x200B;&#x200B;&#xA0;&#xA0;&#xA0;&#xA0;for&#xA0;item&#xA0;in&#xA0;input_list:
+&#x200B;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;output_stack.append(item)
+&#x200B;
+&#x200B;&#xA0;&#xA0;&#xA0;&#xA0;return&#xA0;output_stack</code></pre>
+<figcaption>A simple algorithm that takes a list as input and creates a stack with all the values the list contains &#x2013; by using a foreach loop.</figcaption>
+</figure>
+<p>The while loop, instead, works in a slightly different way. ThyMopani allows us to create it by using a&#xA0;<code>while</code> statement (as shown in <a href="#listing_4">&#xA0;</a>), which basically will repeat all the instructions that are contained in its block until the condition specified is true.&#xA0;</p>
+<figure id="listing_4">
+<pre><code>while &lt;condition&gt;:
+&#x200B;    # do something until the condition is true&#x200B;</code></pre>
+<figcaption>The general structure of a while loop in ThyMopani.</figcaption>
+</figure>
+<p>For instance, it is possible to use a&#xA0;<code>while</code>&#xA0;statement for implementing the&#xA0;<code>run_forever</code>&#xA0;algorithm used in the lecture about computability.&#xA0;<a href="#listing_6">&#xA0;</a>&#xA0;shows one of its possible implementation in ThyMopani.</p>
+<figure id="listing_6">
+<pre><code>def run_forever():
+&#x200B;    value = 0
+&#x200B;
+&#x200B;&#xA0;&#xA0;&#xA0;&#xA0;while&#xA0;value &gt;= 0:
+&#x200B;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;value&#xA0;=&#xA0;value&#xA0;+&#xA0;1</code></pre>
+<figcaption>Another simple algorithm that sums&#xA0;<em>1</em> to a starting value indefinitely.</figcaption>
+</figure>
+<p>In the following sections, we reuse some of these iterations in order to implement two brute-force algorithms for searching the position of an item in a list, and for ordering a list. These are known as&#xA0;<em>linear search</em> and&#xA0;<em>insertion sort</em>.</p>
+</section>
+<section id="section3">
+<h1>Linear search</h1>
+<p>Searching the position in which a particular value is in a list is a common operation, which has applications in several real-life task. For instance, consider again the example of the library introduced in&#xA0;<a href="#section1">&#xA0;</a>. The typical operation performed by a librarian, once she has received a particular request for a book, is to consult the catalogue of all the books managed by the library so as to find the appropriate location where the requested book is placed in the library. This is a sort of real application of the aforementioned abstract problem of searching a value in a list, which is formally defined as follows:</p>
+<p><strong>Computational problem:</strong> find the position of the first occurrence of a value within a list.</p>
+<p>While there are several approaches that can be used to find an element in a list, we focus on a particular algorithm, called&#xA0;<em><a href="https://en.wikipedia.org/wiki/Linear_search">linear search</a></em>. This approach is pretty simple. The idea is to iterate over all the items contained in an input list one by one, and checking if each of them is equal to the value we are looking for, specified as input. Once the value has been found, its position in the list is then returned. If the value is not contained in the list, no position is returned at all.</p>
+<p>There are some aspects of the description of the linear search algorithm that must be clarified before providing its implementation in ThyMopani. The first one is the fact that an item in a list has a specific position. Which is something quite natural, if you think about it. However, in the previous lecture, we have not mentioned how to get such position. In addition to that, there is this aspect typical of Computer Science, that wants to number every position starting from&#xA0;<em>0</em>, instead of&#xA0;<em>1</em>. Thus, for instance, looking at the books in&#xA0;<a href="#img_3">&#xA0;</a>, Terry Pratchett&apos;s <em>The Carpet People</em> has position&#xA0;<em>0</em>, James Ponti&apos;s&#xA0;<em>Dead City</em> has position&#xA0;<em>1</em>, and so on.</p>
+<figure id="img_3">
+<p><img src="img/position.png" alt="img/position.png"></p>
+<figcaption>The position numbers assigned to a book of a list according to the typical Computer Science habit &#x2013; which starts numbering from&#xA0;<em>0</em>.</figcaption>
+</figure>
+<p>ThyMopani allows one to use the support algorithm <code>def enumerate(input_list)</code>&#xA0;for retrieving the current position of an item in a list that is accessed by means of a foreach loop. This support algorithm takes as input a list of values, and returns a list of&#xA0;<em><a href="https://en.wikipedia.org/wiki/Tuple">tuples</a></em>, with two elements each: the first element is the position of the item in consideration, while the second element is the item itself. In ThyMopani, a tuple is created by specifying some comma-separated values between square brackets &#x2013; for instance,&#xA0;<code>my_tuple = (0, 1, 2, 3, 4, 5)</code> assigns a tuple with six numbers to the variable <code>my_tuple</code>. While tuples could be perceived similar to lists, they actually are not. The main difference with lists is that tuples do not provide any way for updating them with a new value, e.g. by using the operation like it happens with lists. Thus, once a tuple is created, it stays forever.</p>
+<p>Considering these aspects, running the support algorithm&#xA0;<code>enumerate(list([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]))</code> will return the following list of tuples: <code>list([(0, &quot;a&quot;), (1, &quot;b&quot;), (2, &quot;c&quot;)])</code>, where the first item of each tuple is the position that the second item of the tuple has in the original list. In addition, ThyMopani allows us to decouple the items in a tuple by specifying names for each item with variables created in the&#xA0;<code>for</code>&#xA0;statement on-the-fly, as shown in <a href="#listing_8">&#xA0;</a>. Thus, for instance, a foreach loop like&#xA0;<code>for position, item in list([(0, &quot;a&quot;), (1, &quot;b&quot;), (2, &quot;c&quot;)])</code>&#xA0;will assign&#xA0;<em>0</em> to <code>&#x200B;position</code> and <em>&quot;a&quot;</em>&#xA0;to <code>&#x200B;item</code> in the first iteration,&#xA0;<em>1</em> to <code>&#x200B;position</code> and&#xA0;<em>&quot;b&quot;</em> to <code>&#x200B;item</code> in the second iteration, and&#xA0;<em>2</em> to <code>&#x200B;position</code> and <em>&quot;c&quot;</em> to <code>&#x200B;item</code> in the third iteration.</p>
+<figure id="listing_8">
+<pre><code>for &lt;var_item_1&gt;, &lt;var_item_2&gt;, ... in &lt;list of tuple&gt;:
+&#x200B;    # here you can use directly the variables defining the various items in the tuple&#x200B;</code></pre>
+<figcaption>How ThyMopani allows one to decouple tuples in foreach loops involving a list of tuples, by assigning a variable to each item in the tuple.</figcaption>
+</figure>
+<p>The second aspect that is implicit in the description of the linear search algorithm introduced before is that the algorithm should not return any position if the value to search is not present in the list. In ThyMopani, this can be done implicitly by not returning anything (i.e. by not ever executing the statement&#xA0;<code>return</code>) or explicitly by returning a particular object that means&#xA0;<em>nothing</em>, i.e.&#xA0;<code>None</code>.</p>
+<p>At this point, we have all the ingredients for developing the linear search algorithm in ThyMopani. This is illustrated in <a href="#listing_1">&#xA0;</a>.</p>
+<figure id="listing_1">
+<pre><code>def linear_search(input_list, value_to_search):
+&#x200B;  
+&#x200B;    # iterate all the items in the input list, getting also their position on the list
+&#x200B;    for &#x200B;position, item&#xA0;in&#xA0;enumerate(input_list):
+&#x200B;
+&#x200B;        # check if the current item is equal to the value to search
+&#x200B;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;if&#xA0;item&#xA0;==&#xA0;value_to_search:
+&#x200B;
+&#x200B;            # if so, the position of the current item is returned and the algorithm stops
+&#x200B;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;return&#xA0;position</code></pre>
+<figcaption>The linear search algorithm described in ThyMopani.</figcaption>
+</figure>
+<p>In order to understand how the algorithm in&#xA0;<a href="#listing_1">&#xA0;</a> works, we have prepared a description of the various execution steps (shown in <a href="#listing_7">&#xA0;</a>) of the foreach loop introduced in the algorithm. This would allow the reader to have a first glance at how iterative loops work from a purely computational point of view.</p>
+<figure id="listing_7">
+<pre><code># Define a list of book titles
+&#x200B;list_of_books&#xA0;=&#xA0;list([&quot;Coraline&quot;, &quot;American Gods&quot;, &quot;The Graveyard Book&quot;, &quot;Good Omens&quot;, &quot;Neverwhere&quot;])
+
+# Run the linear search algorithm on that list of books&#x200B;, looking for &quot;The Graveyard Book&quot;
+&#x200B;&#x200B;linear_search(list_of_books, &quot;The Graveyard Book&quot;)
+&#x200B;
+&#x200B;#&#xA0;FOREACH LOOP EXECUTION
+&#x200B;# enumerate(input_list) will result in: 
+&#x200B;# list([(0, &quot;Coraline&quot;), (1, &quot;American Gods&quot;), (2, &quot;The Graveyard Book&quot;), (3, &quot;Good Omens&quot;), (4, &quot;Neverwhere&quot;)])
+&#x200B;#
+&#x200B;#&#xA0;Iteration&#xA0;1
+&#x200B;#&#xA0;position&#xA0;=&#xA0;0
+&#x200B;#&#xA0;item&#xA0;=&#xA0;&quot;Coraline&quot;
+&#x200B;#&#xA0;item&#xA0;==&#xA0;value_to_search&#xA0;is&#xA0;False
+&#x200B;#&#xA0;Continue&#xA0;to&#xA0;the&#xA0;next&#xA0;iteration
+&#x200B;#
+&#x200B;# Iteration 2
+&#x200B;# position = 1
+&#x200B;# item = &quot;American Gods&quot;
+&#x200B;# item == value_to_search is False
+&#x200B;# &#x200B;Continue to the next iteration
+&#x200B;#
+&#x200B;# Iteration 3
+&#x200B;# position = 2
+&#x200B;# item = &quot;The Graveyard Book&quot;
+&#x200B;# item == value_to_search is True
+&#x200B;# Return the variable position (value 2) and end the execution of the algorithm</code></pre>
+<figcaption>An example of the execution steps of the linear search algorithm implemented.</figcaption>
+</figure>
+</section>
+<section id="section6">
+<h1>Insertion sort</h1>
+<p>As already mentioned in&#xA0;<a href="#section1">&#xA0;</a>, the task of ordering a sequence of items is a quite important operation we usually have to deal with in everyday life. Recalling the example of the library, having the books sorted will make the operation of searching them more efficient, and would allow us to avoid to use naive approaches for the search, e.g. the one introduced in <a href="#section3">&#xA0;</a>, which is quite expensive if we have billion of books to check. Thus,&#xA0;in this section we propose one particular brute-force algorithm for addressing the following computational problem:</p>
+<p><strong>Computational problem:</strong>&#xA0;sort all the items in a given list.</p>
+<p>The algorithm that we want to use for addressing the aforementioned computational problem is called <a href="https://en.wikipedia.org/wiki/Insertion_sort"><em>insertion sort</em></a>. It is one of the simpler sorting algorithms to implement, and it is quite efficient for small lists. The idea behind this algorithm is the following. It considers the items in the list one by one, in the order they have been placed. Thus,&#xA0;at each iteration, it removes one item from the input list, it finds the right location for it looking at the elements on its left only &#x2013; that have been already ordered in previous iterations &#x2013; and it inserts it in the right location. It finishes once all the items in the list have been considered. An example of the execution of this algorithm is shown in&#xA0;<a href="#img_4">&#xA0;</a>.&#xA0;</p>
+<figure id="img_4">
+<p><img src="img/insertion-sort.png" alt="img/insertion-sort.png"></p>
+<figcaption>The execution of the insertion sort algorithm using the following list of book titles as input:&#xA0;<em>Coraline</em>,&#xA0;<em>American Gods</em>,&#xA0;<em>The Graveyard Book</em>,&#xA0;<em>Good Omens</em>,&#xA0;<em>Neverwhere</em>. The book highlighted by a bold red border is the one currently selected in the particular iteration of the algorithm, and the red arrow shows where it should be placed in the output list. When a book title in the input list is shown in transparency it means that it has been already considered in some previous iterations, and it has been already placed in the output list in the correct order.</figcaption>
+</figure>
+<p>In order to provide a ThyMopani implementation of this algorithm, we need to introduce two support algorithms and one additional operation that can be used on lists. The first algorithm we need to use is&#xA0;<code>def range(stop_number)</code>. It takes a non negative number as input and returns the list of all numbers from&#xA0;<em>0</em> to the one preceding the input number. Thus, for instance,&#xA0;<code>range(4)</code> returns the list&#xA0;<code>list([0, 1, 2, 3])</code>, while&#xA0;<code>range(0)</code> returns the empty list&#xA0;<code>list([])</code>. The other support algorithm is&#xA0;<code>def reversed(input_list)</code>, that takes a list as input and returns a new list with all the elements sorted in the opposite order. Thus, for instance,&#xA0;<code>reversed(list([0, 1, 2, 3]))</code>&#xA0;returns the list&#xA0;<code>list([3, 2, 1, 0])</code>. These two algorithms can be used in combination so as to obtain, at a certain iteration of the insertion sort algorithm, the positions of the items that have been already ordered in the past iterations by specifying the position of the current item considered &#x2013; e.g. <code>reversed(range(2))</code>&#xA0;returns the list <code>list([1, 0])</code> starting from the position (i.e. <em>2</em>) of the third item in the input list.</p>
+<p>In addition, we need a way for selecting an item in a list and for inserting an item in a specific position in a list. For addressing these tasks, ThyMopani makes available the additional list methods <code>&lt;list&gt;[&lt;position&gt;]</code> and&#xA0;<code>&lt;list&gt;.insert(&lt;position&gt;, &lt;item&gt;)</code>. In particular, the former returns the item in the list at the specified position &#x2013;e.g. if we have the list <code>&#x200B;my_list = list([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;])</code>, <code>&#x200B;my_list[1]</code> returns <em>&quot;b&quot;</em>. The latter method allows one to put&#xA0;<code>&lt;item&gt;</code>&#xA0;in the position specified, and it shifts all the elements with position greater than or equal to&#xA0;<code>&lt;position&gt;</code>&#xA0;of one position &#x2013; e.g., by applying&#xA0;<code>my_list.insert(1, &quot;d&quot;)</code>, the list in&#xA0;<code>my_list</code>&#xA0;is modified as follows:&#xA0;<code>list([&quot;a&quot;, &quot;d&quot;, &quot;b&quot;, &quot;c&quot;])</code>.</p>
+<p>At this point, we have all the ingredients for developing the insertion sort algorithm in ThyMopani. This is illustrated in <a href="#listing_2">&#xA0;</a>.&#xA0;</p>
+<figure id="listing_2">
+<pre><code>def insertion_sort(input_list):
+&#x200B;    result = list()  # A new empty list where to store the result
+&#x200B;    
+&#x200B;    # iterate all the items on the input list
+&#x200B;    for item in input_list:
+&#x200B;
+&#x200B;        # initialise the position where to insert the item at the end of the result list
+&#x200B;        insert_position = len(result)
+&#x200B;
+&#x200B;        # iterate, in reverse order, all the positions of all the items already included in the result list
+&#x200B;        for prev_position in reversed(range(insert_position)):
+&#x200B;            
+&#x200B;            # check if the current item is less than the one in prev_position in the result list
+&#x200B;            if item &lt; result[prev_position]:
+&#x200B;
+&#x200B;                # if it is so, then the position where to insert the current item becomes prev_position
+&#x200B;                insert_position = prev_position
+&#x200B;
+&#x200B;        # the item is inserted into the position found
+&#x200B;        result.insert(insert_position, item)
+&#x200B;
+&#x200B;    return result  # the ordered list is returned</code></pre>
+<figcaption>The insertion sort algorithm described in ThyMopani.</figcaption>
+</figure>
+</section>
+<section id="section5">
+<h1>Exercises</h1>
+<ol>
+<li>
+<p>Write in ThyMopani the support algorithm <code>&#x200B;def enumerate(input_list)</code>&#xA0;introduced in <a href="#section3">&#xA0;</a>.</p>
+</li>
+<li>
+<p>Write in ThyMopani the support algorithm &#x200B;def range(input_number) introduced in <a href="#section6">&#xA0;</a>.</p>
+</li>
+<li>
+<p>Write in ThyMopani the support algorithm &#x200B;def reversed(input_list) introduced in <a href="#section6">&#xA0;</a>.</p>
+</li>
+<li>
+<p>Write down the execution steps of <code>linear_search(list([&quot;Coraline&quot;, &quot;American Gods&quot;, &quot;The Graveyard Book&quot;, &quot;Good Omens&quot;, &quot;Neverwhere&quot;]), &quot;The Sandman&quot;)</code>, as explained in&#xA0;<a href="#listing_7">&#xA0;</a>.&#xA0;</p>
+</li>
+</ol>
+</section>
+<section id="doc-bibliography" role="doc-bibliography">
+<h1>References</h1>
+<ul>
+<li role="doc-biblioentry" id="biblioentry_1">
+<p>Tromp, J. (2016). Counting Legal Positions in Go.&#xA0;<a href="http://tromp.github.io/go/legal.html">http://tromp.github.io/go/legal.html</a> (last visited 10 November 2017)</p>
+</li>
+</ul>
+</section></body></html>
