@@ -384,3 +384,6 @@ pre, code {
 	border: 1px solid black !important;
 }
 
+* { 
+	overflow-wrap: break-word !important;
+}
