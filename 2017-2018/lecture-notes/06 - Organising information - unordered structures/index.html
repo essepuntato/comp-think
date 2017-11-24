@@ -1,0 +1,172 @@
+<html xmlns="http://www.w3.org/1999/xhtml" prefix="schema: http://schema.org/ prism: http://prismstandard.org/namespaces/basic/2.0/"><head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/rash.css">
+
+  <!-- JQuery -->
+  <script src="js/jquery.min.js"></script>
+
+  <!-- Bootstrap.js -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <!-- Rash.js -->
+  <script src="js/rash.js"></script>
+
+  <!-- Local MathJax -->
+  <script src="js/MathJax/MathJax.js"></script>
+
+  <title>Organising information: unordered structures</title>
+  
+  
+  
+  
+  
+<meta about="mailto:silvio.peroni@unibo.it" typeof="schema:Person" property="schema:name" name="dc.creator" content="Silvio Peroni"><meta about="mailto:silvio.peroni@unibo.it" property="schema:email" content="silvio.peroni@unibo.it"><link about="mailto:silvio.peroni@unibo.it" property="schema:affiliation" href="#affiliation_1"><meta about="#affiliation_1" typeof="schema:Organization" property="schema:name" content="Digital and Semantic Publishing Laboratory, Department of Computer Science and Engineering, University of Bologna, Bologna, Italy"><meta property="prism:keyword" content="Jorge Borges"><meta property="prism:keyword" content="infinity"><meta property="prism:keyword" content="set"><meta property="prism:keyword" content="dictionary"><meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0"></head>
+
+<body>
+<section role="doc-abstract" id="doc-abstract">
+<h1>Abstract</h1>
+<p>These lecture notes introduce the main concepts related to some of the most important data structures for creating and handling sets and dictionaries. The historic hero introduced in these notes is Jorge Luis Borges, considered one of the most important Argentinian writers of the past century. Among his huge work, he wrote several short stories focussed on the exploration of mathematical concepts and limits.</p>
+<p><strong>Copyright notice.</strong> This work is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. You are free to share (i.e. copy and redistribute the material in any medium or format) and adapt (e.g. remix, transform, and build upon the material) for any purpose, even commercially, under the following terms: attribution, i.e. you must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. The licensor cannot revoke these freedoms as long as you follow the license terms.</p>
+</section>
+<section id="section1">
+<h1>Historic hero: Jorge Luis Borges</h1>
+<p><a href="https://en.wikipedia.org/wiki/Jorge_Luis_Borges">Jorge Luis Borges</a>, shown in <a href="#img_1">&#xA0;</a>, was an Argentine short-story writer, poet, and essayist, who produce several works laying between philosophical literature and fantasy genre. In his short novels, he explored several aspects and situations related to dreams, labyrinths, libraries, mirrors, the notion of infinity, and religions, among the others.</p>
+<figure id="img_1">
+<p><img src="img/borges.jpg" alt="img/borges.jpg"></p>
+<figcaption>A picture of Jorge Luis Borges at&#xA0;<em></em><i>L&apos;H&#xF4;tel</i> in Paris. Source:&#xA0;<a href="https://commons.wikimedia.org/wiki/File:Jorge_Luis_Borges_Hotel.jpg">https://commons.wikimedia.org/wiki/File:Jorge_Luis_Borges_Hotel.jpg</a>.</figcaption>
+</figure>
+<p>One of his most known stories is entitled&#xA0;<em><a href="https://en.wikipedia.org/wiki/The_Library_of_Babel">The Library of Babel</a></em>&#xA0;<a href="#biblioentry_1">&#xA0;</a>. In this short piece, he describes an incredibly big library, made of hexagonal rooms, where, in four of the walls of each room, there were 20 bookshelves (5 bookshelves for each wall). Each bookshelf had contained 35 books. Finally, each book counted exactly 410 pages, each page was organised in 40 lines, and each line contained exactly 80 characters. From one of the two empty walls, one could access to a hallway with two small rooms (one where to sleep standing up, the other with a bathroom) and to the stairs to get to higher hexagonal rooms. The idea is that the whole library contained all the books that have been and will be written by using every possible combination of 25 basic characters: 22 letters, the period, the comma, and the space. Of course, the main parts of the books contain a non-sense sequence of characters, while others (or even limited parts of them) are, indeed, describing situations using an intelligible language. However, even between those, there were also books that negated explicitly the statements of the others. Thus, the narrator suggested that we are in the presence of all the possible written books that, even when they make sense, are totally unuseful because they describe any possible fact from all the possible perspectives, and thus there is no absolute truth available and all the possibilities are admissible.</p>
+<p>The opening sentence is of particular interest: <q>&#x200B;[the Library] is composed of an indefinite and perhaps infinite number of hexagonal galleries</q>&#x200B;.&#xA0;In this passage, the narrator suggests that, since its very well-explained composition, the library is also made of an infinite number of books, contained in an infinite number of rooms. However, is really this the case?</p>
+<p>Understanding infinity is a matter of a personal perception of things. Often we use to refer to an infinite amount of something (time, space, etc.) when actually we are solely speaking about a quite extensive and huge mass of stuff, which still is delimited by some physical or social constraint. The Library of Babel falls in these kinds of situation. Even if the narrator says explicitly that the library is infinite, actually it can contain&#xA0;<em>only</em> <math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><mn>2</mn><mo>&#x22C5;</mo><msup><mn>10</mn><mn>1834097</mn></msup></mstyle></math> of books <a href="#biblioentry_2">&#xA0;</a>. The previous number has been obtained by considering all the possible combination of all the finite set of charaters in all the 40 pages in all the books that can be generated. And this number exists, even if it is so big that is not manageable by our mind and, thus, we tend to identify it to infinity, while it is not.</p>
+<p>Of course, <a href="https://en.wikipedia.org/wiki/Infinity">mathematical infinity</a> exists, as an abstract concept &#x2013; e.g. think about the set of all the prime numbers, which is an <a href="https://en.wikipedia.org/wiki/Euclid%27s_theorem">infinitive set</a>. However, when one tries to make calculations by means of a computer, which is physically limited in space&#xA0;somehow and, thus, in its resources, we can only reach a plausible approximation of it. For instance, even if it is possible to implement an algorithm that runs forever in a specific programming language, technically speaking its implementation runned by a (electronic) computer can stop (and will stop, after all) due to some external reasons &#x2013; a blackout, the breaking of some hardware necessary for the correct execution of its processes, etc.</p>
+<p>When we consider pragmatic applications and implementations of existing computational systems, we must be aware that infinity (e.g. the indefinite tape of a Turing Machine, the endless execution of an algorithm, etc.) is an illusion. It is just a theoretical tool which allows us to sketch out possible borders for real-world problems.</p>
+</section>
+<section id="section2">
+<h1>Unordered structures</h1>
+<p>In this lectures, we will introduce three specific data structures, that are discussed in details in the following sections, i.e.: sets and dictionaries. Their main characteristics, in addition of being among the most basic and used data structures in algorithms (and, more concretely, in programs), is that they do not specify any order for their elements and that they do not allow repetitions &#x2013; i.e. the same value cannot be specified twice.</p>
+<section id="section3">
+<h1>Sets</h1>
+<p>A <a href="https://en.wikipedia.org/wiki/Set_(abstract_data_type)"><em>set</em></a> is a countable collection of unordered and non-repeatable elements. It is <em>countable</em> because we can use the support algorithm <code>len</code>&#xA0;(introduced some lectures ago, when we talked about lists) for counting the elements it contains. Its elements are unordered because the order of the insertion operations do not provide any cardinality relation among the elements in a set. Finally, its elements are not repeatable because the same value cannot be included twice in the set.</p>
+<p>Of course, there exist several real examples of such abstract sets in real-life objects. For instance, in <a href="#img_2">&#xA0;</a>, we show a class of students and a collection of colours. Both of them are concrete objects that are built starting from the abstract notion of a set.&#xA0;</p>
+<figure id="img_2">
+<p><img src="img/set.png" alt="img/set.png"></p>
+<figcaption>Two examples of a set in real objects: a class of students (left), and a collection of colours contained in a plastic glass (right). Left picture by Uri Tours, source:&#xA0;<a href="https://www.flickr.com/photos/northkoreatravel/10682515504/">https://www.flickr.com/photos/northkoreatravel/10682515504/</a>. Right picture by Mikel Seijas Alonso, source:&#xA0;<a href="https://www.flickr.com/photos/xumet/2670267503/">https://www.flickr.com/photos/xumet/2670267503/</a>.</figcaption>
+</figure>
+<p>In ThyMopani, a new set can be instantiated by means of the constructor <code>&#x200B;set()</code>. For instance, <code>&#x200B;my_first_set = set()</code> will create an empty set and associates it to the variable <code>&#x200B;my_first_set</code>. Several operations can be done on sets, in particular:</p>
+<ul>
+<li>
+<p>the method <code>&#x200B;&lt;set&gt;.add(&lt;element&gt;)</code> is used for adding a new element to the set &#x2013; for instance, <code>&#x200B;my_first_set.add(34)</code> and &#x200B;<code>&#x200B;my_first_set.add(15)</code> will add the numbers <em>34</em> and <em>15</em> to the set &#x2013; it is worth mentioning that adding an element that is already included in the set does not add it again;</p>
+</li>
+<li>
+<p>the method <code>&#x200B;&lt;set&gt;.remove(&lt;element&gt;)</code> is used for removing the element from the set &#x2013; for instance, <code>&#x200B;my_first_set.remove(34)</code> will remove the number <em>34</em>, obtaining, thus, a set with just the element <em>15</em> included in it;</p>
+</li>
+<li>
+<p>the method <code>&#x200B;&lt;set&gt;.update(&lt;another_set&gt;)</code> is used for adding all the elements included in <code>&#x200B;&lt;another_set&gt;</code> to the current set &#x2013; for instance, if we have the set <code>&#x200B;my_second_set</code> containing the numbers <em>1</em> and <em>15</em>, <code>&#x200B;my_first_set.update(my_second_set)</code> will add just&#xA0;<em>1</em>&#xA0;to the current set, since <em>15</em> was already present.</p>
+</li>
+</ul>
+<p>In <a href="#listing_1">&#xA0;</a>, we show some examples of the use of sets in ThyMopani. As in the examples in the previous lectures, we describe with natural language comments the various aspects related to the creation and modification of sets.</p>
+<figure id="listing_1">
+<pre><code>my_first_set = set()  # this creates a new set
+
+my_first_set.add(34)  # these two lines add two numbers
+my_first_set.add(15)  # to the set without any particular order
+# currently my_first_set contains two elements: 
+# set({ 34, 15 })
+
+my_first_set.append(&quot;Silvio&quot;)  # a set can contains element of any kind
+# now my_first_set contains: 
+# set({34, 15, &quot;Silvio&quot;})
+
+my_first_set.remove(34)  # it removes the number 34
+# my_first_set became: 
+# set({15, &quot;Silvio&quot;})
+
+my_first_set.update(my_first_set)  # it doesn&apos;t add the new elements since they are already included in the set
+# current status of my_first_set: 
+# set({15, &quot;Silvio&quot;})
+
+my_first_set_len = len(my_first_set) # it stores 2 in my_first_set_len&#x200B;</code></pre>
+<figcaption>How ThyMopani allows us to create and handle sets &#x2013; with numbers and strings.</figcaption>
+</figure>
+</section>
+<section id="section5">
+<h1>Dictionaries</h1>
+<p>A <a href="https://en.wikipedia.org/wiki/Associative_array"><em>dictionary</em></a>&#xA0;is a countable collection of unordered key-value pairs, where the key is non-repeatable in the dictionary. It is countable because we can use the support algorithm <code>&#x200B;len</code>&#xA0;for counting the elements it contains. Its elements are unordered because the order of the insertion operations does not provide any cardinality relation among the elements in a dictionary, similar to sets. Finally, the keys of its pairs are not repeatable because the same key cannot be included twice in the dictionary.</p>
+<p>Of course, there exist several real examples of such abstract dictionaries in real-life objects. For instance, in <a href="#img_3">&#xA0;</a>, we show a collection of definitions and a currency exchange table. Both of them are concrete objects that are built starting from the abstract notion of a dictionary.&#xA0;</p>
+<figure id="img_3">
+<p><img src="img/dictionary.png" alt="img/dictionary.png"></p>
+<figcaption>Two examples of a dictionary in real objects: a collection of definitions (top), and a conversion table from 1 euro to the amount in other nine different currencies (bottom). Top picture by Doug Belshaw, source:&#xA0;<a href="https://www.flickr.com/photos/dougbelshaw/6877298592/">https://www.flickr.com/photos/dougbelshaw/6877298592/</a>. Bottom screenshot from&#xA0;<a href="http://www.xe.com/it/">http://www.xe.com/it/</a>.</figcaption>
+</figure>
+<p>In ThyMopani, a new dictionary can be instantiated by means of the constructor &#x200B;<code>&#x200B;dict()</code>. For instance, <code>&#x200B;&#x200B;my_first_dict = dict()</code> will create an empty dictionary and associates it to the variable &#x200B;<code>&#x200B;my_first_dict</code>. Several operations can be done on dictionaries, in particular:</p>
+<ul>
+<li>
+<p>the operation &#x200B;<code>&#x200B;&lt;dictionary&gt;[&lt;key&gt;] = &lt;value&gt;</code> is used for adding a new pair to the dictionary &#x2013; for instance, &#x200B;<code>&#x200B;my_first_dictionary[&quot;age&quot;] = 34</code> and &#x200B;&#x200B;<code>&#x200B;my_first_dictionary[&quot;day of birth&quot;] = 15</code> will add the pairs <code>&#x200B;&quot;age&quot;: 34</code> and <code>&#x200B;&quot;day of birth&quot;: 15</code> to the dictionary &#x2013; it is worth mentioning that (a) keys must be either strings, numbers, or tuples, and (b) adding a pair with a key that is already included in the dictionary will overwrite the previously-defined pair;</p>
+</li>
+<li>the operation <code>&#x200B;&#x200B;del &lt;dictionary&gt;[&lt;key&gt;]</code> is used for removing the pair identified by the specified key from the dictionary &#x2013; for instance, &#x200B;del <code>&#x200B;my_first_dictionary[&quot;age&quot;]</code> will remove the pair <code>&#x200B;&quot;age&quot;: 34</code>, obtaining, thus, a dictionary with just the pair <code>&#x200B;&quot;day of birth&quot;: 15</code>;</li>
+<li>the method &#x200B;<code>&#x200B;&lt;dictionary&gt;.get(&lt;key&gt;)</code> is used for getting the value associated to the pair having the specified key in the dictionary &#x2013; for instance, &#x200B;<code>&#x200B;my_first_dictionary.get(&quot;day of birth&quot;)</code> will return the number <em>15</em>, while <code>&#x200B;my_first_dictionary.get(&quot;name&quot;)</code> will return <em>None</em> since the specified key is not included in any pair of the dictionary;</li>
+<li>the method &#x200B;<code>&#x200B;&lt;dictionary&gt;.update(&lt;another_dictionary&gt;)</code> is used for adding all the pairs included in &#x200B;<code>&#x200B;&lt;another_dictionary&gt;</code> to the current dictionary &#x2013; for instance, if we have the dictionary &#x200B;<code>&#x200B;my_second_dictionary</code> containing the pairs <code>&#x200B;&quot;month of birth&quot;: 12</code> and <code>&#x200B;&quot;day of birth&quot;: 28</code>, &#x200B;<code>&#x200B;my_first_dictionary.update(my_second_dictionary)</code> will add the pairs <code>&#x200B;&quot;month of birth&quot;: 12</code> to the current dictionary, while the pair <code>&#x200B;&quot;day of birth&quot;: 15</code> will be rewritten with <code>&#x200B;&quot;day of birth&quot;: 28</code>.</li>
+</ul>
+<p>In <a href="#listing_2">&#xA0;</a>, we show some examples of the use of dictionaries in ThyMopani. In particular, we introduce the effect of using all the aforementioned operation for adding and removing pairs from the dictionary.</p>
+<figure id="listing_2">
+<pre><code>my_first_dictionary = dict()  # this creates a new dictionary
+
+# these following two lines add two pairs
+# to the dictionary without any particular order
+my_first_dictionary[&quot;age&quot;] = 34  
+my_first_dictionary[&quot;day of birth&quot;] = 15
+# currently my_first_dictionary contains two elements: 
+# dict({ &quot;age&quot;: 34, &quot;day of birth&quot;: 15 })
+
+# the pairs of a dictionary can contains even key-value pairs of different types
+my_first_dictionary[&quot;name&quot;] = &quot;Silvio&quot;  
+# now my_first_dictionary contains: 
+# dict({&quot;age&quot;: 34, &quot;day of birth&quot;: 15, &quot;name&quot;: &quot;Silvio&quot;})
+
+del my_first_dictionary[&quot;age&quot;]  # it removes the pair with key &quot;age&quot;
+# my_first_dictionary became: 
+# dict({&quot;day of birth&quot;: 15, &quot;name&quot;: &quot;Silvio&quot;})
+
+my_first_dictionary.get(&quot;age&quot;)  # get the value associated to the key &quot;age&quot;
+# the returned result will be None in this case, since &quot;age&quot; has been just deleted
+
+# the following lines create a new dictionary with two pairs
+my_second_dictionary = dict()
+my_second_dictionary[&quot;month of birth&quot;] = 12
+my_second_dictionary[&quot;day of birth&quot;] = 28
+
+# the following line add a new pair to the current dictionary, and rewrite 
+# the value associated to the key &quot;&quot;day of birth&quot; with the one specified in
+# the my_second_dictionary dictionary
+my_first_dictionary.update(my_second_dictionary)  
+# current status of my_first_dictionary: 
+# dict({&quot;day of birth&quot;: 28, &quot;name&quot;: &quot;Silvio&quot;, &quot;day of month&quot;: 12})
+
+my_first_dictionary_len = len(my_first_dictionary) # it stores 3 in my_first_dictionary_len&#x200B;&#x200B;</code></pre>
+<figcaption>How ThyMopani allows us to create and handle dictionaries &#x2013; with numbers and strings as keys and values of pairs.</figcaption>
+</figure>
+</section>
+</section>
+<section id="section6">
+<h1>Exercise</h1>
+<ol>
+<li>
+<p>Write a pseudocode in ThyMopani so as to create a set of the following elements: <q>&#x200B;Bilbo</q>&#x200B;, <q>&#x200B;Frodo</q>&#x200B;, <q>&#x200B;Sam</q>&#x200B;, <q>&#x200B;Pippin</q>&#x200B;, <q>&#x200B;Merry</q>&#x200B;.</p>
+</li>
+<li>Consider the set created in the aforementioned exercise, stored in the variable&#xA0;<code>my_set</code>. Describe the status of <code>&#x200B;my_set</code> after the execution of each of the following operations: <code>&#x200B;my_set.remove(&quot;Bilbo&quot;)</code>, <code>&#x200B;my_set.add(&quot;Galadriel&quot;)</code>, <code>&#x200B;my_set.update(set({&quot;Saruman&quot;, &quot;Frodo&quot;, &quot;Gandalf&quot;}))</code>.</li>
+<li>Suppose that all the elements in the set returned by the previous exercise have been organised in two different sets, i.e. <code>set_hobbit</code>&#xA0;that refers to the set <code>set({&quot;Frodo&quot;, &quot;Sam&quot;, &quot;Pippin&quot;, &quot;Merry&quot;})</code>, and <code>set_magician</code>&#xA0;defined as <code>set({&quot;Saruman&quot;, &quot;Gandalf&quot;})</code>. Create a dictionary containing two pairs: one that associate the set of hobbits with the key <code>&quot;hobbit&quot;</code>, and the other that associates the set of magicians with the key <code>&quot;magician&quot;</code>.</li>
+</ol>
+</section>
+<section id="doc-bibliography" role="doc-bibliography">
+<h1>References</h1>
+<ul>
+<li role="doc-biblioentry" id="biblioentry_1">
+<p>Borges, J. L. (1941). La biblioteca de Babel. In El Jard&#xED;n de senderos que se bifurcan.&#xA0;Editorial Sur. English translation available at&#xA0;<a href="http://www.arts.ucsb.edu/faculty/reese/classes/artistsbooks/The%20Library%20of%20Babel.pdf">http://www.arts.ucsb.edu/faculty/reese/classes/artistsbooks/The%20Library%20of%20Babel.pdf</a></p>
+</li>
+<li role="doc-biblioentry" id="biblioentry_2">
+<p>Foulds, J. (2017). Answer to the question &quot;Is the Library of Babel infinite?&quot;. Quora.&#xA0;<a href="https://www.quora.com/Is-the-Library-of-Babel-infinite">https://www.quora.com/Is-the-Library-of-Babel-infinite</a>&#xA0;(last visited 16 November 2017)</p>
+</li>
+</ul>
+</section></body></html>
