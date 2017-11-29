@@ -1,0 +1,170 @@
+<html xmlns="http://www.w3.org/1999/xhtml" prefix="schema: http://schema.org/ prism: http://prismstandard.org/namespaces/basic/2.0/"><head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/rash.css">
+
+  <!-- JQuery -->
+  <script src="js/jquery.min.js"></script>
+
+  <!-- Bootstrap.js -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <!-- Rash.js -->
+  <script src="js/rash.js"></script>
+
+  <!-- Local MathJax -->
+  <script src="js/MathJax/MathJax.js"></script>
+
+  <title>Divide and conquer algorithms</title>
+  
+  
+  
+  
+  
+<meta about="mailto:silvio.peroni@unibo.it" typeof="schema:Person" property="schema:name" name="dc.creator" content="Silvio Peroni"><meta about="mailto:silvio.peroni@unibo.it" property="schema:email" content="silvio.peroni@unibo.it"><link about="mailto:silvio.peroni@unibo.it" property="schema:affiliation" href="#affiliation_1"><meta about="#affiliation_1" typeof="schema:Organization" property="schema:name" content="Digital and Semantic Publishing Laboratory, Department of Computer Science and Engineering, University of Bologna, Bologna, Italy"><meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0"></head>
+
+<body>
+<section role="doc-abstract" id="doc-abstract">
+<h1>Abstract</h1>
+<p>These lecture notes introduce the notion of <em>divide and conquer</em> algorithms with the implementation of one algorithm of this kind: <em>merge sort</em>. The historic hero introduced in these notes is John von Neumann, who proposed a set of guidelines for the designing of the EDVAC named after him, that have been used as fundamental design principles for building the first electronic computers.</p>
+<p><strong>Copyright notice.</strong> This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. You are free to share (i.e. copy and redistribute the material in any medium or format) and adapt (e.g. remix, transform, and build upon the material) for any purpose, even commercially, under the following terms: attribution, i.e. you must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. The licensor cannot revoke these freedoms as long as you follow the license terms.</p>
+</section>
+<section id="section1">
+<h1>Historic hero: John von Neumann</h1>
+<p>John von Neumann (depicted in <a href="#img_3">&#xA0;</a>) was a computer scientist, mathematicians, and physicists. He was very active in all these disciplines, and made an incredibly huge number of contribution in several fields, such as <a href="https://en.wikipedia.org/wiki/Quantum_mechanics">quantum mechanics</a>, <a href="https://en.wikipedia.org/wiki/Game_theory">game theory</a>, and <a href="https://en.wikipedia.org/wiki/Self-replicating_machine">self-replicating machines</a>.</p>
+<figure id="img_3">
+<p><img src="img/vonneumann.png" alt="img/vonneumann.png"></p>
+<figcaption>A picture of&#xA0;John von Neumann at Los Alamos. Source:&#xA0;<a href="https://commons.wikimedia.org/wiki/File:JohnvonNeumann-LosAlamos.gif">https://commons.wikimedia.org/wiki/File:JohnvonNeumann-LosAlamos.gif</a>.</figcaption>
+</figure>
+<p>One of his most important and famous contributions in the Computer Science domain was the <a href="https://en.wikipedia.org/wiki/Von_Neumann_architecture">digital computer architecture</a> named after him <a href="#biblioentry_1">&#xA0;</a>. It has been described for the very first time in an incomplete document written by John von Neumann for defining the main design principles of the&#xA0;<a href="https://en.wikipedia.org/wiki/EDVAC"><em>Electronic Discrete Variable Automatic Computer</em> (<em>EDVAC</em>)</a>, the&#xA0;binary-based successor of the <a href="https://en.wikipedia.org/wiki/ENIAC">ENIAC</a>. The von Neumann&apos;s architecture has been used as main guidelines for building several physical electronic computers in the following years, and still represent a good approximate model for describing several of the main components of today&apos;s digital computers.</p>
+<p>He also made several other crucial contributions in Computer Science, such as the&#xA0;<em>merge sort</em> algorithm we introduce in this lecture. In addition, he was one of the people involved in the top-secret&#xA0;<a href="https://en.wikipedia.org/wiki/Trinity_(nuclear_test)">Trinity project</a> and its related parent project, i.e. the <a href="https://en.wikipedia.org/wiki/Trinity_(nuclear_test)">Manhattan project</a>, during the World War II.</p>
+</section>
+<section id="section2">
+<h1>Ordering billions of books</h1>
+<p>In one of the previous lectures, we have introduced an algorithm for ordering the items in a list called&#xA0;<em>insertion sort</em>. It is a quite simple &#x2013; even natural, we could say. This algorithm that works exceptionally well when the size of the list is small, but it is not very efficient when we have to deal with an incredibly big amount of data. This behaviour is due to the brute-force approach it is implementing. In fact, while rather simple, the mechanism followed by the insertion sort obliges a computer to scan the list several times for constructing an ordered list from an unordered one.</p>
+<p>However, the insertion sort is not the only algorithm proposed for ordering the items in a list. Other, rather efficient, approaches have been developed in the past, in order to perform a better (and quicker) sorting of list items in a more reasonable time &#x2013; even for an electronic computer. Some of these algorithms works if particular pre-conditions hold &#x2013; such as to specify the number of buckets for the <a href="https://en.wikipedia.org/wiki/Bucket_sort"><em>bucket sort</em></a> algorithm.</p>
+<p><em>Divide and conquer</em> sorting algorithms are among those ones that behave efficiently well on large input lists. <a href="https://en.wikipedia.org/wiki/Divide_and_conquer_algorithm">Divide and conquer</a> is an algorithmic technique that, in contrast to brute-force, split the original computational problem to solve in two or more smaller problems of the same type, until they became solvable directly by executing a simple set of operations. Then, the solutions to these sub-problems are recombined in order to provide the solution for the original problem. Any divide and conquer algorithm is based on the recursive call of the very same algorithm. In particular, it is based on the following (informal) steps:</p>
+<ol>
+<li>
+<p><strong>[base case]</strong> address the problem directly on the input material if it is actually depicting an easy-to-solve problem; otherwise</p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"><strong>[divide]</strong> split the input material into two or more balanced parts, each depicting a sub-problem of the original one;</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;"><strong>[conquer]</strong> run the same algorithm recursively for every balanced parts obtained in the previous step;</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;"><strong>[combine]</strong> reconstruct the final solution of the problem by means of the partial solutions obtained from running the algorithms on the smaller parts of the input material.</span></p>
+</li>
+</ol>
+<p>Several divide and conquer sorting algorithms <a href="https://www.ics.uci.edu/~eppstein/161/960118.html">have been proposed</a> in the past. In this lecture, we introduce just one of these: the <em>merge sort</em>.</p>
+</section>
+<section id="section3">
+<h1>Merge sort</h1>
+<p>The <a href="https://en.wikipedia.org/wiki/Merge_sort"><em>merge sort</em></a> (or <em>mergesort</em>) algorithm has been proposed by John von Neumann in 1945. It implements a divide a conquer approach for addressing the following computational problem (that we have already seen when we have introduced the&#xA0;<em>insertion sort</em>):</p>
+<p><strong>Computational problem:</strong> sort all the items in a given list.</p>
+<p>Unlikely the insertion sort, the sorting approach defined by the merge sort is lesser intuitive, but it is more efficient even considering a large list as input &#x2013; such as all the books included in the Library of Babel that we have illustrated a few lectures ago. In particular, the merge sort is a recursion-based algorithm &#x2013; like any other divide and conquer approach &#x2013; and uses another ancillary algorithm in its code, i.e.&#xA0;<code>def merge(list_1, list_2)</code>. This latter algorithm is responsible to combine two&#xA0;<em>ordered</em> input lists together so as to return a new list which contains all the elements in the input lists ordered. The loop suggested by this algorithm to create such a new list is illustrated as follows:</p>
+<ol>
+<li>
+<p>consider the first elements of both the input lists;</p>
+</li>
+<li><p>remove the lesser element from the related list and append it into the result list</p></li>
+<li><p>if the input list from which the element has been removed is not empty repeat from 1, otherwise append all the elements of the other input list to the result list.</p></li>
+</ol>
+<figure id="img_1">
+<p><img src="img/merge.png" alt="img/merge.png"></p>
+<figcaption>The process of merging two ordered lists of books together in a new list having all books ordered.</figcaption>
+</figure>
+<p>In&#xA0;<a href="#img_1">&#xA0;</a>, we illustrate graphically the execution of the algorithm&#xA0;<em>merge</em> by using two lists&#xA0;of books as inputs, i.e.&#xA0;<code>list([&quot;Coraline&quot;, &quot;The Graveyard Book&quot;])</code> and&#xA0;<code>list([&quot;American Gods&quot;, &quot;Good Omens&quot;, &quot;Neverwhere&quot;])</code>&#xA0;respectively. In particular, the first four steps of the execution start the creation of the output list by comparing the first elements of the input lists at each iteration of the loop. Then, in the 5<sup>th</sup> step, all the elements of the only non-empty input list are then appended to the output list in the order they appear in the input list. Finally (step 6), the output list is completed and is returned. The implementation in ThyMopani of the&#xA0;<em>merge</em> algorithm is illustrated in <a href="#listing_2">&#xA0;</a>.</p>
+<figure id="listing_2">
+<pre><code>&#x200B;def merge(list_1, list_2):
+    result = list()  # the merged list to return
+
+    # repeat until both lists have at least one item
+    while len(list_1) &gt; 0 and len(list_2) &gt; 0:
+        list_1_item = list_1[0]  # first item in list 1
+        list_2_item = list_2[0]  # first item in list 2
+
+        # if the item in list 1 is less than the one in list 2, the former is 
+        # added to the merged list and removed from list 1
+        if list_1_item &lt;= list_2_item:
+            result.append(list_1_item)
+            list_1.remove(list_1_item)
+        else:  # otherwise, the latter is added to the merged list and removed from list 2
+            result.append(list_2_item)
+            list_2.remove(list_2_item)
+
+    # add to the merged list the remaning items
+    result.extend(list_1)
+    result.extend(list_2)
+
+    return result&#x200B;</code></pre>
+<figcaption>The ancillary algorithm for merging two ordered lists together.</figcaption>
+</figure>
+<p>The aforementioned ancillary algorithm is used in the merge sort so as to reconstruct a solution from two partial ones. In particular, the steps composing the algorithm can be summarised as follows:</p>
+<ol>
+<li>
+<p><strong>[base case]</strong> if the input list has only one element, return the list as it is; otherwise,</p>
+</li>
+<li>
+<p><strong>[divide]</strong> split the input list into two balanced halves, i.e. containing almost the same number of elements each;</p>
+</li>
+<li>
+<p><strong>[conquer]</strong> run recursively the merge sort algorithm on each of the halves obtained in the previous step;</p>
+</li>
+<li>
+<p><strong>[combine]</strong> merge the two ordered lists returned by the previous step by using the algorithm&#xA0;<em>merge</em> and return the result.</p>
+</li>
+</ol>
+<figure id="img_2">
+<p><img src="img/merge-sort.png" alt="img/merge-sort.png"></p>
+<figcaption>A graphical execution of the merge sort algorithm, which reuses the ancillary algorithm&#xA0;<code>&#x200B;def merge(list_1, list_2)</code> introduced in&#xA0;<a href="#listing_2">&#xA0;</a>.&#xA0;</figcaption>
+</figure>
+<p>In <a href="#img_2">&#xA0;</a>, we illustrate graphically the execution of the merge sort algorithm by using one list of books as inputs, i.e. <code>&#x200B;my_list = list([&quot;The Graveyard Book&quot;, &quot;Coraline&quot;, &quot;Good Omens&quot;, &quot;Neverwhere&quot;, &quot;American Gods&quot;])</code>. Before to introduce the implementation in ThyMopani of the algorithm, it is necessary to clarify some operations that we will use to create the balanced halves from the input list.</p>
+<p>The first operation is the&#xA0;<em>floor division</em> between two numbers, i.e.&#xA0;<code>&lt;number_1&gt; // &lt;/number_2&gt;</code>. It works like any common division, except that it returns only the integer part of the result number discarding the fractional part. For instance,&#xA0;<code>3 // 2</code>&#xA0;will be&#xA0;<em>1</em><em></em> (i.e. <em>1.5</em> without its fractional part),&#xA0;<code>6 // 2</code>&#xA0;will be&#xA0;<em>3</em><em></em> (since its fractional part is <em>0</em>), and&#xA0;<code>1 // 4</code>&#xA0;will be&#xA0;<em>0</em> (i.e. <em>0.25</em> without its fractional part).</p>
+<p>The second operation allows us to create on-the-fly a new list from a selection of the elements in an input list: <code>&lt;list&gt;[&lt;start_position&gt;:&lt;end_position&gt;]</code>. Basically speaking, this operation creates a new list containing all the elements in&#xA0;<code>&lt;list&gt;</code>&#xA0;that range from&#xA0;<code>&lt;start_position&gt;</code>&#xA0;to&#xA0;<code>&lt;end_position&gt; - 1</code>. For instance, considering the aforementioned list in <code>my_list</code>, <code>my_list[0:2]</code>&#xA0;returns <code>list([&quot;Coraline&quot;, &quot;The Graveyard Book&quot;])</code>&#xA0;while <code>my_list[2:5]</code> returns <code>list([&quot;American Gods&quot;, &quot;Good Omens&quot;, &quot;Neverwhere&quot;])</code>. It is worth mentioning that the&#xA0;<code>&lt;list&gt;</code>&#xA0;won&apos;t be modified by such operation.</p>
+<p>Thus, now we have all the ingredients for introducing the ThyMopani implementation of the merge sort algorithm, i.e.&#xA0;<code>def mergesort(input_list)</code>. It is illustrated in&#xA0;<a href="#listing_1">&#xA0;</a>.&#xA0;</p>
+<figure id="listing_1">
+<pre><code>def mergesort(input_list):
+    # base case: the list is returned if it is empty or contain just one element
+    if len(input_list) &lt;= 1:
+        return input_list
+    else:  # recursive case
+        # the length of the input list
+        input_list_len = len(input_list)
+
+        # the floor division of the length, returning the quotient in which 
+        # the digits after the decimal point are removed (e.g. 7 // 2 = 3)
+        mid = input_list_len // 2
+        
+        # iterative steps, running the merge_sort on the sublists split by mid
+        left = mergesort(input_list[0:mid])
+        right = mergesort(input_list[mid:input_list_len])
+        
+        # merge the two (ordered) lists and return the result
+        return merge(left, right)<br></code></pre>
+<figcaption>The merge sort algorithm implemented in ThyMopani.</figcaption>
+</figure>
+</section>
+<section id="section4">
+<h1>Exercises</h1>
+<ol>
+<li>
+<p>Develop the algorithm&#xA0;<code>def partition(input_list, start, end, pivot_position)</code>&#xA0;that takes a list and the positions of the first and last elements in the list to consider as inputs, and redistributes all the elements of a list having position included between <code>&#x200B;start</code> and <code>&#x200B;end</code> on the right of the pivot value <code>input_list[pivot_position]</code>&#xA0;if they are greater than it, and on its left otherwise. In addition, the new position where the pivot value&#xA0;is now stored will be returned by the algorithm. For instance, considering&#xA0;&#x200B;<code>&#x200B;my_list = list([&quot;The Graveyard Book&quot;, &quot;Coraline&quot;, &quot;Neverwhere&quot;, &quot;Good Omens&quot;, &quot;American Gods&quot;])</code>, the execution of&#xA0;<code>partition(my_list, 1, 4, 1)</code>&#xA0;changes <code>&#x200B;my_list</code> as follows:&#xA0;<code>&#x200B;list([&quot;The Graveyard Book&quot;, &quot;American Gods&quot;, &quot;Coraline&quot;, &quot;Neverwhere&quot;, &quot;Good Omens&quot;])</code>&#xA0;and <em>2</em> will be returned (i.e. the new position of <code>&quot;Coraline&quot;</code>). Note that&#xA0;<code>&quot;The Graveyard Book&quot;</code>&#xA0;has not changed its position in the previous execution since it was not&#xA0;included between the specified&#xA0;<code>start</code> and&#xA0;<code>end</code> positions (i.e.&#xA0;<em>1</em> and&#xA0;<em>4</em> respectively).</p>
+</li>
+<li>Develop the divide and conquer algorithm&#xA0;<code>def quicksort(input_list, start, end)&#x200B;</code>&#xA0;that takes a list and the positions of the first and last elements in the list to consider as inputs, and that calls&#xA0;<code>partition(input_list, start, end, start)</code>&#xA0;(defined in the previous exercise) to partition the input list into two slices, and then applies itself recursively on the two partitions (neither of which includes the pivot value since it has been already correctly positioned by means of the execution of&#xA0;<em>partition</em>). In addition, define appropriately the base case of the algorithm so as to stop if needed before to run the <em>partition</em> algorithm.
+<p></p>
+</li>
+</ol>
+</section>
+<section id="doc-bibliography" role="doc-bibliography">
+<h1>References</h1>
+<ul>
+<li role="doc-biblioentry" id="biblioentry_1">
+<p>von Neumann, J. (1945). First Draft of a Report on the EDVAC. Available at <a href="https://web.archive.org/web/20130314123032/http://qss.stanford.edu/~godfrey/vonNeumann/vnedvac.pdf">https://web.archive.org/web/20130314123032/http://qss.stanford.edu/~godfrey/vonNeumann/vnedvac.pdf</a> (last visited 26 November 2017).</p>
+</li>
+</ul>
+</section></body></html>
