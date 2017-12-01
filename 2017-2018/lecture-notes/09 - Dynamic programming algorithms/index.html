@@ -1,0 +1,202 @@
+<html xmlns="http://www.w3.org/1999/xhtml" prefix="schema: http://schema.org/ prism: http://prismstandard.org/namespaces/basic/2.0/"><head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/rash.css">
+
+  <!-- JQuery -->
+  <script src="js/jquery.min.js"></script>
+
+  <!-- Bootstrap.js -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <!-- Rash.js -->
+  <script src="js/rash.js"></script>
+
+  <!-- Local MathJax -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML"> </script>
+
+  <title>Dynamic programming algorithms</title>
+  
+  
+  
+  
+  
+<meta about="mailto:silvio.peroni@unibo.it" typeof="schema:Person" property="schema:name" name="dc.creator" content="Silvio Peroni"><meta about="mailto:silvio.peroni@unibo.it" property="schema:email" content="silvio.peroni@unibo.it"><link about="mailto:silvio.peroni@unibo.it" property="schema:affiliation" href="#affiliation_1"><meta about="#affiliation_1" typeof="schema:Organization" property="schema:name" content="Digital and Semantic Publishing Laboratory, Department of Computer Science and Engineering, University of Bologna, Bologna, Italy"><meta property="prism:keyword" content="Fibonacci"><meta property="prism:keyword" content="Tower of Hanoi"><meta property="prism:keyword" content="golden ratio"><meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0"></head>
+
+<body>
+<section role="doc-abstract" id="doc-abstract">
+<h1>Abstract</h1>
+<p>These lecture notes introduce the notion of dynamic programming algorithms with the implementation of one algorithm of this kind, which calculates Fibonacci numbers. The historic hero introduced in these notes is Leonardo of Pisa, a.k.a. Fibonacci, who was one of the most important and prominent mathematicians of the Middle Ages.</p>
+<p><strong>Copyright notice.</strong> This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. You are free to share (i.e. copy and redistribute the material in any medium or format) and adapt (e.g. remix, transform, and build upon the material) for any purpose, even commercially, under the following terms: attribution, i.e. you must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. The licensor cannot revoke these freedoms as long as you follow the license terms.</p>
+</section>
+<section id="section1">
+<h1>Historic hero: Fibonacci</h1>
+<p><a href="https://it.wikipedia.org/wiki/Leonardo_Fibonacci">Leonardo of Pisa</a>, a.k.a. Fibonacci (depicted in <a href="#img_1">&#xA0;</a>), was a mathematician who first introduced in Europe the <a href="https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system">Hindu-Arabic number system</a>, which is the numeral system that is commonly used worldwide even today. This introduction was possible thanks to the publication of his book in 1202,&#xA0;<a href="https://en.wikipedia.org/wiki/Liber_Abaci"><em>Liber Abaci</em></a> (<em>Book of Calculation</em> in English)&#xA0;<a href="#biblioentry_1">&#xA0;</a>, which describes how to use such numeral system for addressing situations related to commerce, and for solving generic mathematical problems.</p>
+<figure id="img_1">
+<p><img src="img/fibonacci.jpg" alt="img/fibonacci.jpg"></p>
+<figcaption>A portrait of Leonardo Pisano, also known as Fibonacci. Source:&#xA0;<a href="https://commons.wikimedia.org/wiki/File:Fibonacci2.jpg">https://commons.wikimedia.org/wiki/File:Fibonacci2.jpg</a>.</figcaption>
+</figure>
+<p>One of the main contributions of Fibonacci in his book was a small note about a particular <a href="https://en.wikipedia.org/wiki/Fibonacci_number">infinite sequence of numbers</a>, named after him, that described ideally the number of male-female pairs of rabbits at a given month. The Fibonacci sequence, and the numbers it contains (i.e. 1 1 2 3 5 8 13 21 34 55 ...), has very peculiar properties that have been studied in the past by mathematicians and also historians of science. It is calculated with a very simple (and recursive!) approach: the Fibonacci number at a certain month <em>n</em>&#xA0;is equal to the sum between the Fibonacci number at month&#xA0;<em>n-1</em> and that one at month&#xA0;<em>n-2</em>, as shown in <a href="#formula_1">&#xA0;</a>&#xA0;&#x2013; where <em>fib(0)</em> and <em>fib(1)</em> are always equal to <em>0</em> and&#xA0;<em>1</em> respectively.</p>
+<figure id="formula_1" contenteditable="false">
+<p><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><mi>f</mi><mi>i</mi><mi>b</mi><mrow><mo>(</mo><mi>n</mi><mo>)</mo></mrow><mo>=</mo><mi>f</mi><mi>i</mi><mi>b</mi><mrow><mo>(</mo><mi>n</mi><mo>-</mo><mn>1</mn><mo>)</mo></mrow><mo>+</mo><mi>f</mi><mi>i</mi><mi>b</mi><mrow><mo>(</mo><mi>n</mi><mo>-</mo><mn>2</mn><mo>)</mo></mrow></mstyle></math></p>
+</figure>
+<p>One of the most famous property (actually, it could be even classified as a proper mystery), that Fibonacci did not mention it its book, is the relation that exists between the Fibonacci sequence and the <em><a href="https://en.wikipedia.org/wiki/Golden_ratio">golden ratio</a></em>. Mathematically speaking, two quantities are in the golden ratio when their ratio is the same as the ration of their some to the larger quantity. Thus it can be defined by <a href="#formula_2">&#xA0;</a>, where the quantity&#xA0;<em>a</em> is greater than the quantity&#xA0;<em>b</em>.</p>
+<figure id="formula_2" contenteditable="false">
+<p><math xmlns="http://www.w3.org/1998/Math/MathML"><mstyle displaystyle="true"><mfrac><mi>a</mi><mi>b</mi></mfrac><mo>=</mo><mfrac><mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow><mi>a</mi></mfrac><msup><mo>=</mo><mrow><mtext>def</mtext></mrow></msup><mo>&#x3A6;</mo><mo>=</mo><mn>1.618033</mn><mo>...</mo></mstyle></math></p>
+</figure>
+<p>While this seems a quite simple ratio at a first sight, it is actually defined by an <a href="https://en.wikipedia.org/wiki/Irrational_number">irrational number</a>. In addition, even if this very number sounds to be a quite abstract and a purely-mathematical notion, it has been found to be used and observed in several different domains, such as architecture (e.g. the <a href="https://en.wikipedia.org/wiki/Parthenon">Pantheon</a> in Athens), arts (e.g. Leonardo&apos;s drawings in&#xA0;<a href="https://en.wikipedia.org/wiki/De_divina_proportione"><em>De divina proportione</em></a>), and nature (e.g. the <a href="https://en.wikipedia.org/wiki/Phyllotaxis">arrangement of leaves</a> in plants).</p>
+<p>The Fibonacci sequence is somehow closely related to the golden ratio. In fact, taken a number in the sequence and diving it by the previous one in the same sequence will return an approximation of the golden ratio&#xA0;<em>&#x3A6;</em>, and the higher the numbers, the more precise is the value:</p>
+<ul>
+<li>
+<p>5 / 3 = 1.66666...</p>
+</li>
+<li>
+<p>8 / 5 = 1.6</p>
+</li>
+<li>
+<p>13 / 8 = 1.625</p>
+</li>
+<li>
+<p>21 / 13 = 1.61538...</p>
+</li>
+<li>
+<p>34 / 21 = 1.61904...</p>
+</li>
+<li>
+<p>55 / 34 = 1.61764...</p>
+</li>
+<li>
+<p>...</p>
+</li>
+</ul>
+</section>
+<section id="section2">
+<h1>Remembering solutions to sub-problems</h1>
+<p>In the previous lecture, we have introduced how the <em>divide and conquer</em> algorithm generally works. They are mainly based on four steps, i.e. the handling of one or more base cases and divide, conquer (i.e. the recursive action), and combine steps, which actually are the heart of the algorithm. We have explicitly said that such approach is, in the most cases, more efficient than the simpler <em>brute force</em> approach, at least for solving computational problems that can be split in two or more smaller problems of the same type.</p>
+<p>However, some computational problems present even an additional characteristics. Sometimes, not only they can be split into sub-problems, but also some of these sub-problems are repeated during the execution. This can even happen when we have to sort books. For instance, suppose we have the following list of books with six items to sort: <code>list([&quot;Coraline&quot;, &quot;American Gods&quot;, &quot;Neverwhere&quot;, &quot;Neverwhere&quot;, &quot;American Gods&quot;, &quot;Coraline&quot;])</code>. This is a quite peculiar list, since it contains two copies of the same book. Applying the divide step of the merge sort will return two sublists that contains, basically, different copies of the same books, even if in different order: the left list will be <code>&#x200B;list([&quot;Coraline&quot;, &quot;American Gods&quot;, &quot;Neverwhere&quot;])</code> while the right one will be <code>&#x200B;list([&quot;Neverwhere&quot;, &quot;American Gods&quot;, &quot;Coraline&quot;])</code>. However, even if the order between the books in the two sublists is different, we are pretty sure that the final result, i.e. the two lists ordered, will be exactly the same.</p>
+<p>Even in this case, in the merge sort algorithm we call recursively the algorithm twice (in the conquer step), even if we could, in principle, run it just once, i.e. on the left list and then to reuse the positions obtained for the books in such list for positioning the books in the right list. This approach could be done without executing the algorithm on the right list, and, thus, could avoid spending additional time in ordering something that we have already learned how to order. However, this is possible only if we use some mechanism to keep track of the operation we have already done, and to reuse a result of a previous problem again and directly, without any further calculation.</p>
+<p>This kind of approach is known as&#xA0;<em><a href="https://en.wikipedia.org/wiki/Dynamic_programming" rel="noopener noreferrer">dynamic programming</a></em>. Dynamic programming is an algorithmic technique that&#xA0;split the original computational problem to solve in two or more smaller problems of the same type, until they became solvable directly by executing a simple set of operations, and stores the solutions to these subproblems for eventually reusing them, if possible. In this way, if the same problem will occur the next time, one can just look at the previously computed solution and reuse it directly, saving an even large amount of computation time.&#xA0;In particular, it is based on the following (informal) steps:</p>
+<ol>
+<li>
+<p><strong>[base case: solution exists]</strong> return the solution calculated previously to the problem if this is the case; otherwise</p>
+</li>
+<li>
+<p><strong>[base case: address directly]</strong> address the problem directly on the input material if it is actually depicting an easy-to-solve problem; otherwise</p>
+</li>
+<li>
+<p><strong>[divide]</strong> split the input material into two or more balanced parts, each depicting a sub-problem of the original one;</p>
+</li>
+<li>
+<p><strong>[conquer]</strong> run the same algorithm recursively for every balanced part obtained in the previous step;</p>
+</li>
+<li>
+<p><strong>[combine]</strong> reconstruct the final solution of the problem by means of the partial solutions obtained from running the algorithms on the smaller parts of the input material;</p>
+</li>
+<li>
+<p><strong>[memorize]</strong> store the solution to the problem so as to reuse if needed by other recursive calls.</p>
+</li>
+</ol>
+<p>In the next section, we show how the same computational problem is handled by means of a divide and conquer approach, and how a dynamic programming mechanism decreases the number of operations that must be executed to have the same result as the outcome.</p>
+</section>
+<section id="section3">
+<h1>Fibonacci sequence</h1>
+<p>In&#xA0;<a href="#section1">&#xA0;</a> we have introduced a particular sequence of integer numbers, i.e. the Fibonacci sequence, that has been used by Fibonacci himself for providing&#xA0;a theoretical and approximated way for describing the evolution of a population of rabbits during months. The sequence, of course, is composed by specific numbers, and the calculation of these numbers is the particular problem we want to solve in this section:</p>
+<p><strong>Computational problem:</strong> calculate the Fibonacci number at a certain month.</p>
+<p>As shown in <a href="#section1">&#xA0;</a>, each number in the Fibonacci sequence is defined rather recursively as the sum of the previous two numbers in the same sequence. Thus, this definition seems to suggest that it would be possible to write a divide and conquer algorithm in order to address this problem efficiently. In this case, we use, as base cases, the Fibonacci number calculated for the months&#xA0;<em>0</em> and&#xA0;<em>1</em>, that returns <em>0</em> and&#xA0;<em>1</em> respectively.&#xA0;<a href="#img_2">&#xA0;</a> shows the execution of a plausible algorithm that takes the month&#xA0;<em>4</em> in input, and executes recursively the same algorithm on the smaller inputs as defined by the definition of Fibonacci numbers until the base case is reached.&#xA0;</p>
+<figure id="img_2">
+<p><img src="img/fib_dc.png" alt="img/fib_dc.png"></p>
+<figcaption>The application of a divide and conquer approach for obtaining the 4<sup>th</sup> number in the Fibonacci sequence. We use coloured rectangles for showing identical calls to the Fibonacci algorithm with the same input. The numbers in the labels in the arrows indicate what is the sequence of execution of the various calls.</figcaption>
+</figure>
+<p>As shown in&#xA0;<a href="#img_2">&#xA0;</a>,&#xA0;however, a lot of calculations are actually repeated multiple times. For instance executions of&#xA0;<em>fib(2)</em> and&#xA0;<em>fib(0)</em> are repeated twice each, while&#xA0;<em>fib(1)</em> is actually repeated three times. The implementation of this algorithm in ThyMopani is shown in <a href="#listing_2">&#xA0;</a>, and it is described by the following steps:</p>
+<ol>
+<li>
+<p><strong>[base case]</strong> if the input month for which to find the Fibonacci number is <em>0</em> or <em>1</em>, then return <em>1</em>; otherwise</p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"><strong>[divide]</strong> obtain the two input numbers according to the Fibonacci definition;</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;"><strong>[conquer]</strong> run the same algorithm recursively for each of the numbers obtained in the previous step;</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;"><strong>[combine]</strong> sum the results of the partial solutions obtained by running the two executions of the algorithm recursively.</span></p>
+</li>
+</ol>
+<figure id="listing_2">
+<pre><code>def fib_dc(n):
+    if n == 0 or n == 1:  # base case
+        return n
+&#xA0;&#xA0;&#xA0;&#xA0;else:  # recursive step
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;return&#xA0;fib_dc(n-1)&#xA0;+&#xA0;fib_dc(n-2)</code></pre>
+<figcaption>The implementation, in ThyMopani, of the divide and conquer algorithm for calculating the Fibonacci number.</figcaption>
+</figure>
+<p>One can avoid repeating previously-computed solutions by adopting a dynamic programming approach. Of course, part of the body of such algorithm is very similar to the aforementioned divide and conquer one. The real difference is in two additional steps, the first one checking if that solution has been already calculated, and the last one that stores a new solution in memory for reusing it eventually.&#xA0;<a href="#img_3">&#xA0;</a> describes the execution of the algorithm to find the Fibonacci number at month <em>4</em> by reusing solutions that have been previously stored.</p>
+<figure id="img_3">
+<p><img src="img/fib_dp.png" alt="img/fib_dp.png"></p>
+<figcaption>The application of a dynamic programming approach for obtaining the 4<sup>th</sup> number in the Fibonacci sequence. We use coloured rectangles for showing identical calls to the Fibonacci algorithm with the same input. However, in this case, the result related to the transparent rectangles is obtained from previous computations of the same call (linked via the transparent dashed arrows). As a consequence of this reuse, the step 7 and 8 are not executed at all.</figcaption>
+</figure>
+<p>While there are several possible ways to store a solution to a problem, the suggestion we provide in this case is to use a dictionary, specifying the <em>key</em> as the input number (i.e. the month) used to calculate the Fibonacci number, and the <em>value</em> as the result of such calculation. However, in order to implement the algorithm, we need to introduce some additional operations for managing dictionary appropriately.</p>
+<p>First of all, we need to check if a certain key has been already included in the dictionary. This could be already possible by using the&#xA0;<em>get</em> method of dictionaries, i.e.&#xA0;<code>&lt;dictionary&gt;.get(&lt;key&gt;)</code>, that has been introduced in a previous lecture. In particular, it will return a value if the key is included in the dictionary, otherwise it will return <em>None</em>. However, there is another way for checking the inclusion of a key in a dictionary, which is more efficient and even more natural to write and remember. In particular, we can use the comparison operations&#xA0;<code>in</code>&#xA0;and&#xA0;<code>not in</code> that we already introduced with strings: <code>&lt;key&gt; in &lt;dictionary&gt;</code> and <code>&lt;key&gt; not in dictionary&gt;</code>&#xA0;check if the specified key is or is not included in the dictionary, respectively.</p>
+<p>In addition, we need to create this dictionary somehow when executing the algorithm in a way that can be reused also by the subsequent execution provided in the recursive step. Thus, generally speaking, the algorithm itself should:</p>
+<ul>
+<li>
+<p>initialises an empty dictionary as the very first step;</p>
+</li>
+<li>
+<p>reusing the dictionary previously initialised every time it is needed in any recursive application of the algorithm itself.</p>
+</li>
+</ul>
+<p>In order to allow such reuse, the algorithm should be able to take the dictionary containing the solutions as input except for the first time it is called, where the dictionary has to be initialized. In order to do that, we can use the extended version of the parameter specification in the algorithm definition, by making possible to specify non-mandatory parameters that, if not specified in the execution, will be populated with a default value. This can be specified by means of the following structure:&#xA0;<code>def &lt;algorithm&gt;(&lt;param_1&gt;, &lt;param_2&gt;, ..., &lt;param_d_1&gt;=&lt;default_1&gt;, &lt;param_d_2&gt;=&lt;default_2&gt;, ...)</code>, where the mandatory parameters (i.e. <code>&lt;param_n&gt;</code>) are specified first, and are followed by the non-mandatory parameters (<code>&lt;param_d_n&gt;</code>). It is worth mentioning that, when calling such algorithm, if one specifies a particular value for a non-mandatory parameter, then such value will rewrite the default value and will be used instead of it.</p>
+<p>Now we have all the ingredients for creating the dynamic programming algorithm for calculating the Fibonacci number. The ThyMopani code is introduced in&#xA0;<a href="#listing_1">&#xA0;</a>, and it implements the following steps:</p>
+<ol>
+<li>
+<p><strong>[base case: solution exists]</strong> return the solution to the input month if it has been processed in the past; otherwise</p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"><strong>[base case: address directly]</strong> if the input month for which to find the Fibonacci number is <em>0</em> or <em>1</em>, then return <em>1</em>; otherwise</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;"><strong>[divide]</strong> obtain the two input numbers according to the Fibonacci definition;</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;"><strong>[conquer]</strong> run the same algorithm recursively for each of the numbers obtained in the previous step;</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;"><strong>[combine]</strong> sum the results of the partial solutions obtained by running the two executions of the algorithm recursively;</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;"><strong>[memorize]</strong> store the sum into a dictionary using the input month as the key.</span></p>
+</li>
+</ol>
+<figure id="listing_1">
+<pre><code>&#x200B;def fib_dp(n, input_dict=dict()):
+    if n not in input_dict:  # checking if a solution exists
+        if n == 0 or n == 1:  # base case
+            input_dict[n] = n
+        else:  # recursive step
+            # the dictionary will be passed as input of the recursive calls of the algorithm
+            input_dict[n] = fib_dp(n-1, input_dict) + fib_dp(n-2, input_dict)
+
+    return input_dict[n]</code></pre>
+<figcaption>The implementation, in ThyMopani, of the dynamic programming algorithm for calculating the Fibonacci number.</figcaption>
+</figure>
+<p>Thus, if I have to execute the algorithm for calculating the Fibonacci number at the 4<sup>th</sup> month, we need just to execute <code>&#x200B;fib_dp(4)</code>, without specifying the dictionary. In this way, the dictionary will be initialized by means of the default value, i.e. by means of the dictionary constructor <code>&#x200B;dict()</code>.</p>
+</section>
+<section id="section4">
+<h1>Exercises</h1>
+<ol>
+<li>
+<p>Write an algorithm for using the&#xA0;<em>merge sort</em> (introduced in the previous lecture) so as to use a dynamic programming approach in case the same list of books must be ordered twice or more times during the algorithm execution &#x2013; see the informal example introduced in <a href="#section2">&#xA0;</a>&#xA0;of this lecture notes.</p>
+</li>
+</ol>
+</section>
+<section id="doc-bibliography" role="doc-bibliography">
+<h1>References</h1>
+<ul>
+<li role="doc-biblioentry" id="biblioentry_1">
+<p>Fibonacci, L. (1202). Liber Abaci.&#xA0;<a href="http://lhldigital.lindahall.org/cdm/compoundobject/collection/math/id/8734/rec/49">http://lhldigital.lindahall.org/cdm/compoundobject/collection/math/id/8734/rec/49</a> (last visited 28 November 2017)</p>
+</li>
+</ul>
+</section></body></html>
