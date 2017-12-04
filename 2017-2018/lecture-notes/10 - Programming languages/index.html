@@ -1,0 +1,188 @@
+<html xmlns="http://www.w3.org/1999/xhtml" prefix="schema: http://schema.org/ prism: http://prismstandard.org/namespaces/basic/2.0/"><head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/rash.css">
+
+  <!-- JQuery -->
+  <script src="js/jquery.min.js"></script>
+
+  <!-- Bootstrap.js -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <!-- Rash.js -->
+  <script src="js/rash.js"></script>
+
+  <!-- Local MathJax -->
+  <script src="js/MathJax/MathJax.js"></script>
+
+  <title>Programming languages</title>
+  
+  
+  
+  
+  
+<meta about="mailto:silvio.peroni@unibo.it" typeof="schema:Person" property="schema:name" name="dc.creator" content="Silvio Peroni"><meta about="mailto:silvio.peroni@unibo.it" property="schema:email" content="silvio.peroni@unibo.it"><link about="mailto:silvio.peroni@unibo.it" property="schema:affiliation" href="#affiliation_1"><meta about="#affiliation_1" typeof="schema:Organization" property="schema:name" content="Digital and Semantic Publishing Laboratory, Department of Computer Science and Engineering, University of Bologna, Bologna, Italy"><meta property="prism:keyword" content="Python"><meta property="prism:keyword" content="Grace Hopper"><meta property="prism:keyword" content="ThyMopani"><meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0"></head>
+
+<body>
+<section role="doc-abstract" id="doc-abstract">
+<h1>Abstract</h1>
+<p>These lecture notes provide a general introduction to programming languages and then focus on a particular language: Python. The historic hero introduced in these notes is Grace Hopper, who was the first programmer of the Harvard Mark I computer and was responsible for the development of some of the first programming languages.</p>
+<p><strong>Copyright notice.</strong> This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. You are free to share (i.e. copy and redistribute the material in any medium or format) and adapt (e.g. remix, transform, and build upon the material) for any purpose, even commercially, under the following terms: attribution, i.e. you must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. The licensor cannot revoke these freedoms as long as you follow the license terms.</p>
+</section>
+<section id="section1">
+<h1>Historic hero: Grace Hopper</h1>
+<p><a href="https://en.wikipedia.org/wiki/Grace_Hopper">Grace Brewster Murray Hopper</a>&#xA0;(depicted in <a href="#img_1">&#xA0;</a>) was a computer scientist and the first programmer of the <a href="https://en.wikipedia.org/wiki/Harvard_Mark_I">Harvard Mark I</a>, i.e. a general purpose electromechanical computer that was used during the Second World War and that was fully-inspired by Babbage&apos;s <a href="https://en.wikipedia.org/wiki/Analytical_Engine">Analytical Engine</a>. She was firmly convinced of the need of having machine-independent programming languages that brought her in the development of <a href="https://en.wikipedia.org/wiki/COBOL"><em>COBOL</em></a>, one of the first high-level programming languages, which is still used today for some applications.</p>
+<figure id="img_1">
+<p><img src="img/hopper.png" alt="img/hopper.png"></p>
+<figcaption>Portrait of Grace Hopper. Picture by&#xA0;James S. Davis, source:&#xA0;<a href="https://en.wikipedia.org/wiki/File:Commodore_Grace_M._Hopper,_USN_(covered).jpg">https://en.wikipedia.org/wiki/File:Commodore_Grace_M._Hopper,_USN_(covered).jpg</a>.</figcaption>
+</figure>
+<p>COBOL (i.e. the&#xA0;<em>common business-oriented language</em>) is a programming language designed for business use that brings a quite extensive use of English terms for describing the operations of a program. The idea of adopting, for the very first time, English for commands made the programming language a bit more verbose but also more readable and even self-documenting. Just for making an example, in today&apos;s languages if we want to compare if the value assigned to a variable&#xA0;<code>x</code>&#xA0;is greater than the one assigned to another variable&#xA0;<code>y</code>&#xA0;we should use&#xA0;<code>x &gt; y</code>. In COBOL, the same comparison is done with the following instruction:&#xA0;<code>x IS GREATER THAN y</code>.</p>
+</section>
+<section id="section2">
+<h1>A brief history of programming languages</h1>
+<p>After the Second World War, several <a href="https://en.wikipedia.org/wiki/History_of_programming_languages">programming languages</a> have been developed according to several design principles and intended usage in terms of the computational problems to be solved. While all of them, in principle, make possible to develop solutions for any solvable computational problem, some of them are more suited for a specific domain than others. For instance, <a href="https://en.wikipedia.org/wiki/COBOL">COBOL</a> has been developed for business applications, while <a href="https://en.wikipedia.org/wiki/Fortran">FORTRAN</a> was designed to deal with scientific computing.</p>
+<figure id="img_3">
+<p><img src="img/languages.png" alt="img/languages.png"></p>
+<figcaption>A graphic timeline summary of some of the main programming languages from 1954 to 2017. The different line colour is used only for readability reasons, and it does not have any particular meaning.</figcaption>
+</figure>
+<p>While an extensive analysis of all the programming languages is out of the scope of the topics of these lectures, it is worth mentioning, at least graphically, a timeline of their evolution, shown in <a href="#img_3">&#xA0;</a>. As highlighted in the timeline, we are going to introduce and use a particular programming language in this course, i.e. <a href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a>, in particular according to its third version released in 2006.</p>
+</section>
+<section id="section3">
+<h1>Python</h1>
+<p><a href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a> is an high-level programming language for general-purpose programming, which is currently one of the most used languages for programming in the Web, for Data Science and Natural Language Processing tasks. The good thing about Python is that it is one of the simple languages for starting to study how to program and create software. In addition to that, another good thing is that you are already able to create first elementary programs in Python, since you already know the language.</p>
+<figure id="img_2">
+<p><img src="img/thymopani.png" alt="img/thymopani.png"></p>
+<figcaption>The resolution of the anagram&#xA0;<em></em><q>&#x200B;ThyMopani</q>&#x200B; into the real sentence it hides, i.e. <q>I am Python</q>&#x200B;.</figcaption>
+</figure>
+<p>In fact, as shown in&#xA0;<a href="#img_2">&#xA0;</a>, the pseudo-language we have used since the beginning to describe algorithms, i.e. ThyMopani, is actually an anagram of the sentence <q>I am Python</q>&#x200B;. In this course, we will use Python in its latest version, i.e. Python 3. Luckily, there are a lot of resources freely available online for learning this language from scratch, such as:</p>
+<ul>
+<li>
+<p>the introductory book&#xA0;<em>Dive into Python 3</em>&#xA0;<a href="#biblioentry_1">&#xA0;</a>;</p>
+</li>
+<li>
+<p><span style="font-size: 12pt;">the </span><a href="https://docs.python.org/3/" style="background-color: #ffffff; font-size: 12pt;">official documentation</a><span style="font-size: 12pt;"> of the language;</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;">an </span><a href="https://repl.it" style="background-color: #ffffff; font-size: 12pt;">online platform for playing with Python 3</a><span style="font-size: 12pt;"> without installing any software on your computer;</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;">an </span><a href="https://www.codecademy.com/en/tracks/python" style="background-color: #ffffff; font-size: 12pt;">interactive online course</a><span style="font-size: 12pt;"> for learning Python from scratch;</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;">an other book entirely dedicated to problem solving and algorithms developed in Python </span><a href="#biblioentry_2" style="background-color: #ffffff; font-size: 12pt;">&#xA0;</a><span style="font-size: 12pt;">.</span></p>
+</li>
+</ul>
+<p>In this lecture, we introduce the right nomenclature that is used in Python for referring to the various aspects of the language that we have already addressed when using ThyMopani in the previous lectures.</p>
+<section id="section5">
+<h1>Functions and their execution</h1>
+<p>When in the past lectures we have proposed the use of specific tokens for defining an algorithm, i.e.&#xA0;<code>def &lt;algorithm&gt;(&lt;param_1&gt;, &lt;param_2&gt;, ...)</code>, we actually provided a mechanism for implementing functions in Python. Functions are a common feature of any programming language, since they provide a mechanism for listing a sequence of instructions (which implements an algorithm) under a particular name, so as to organise a block of reusable code to solve a particular computational problem.</p>
+<p>In Python, like on other programming languages, we can split functions into two different sets: <em>built-in</em> functions, and <em>user-defined</em> functions. <a href="https://docs.python.org/3/library/functions.html">Built-in functions</a> are the ones that are made available by the programming language itself, and that can be reused for addressing a particular task on some values. For instance, the function&#xA0;<code>def len(&lt;collection&gt;)</code>&#xA0;for counting the items in a collection, or the constructors <code>list()</code> and&#xA0;<code>set()</code>&#xA0;are functions of this type. The other kind of functions, i.e. the user-defined ones, groups all the functions written by a user of the language for addressing some specific requirements or tasks that are not addressable by means of one built-in function directly. All the algorithms we have introduced in the past lectures, for which we have provided the pseudo-code, comply with this latter kind of functions. In fact, they can be seen as user-defined functions.</p>
+<p>All the functions, either built-in or user-defined, can be run. Some of those that we have seen in the past lectures may be run without specifying any input values &#x2013; e.g. the aforementioned constructors for lists and sets &#x2013; and return a new object of a specific kind. Others, instead, need to be run by specifying the necessary input values, such as&#xA0;<code>&#x200B;def len(&lt;collection&gt;)</code>. One of the most used and important functions of this kind is <code>&#x200B;def print(&lt;object_1&gt;, &lt;object_2&gt;, ...)</code>. This function is very useful since it allows one to <a href="https://docs.python.org/3/library/functions.html#print">print</a> to the screen a particular value (that can be referred by a variable).</p>
+<p>The mechanism that is used in Python for running a function is just to call it by its name and, thus, specifying the required input value, if any. For instance, <a href="#listing_1">&#xA0;</a>&#xA0;is showing the definition of a simple function. The code defined by the function won&apos;t run until it is explicitly requested, i.e. when it is called by specifying&#xA0;<em>41</em> as input.</p>
+<figure id="listing_1">
+<pre><code>def add_one(n):  # define a function
+    return n + 1
+
+result = add_one(41)&#x200B;  # run the function specifying 41 as input
+print(result)&#xA0;&#xA0;#&#xA0;print&#xA0;the&#xA0;result&#xA0;stored&#xA0;in&#xA0;the&#xA0;variable&#xA0;&apos;result&apos;</code></pre>
+<figcaption>The definition of a simple function and its execution using&#xA0;<em>41</em> as the input value. The result of its execution is then stored in a variable and printed on the screen.</figcaption>
+</figure>
+</section>
+<section id="section10">
+<h1>Types, classes and objects</h1>
+<p>In programming languages, <a href="https://en.wikipedia.org/wiki/Class_(computer_programming)">classes</a> are extensible templates for creating objects having a certain type. In practice all the values (e.g. numbers and strings) and items (e.g. lists and sets) we create are actually objects of a certain class. The creation of objects of a certain kind is performed by calling a constructor, i.e. a special function (e.g. <code>list()</code> for lists) which creates a new object of that class.</p>
+<p>The advantage of <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">organising all these types of values as classes</a>&#xA0;is that each object made available a set of <a href="https://en.wikipedia.org/wiki/Method_(computer_programming)"><em>methods</em></a> that allow one to interact with the object itself. A method is a particular kind of function that can be run only if directly called via an object. Their fingertip is organised as follows: <code>&lt;object&gt;.&lt;method&gt;(&lt;param_1&gt;, &lt;param_2&gt;, ...)</code>. For instance, all the operations we have introduced for manipulating lists are actually defined as methods of the class&#xA0;<em>list</em>, e.g.&#xA0;<code>&lt;list&gt;.append(&lt;item&gt;)</code>,&#xA0;<code>&lt;list&gt;.remove(&lt;item&gt;)</code>, etc.</p>
+<p>Even if it is possible to create our own classes and methods, this topic goes beyond the actual scope of this course. However, it is possible to understand how to create these items by reading the documentation that has been provided as links in this lecture notes in <a href="#section3">&#xA0;</a>.</p>
+</section>
+<section id="section7">
+<h1>Immutable and mutable values</h1>
+<p>We have already talked about the <a href="https://medium.com/@meghamohan/mutable-and-immutable-side-of-python-c2145cf72747">mutability and immutability</a> of certain kinds of objects when we have introduced the difference between lists and tuples. In particular, a mutable object, like a list, is an object that can change in time &#x2013; a list can be created empty, can be populated with new values, some of them can be removed, etc. On the other hand, an immutable object, like a tuple, is that entity that, once it is created, cannot be further modified. In particular, Python basic types are grouped in the following way:</p>
+<ul>
+<li>
+<p>strings, numbers, booleans,&#xA0;<em>None</em>, and tuples are immutable;</p>
+</li>
+<li>lists, sets, and dictionaries are mutable.</li>
+</ul>
+<p>This distinction is very important when we use these kinds of objects as the input of functions or methods, since the behaviour of how they are handled can change if we have to deal with mutable or immutable types. For instance, consider the following snippet of code:</p>
+<pre><code>def add_one(n):
+    n = n + 1
+    return n
+
+my_num = 41
+print(my_num)  # 41
+
+result = add_one(my_num)&#x200B;
+print(my_num)  # 41
+print(result)  # 42</code></pre>
+<p>In this example, there is a simple function that sum&#xA0;<em>1</em> to the number passed as input and then returns it. However, we are using always the same variable <code>n</code>&#xA0;for storing the result of the operation before returning it. However, since numbers are immutable, the actual value associated to the original&#xA0;<code>my_num</code>, i.e. the variable used as the input of the execution of the function&#xA0;<code>def add_one(n)</code>, is not modified as consequence of the execution of the function itself. This is the behaviour of immutable values, since they are passed&#xA0;<a href="https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_value"><em>by value</em></a> as input of functions. It means that the value associated with the variable&#xA0;<code>my_num</code>&#xA0;is actually copied to the variable which defines the input parameter of the function, i.e.&#xA0;<code>n</code>, before executing the code of the function itself.</p>
+<p>Contrarily, mutable objects work in a slightly different way. For instance, consider the following snippet of code:</p>
+<pre><code>def append_one(l):
+    l.&#x200B;append(1)
+&#xA0;&#xA0;&#xA0;&#xA0;return&#xA0;l
+
+my_list&#xA0;=&#xA0;list()
+my_list.append(2)
+print(my_list)&#xA0;&#xA0;#&#xA0;list([2])
+
+result&#xA0;=&#xA0;append_one(my_list)
+print(my_list)&#xA0;&#xA0;#&#xA0;list([2, 1])
+print(result)&#xA0;&#xA0;#&#xA0;list([2, 1])</code></pre>
+<p>In this case, since the list is a mutable object, the list passed as input to the function by means of the variable&#xA0;<code>my_list</code>&#xA0;is not copied into the variable defining the input parameter of the function, i.e.&#xA0;<code>l</code>, but rather it is only referenced by such parameter &#x2013; i.e. both&#xA0;<code>my_list</code> and&#xA0;<code>l</code>&#xA0;are actually referring to the very same list. This is the behaviour of mutable values, since they are passed <a href="https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_reference"><em>by reference</em></a> as inputs of functions.</p>
+<p>This behaviours for immutable and mutable objects is also in assignements, when they involve variables. This is briefly described by the following excerpt of code:</p>
+<pre><code># Immutable objects
+my_num_1 = 41
+my_num_2 = my_num_1&#x200B;
+my_num_1 = my_num_1 + 1
+print(my_num_1)  # 42
+print(</code><span style="white-space: pre-wrap;">my_num_2) # 41, since it is a copy of the original value<br><br># Mutable objects<br>my_list_1 = list()<br>my_list_2 = my_list_1<br>my_list_1.append(1)<br>print(my_list_1) # [1]<br>print(my_list_2) # [1], since it points to the same list<br></span></pre>
+</section>
+<section id="section8">
+<h1>Packages for additional functions</h1>
+</section>
+<section id="section9">
+<p>Additional functions and variables that can be used in Python are actually loaded when needed by importing the package that contains them. Packages are just a mechanism to expose Python modules. We can consider a module like a Python file (extension&#xA0;<code>.py</code>) that contains the definition of variables, functions, and even runnable code. They are organised hierarchically in directories, where each directory can be defined as a package.</p>
+<p>The basic installation of Python makes available a huge set of packages for addressing several operations and functions. For instance, the class for creating stacks and deques we have introduced in these lectures, i.e.&#xA0;<em>deque</em>, is actually contained in a module of the package&#xA0;<em>collections</em>. Thus, for using it in Python, it is necessary to import the module by means of the following command:&#xA0;<code>from &lt;package&gt; import &lt;module&gt;</code>, as shown in <a href="#listing_2">&#xA0;</a>.</p>
+<figure id="listing_2">
+<pre><code>&#x200B;from&#xA0;collections&#xA0;import&#xA0;deque
+
+my_stack&#xA0;=&#xA0;deque()
+my_stack.append(1)
+my_stack.append(2)
+pop_el&#xA0;=&#xA0;my_stack.pop()
+
+my_queue&#xA0;=&#xA0;deque()
+my_queue.append(pop_el)
+my_queue.append(3)
+print(my_queue.popleft())&#xA0;&#xA0;#&#xA0;2</code></pre>
+<figcaption>Example of import of the module for stacks and queues.</figcaption>
+</figure>
+</section>
+</section>
+<section id="section4">
+<h1>Exercises</h1>
+<ol>
+<li>
+<p>Implement all the algorithm developed in the past lectures in Python, and try to run them according to some exemplary inputs.</p>
+</li>
+<li>
+<p>After running the previous exercise, have you noticed some differences between ThyMopani and Python? If that is the case, please write them down.</p>
+</li>
+</ol>
+</section>
+<section id="doc-acknowledgements" role="doc-acknowledgements">
+<h1>Acknowledgements</h1>
+<p>I would like to thank Sebnem Kabadayi, one of the students of the 2017/2018 course, for having suggested Miller and Ranum&apos;s book <a href="#biblioentry_2">&#xA0;</a>&#xA0;about Python, problem solving and algorithms, which has been added to the list of material suggested for learning Python of this lecture. I would also like to thank Agata Rotondi, Research Fellow at the Digital and Semantic Publishing Laboratory, for having suggested <a href="https://www.codecademy.com/">Code Academy</a> as a tool for learning Python by examples.</p>
+</section>
+<section id="doc-bibliography" role="doc-bibliography">
+<h1>References</h1>
+<ul>
+<li role="doc-biblioentry" id="biblioentry_2">
+<p>Miller, B. N., Ranum, D. L. (2011).&#xA0;Problem Solving with Algorithms and Data Structures using Python. ISBN:&#xA0;978-1590282571. Freely available at&#xA0;<a href="https://runestone.academy/runestone/static/pythonds/index.html">https://runestone.academy/runestone/static/pythonds/index.html</a> (last visited 2 December 2017)</p>
+</li>
+<li role="doc-biblioentry" id="biblioentry_1">
+<p>Pilgrim, M. (2009). Dive into Python 3. ISBN: 978-1430224150. Freely available at <a href="http://www.diveintopython3.net">http://www.diveintopython3.net</a> (last visited 2 December 2017)</p>
+</li>
+</ul>
+</section></body></html>
