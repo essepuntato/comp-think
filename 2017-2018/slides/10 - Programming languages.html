@@ -1,0 +1,218 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Programming languages</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/simple.css">
+		<link rel="stylesheet" href="css/ctc.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="css/addon.css"></link>
+		<link rel="stylesheet" href="css/font-awesome.min.css"></link>
+		<link rel="stylesheet" href="css/academicons.min.css"></link>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section id="title" class="title_slide" role="doc-cover">
+					<h1>Programming languages</h1>
+					<div class="author">
+						<p><a href="https://www.unibo.it/sitoweb/silvio.peroni/en">Silvio Peroni</a></p>
+						<p class="contact">
+							<i class="fa fa-envelope" aria-hidden="true"></i> <a href="mailto:silvio.peroni@unibo.it">silvio.peroni@unibo.it</a>
+							<i class="ai ai-orcid" aria-hidden="true"></i> <a href="https://orcid.org/0000-0003-0530-4305">0000-0003-0530-4305</a>
+							<i class="fa fa-twitter" aria-hidden="true"></i> <a href="https://twitter.com/essepuntato">@essepuntato</a>
+						</p>
+						<p class="sst mtl"><a href="http://www.artshumanitiesculturalheritage.unibo.it/en/programmes/course-unit-catalogue/course-unit/2017/424624">Computational Thinking and Programming (A.Y. 2017/2018)</p>
+						<p class="ssst"><a href="corsi.unibo.it/2cycle/digitalhumanitiesdigitalknowledge/">Second Cycle Degree in Digital Humanities and Digital Knowledge</a></p>
+						<p class="ssst"><a href="http://www.unibo.it/en">Alma Mater Studiorum - Università di Bologna</p>
+						<p class="license"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"></a> <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a></p>
+					</div>
+				</section>
+				
+				<section>
+					<h2>Communication 1</h2>
+					<p>Wednesday the 6th of December there will be the introduction to the project specifications and rules</p>
+					<p>In addition to that, the same day (the 6th of December) there will be also the official assessment of the course run by the University</p>
+				</section>
+				
+				<section>
+					<h2>Communication 2</h2>
+					<p>As already announced in the mailing list, we will have a lecture on Thursday the 7th of December, from 15:30 to 17:30</p>
+				</section>
+				
+				<section>
+					<h2>Any question about the previous lecture?</h2>
+				</section>
+				
+				<section>
+					<h2 class="bbt">Historic hero: Grace Hopper</h2>
+					<img class="wm fr mlm" src="img/hopper.png" />
+					<p>He was a computer scientist</p>
+					<p class="fragment">The first programmer of the Harvard Mark I - another general purpose electromechanical computer used during the WWII</p>
+					<p class="fragment">Main developer of COBOL, one of the first high-level programming languages</p>
+					<p class="fragment">COBOL adopted English for commands: <code>x IS GREATER THAN y</code></p>
+				</section>
+				
+				<section>
+					<h2>A timeline</h2>
+					<p class="tc"><img class="hl" src="img/languages.png" /></p>
+				</section>
+				
+				<section>
+					<h2>From ThyMopani to Python</h2>
+					<p class="tc mbs"><code>t h y m o p a n i</code></p>
+					<p class="tc mts cw"><code>5 6 4 2 7 3 1 8 0</code></p>
+					<p class="tc mtl cw"><code>i a m p y t h o n</code></p>
+				</section>
+				
+				<section>
+					<h2>Python</h2>
+					<p>It is an high-level programming language for general-purpose programming</p>
+					<p>It is currently one of the most used languages for programming in the Web, for Data Science and Natural Language Processing tasks</p>
+					<p class="fragment">It will be introduced with more details during the laboratory sessions</p>
+				</section>
+				
+				<section>
+					<h2>Functions</h2>
+					<p>Definition of algorithms:<br /><code>def &lt;algorithm>(&lt;param_1>, ...)</code></p>
+					<p class="fragment">Actually it is the mechanism for implementing functions in Python, i.e. a mechanism for listing a sequence of instructions under a particular name</p>
+					<ul>
+						<li class="fragment"><p><em>Built-in</em> functions: made available by the programming language itself, e.g. <code>len</code> or <code>list</code></p></li>
+						<li class="fragment"><p><em>User-defined</em> functions: written by a user of the language for addressing some specific requirements or tasks that are not addressable by means of one built-in function directly, like the algorithm implemented</p></li>
+					</ul>
+				</section>
+				
+				<section>
+					<h2>Executions</h2>
+					<pre><code class="python">def add_one(n):
+    return n + 1
+
+result = add_one(41)
+print(result)</code></pre>
+					<p class="fragment"><code>def print(&lt;object_1>, &lt;object_2>, ...)</code> allows one to print to the screen a particular value (that can be referred by a variable)</p>
+				</section>
+				
+				<section>
+					<h2>Classes, objects, methods</h2>
+					<p>Class: extensible template for creating objects having a certain type (e.g. the class for strings, for integers, for lists)</p>
+					<p class="fragment">Object: a value of a certain kind (e.g. <code>"a string"</code>, <code>42</code>, <code>list([1,2,3])</code>)</p>
+					<p class="fragment">Method: a function that can be run only if directly called via an object (e.g. <code>&lt;list>.append(&lt;item>)</code>)</p>
+				</section>
+				
+				<section>
+					<h2>Immutable and mutable values</h2>
+					<table class="sst">
+						<tr><th>type</th><th>immutable</th><th>mutable</th></tr>
+						<tr><td>string</td><td>x</td><td></td></tr>
+						<tr><td>integer</td><td>x</td><td></td></tr>
+						<tr><td>float</td><td>x</td><td></td></tr>
+						<tr><td>boolean</td><td>x</td><td></td></tr>
+						<tr><td><code>None</code></td><td>x</td><td></td></tr>
+						<tr><td>set</td><td></td><td>x</td></tr>
+						<tr><td>dictionary</td><td></td><td>x</td></tr>
+						<tr><td>tuple</td><td>x</td><td></td></tr>
+						<tr><td>list</td><td></td><td>x</td></tr>
+						<tr><td>deque</td><td></td><td>x</td></tr>
+					</table>
+				</section>
+				
+				<section>
+					<h2>Immutable by value</h2>
+					<pre><code class="python">def add_one(n):
+    n = n + 1
+    return n
+
+my_num = 41
+print(my_num)  # 41
+
+result = add_one(my_num)​
+print(my_num)  # 41
+print(result)  # 42</code></pre>
+				</section>
+				
+				<section>
+					<h2>Mutable by reference</h2>
+					<pre><code class="python">def append_one(l):
+    l.​append(1)
+    return l
+
+my_list = list()
+my_list.append(2)
+print(my_list)  # list([2])
+
+result = append_one(my_list)
+print(my_list)  # list([2, 1])
+print(result)  # list([2, 1])</code></pre>
+				</section>
+				
+				<section>
+					<h2>Modules and packages</h2>
+					<p>Module: a Python file (extension .py) that contains the definition of variables, functions, and even runnable code</p>
+					<p class="fragment">Package: a mechanism to expose one or more Python modules</p>
+					<pre class="fragment"><code class="python">from collections import deque
+
+my_stack = deque()
+my_stack.append(1)
+my_stack.append(2)
+pop_el = my_stack.pop()
+
+my_queue = deque()
+my_queue.append(pop_el)
+my_queue.append(3)
+print(my_queue.popleft())  # 2</code></pre>
+				</section>
+				
+				<section class="title_slide">
+					<h2>
+						END
+						<span class="subtitle">Programming languages</span>
+					</h2>
+					<div class="author">
+						<p><a href="https://www.unibo.it/sitoweb/silvio.peroni/en">Silvio Peroni</a></p>
+						<p class="contact">
+							<i class="fa fa-envelope" aria-hidden="true"></i> <a href="mailto:silvio.peroni@unibo.it">silvio.peroni@unibo.it</a>
+							<i class="ai ai-orcid" aria-hidden="true"></i> <a href="https://orcid.org/0000-0003-0530-4305">0000-0003-0530-4305</a>
+							<i class="fa fa-twitter" aria-hidden="true"></i> <a href="https://twitter.com/essepuntato">@essepuntato</a>
+						</p>
+						<p class="sst mtl"><a href="http://www.artshumanitiesculturalheritage.unibo.it/en/programmes/course-unit-catalogue/course-unit/2017/424624">Computational Thinking and Programming (A.Y. 2017/2018)</p>
+						<p class="ssst"><a href="corsi.unibo.it/2cycle/digitalhumanitiesdigitalknowledge/">Second Cycle Degree in Digital Humanities and Digital Knowledge</a></p>
+						<p class="ssst"><a href="http://www.unibo.it/en">Alma Mater Studiorum - Università di Bologna</p>
+					</div>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
