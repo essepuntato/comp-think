@@ -1,0 +1,278 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Project</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/simple.css">
+		<link rel="stylesheet" href="css/ctc.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="css/addon.css"></link>
+		<link rel="stylesheet" href="css/font-awesome.min.css"></link>
+		<link rel="stylesheet" href="css/academicons.min.css"></link>
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section id="title" class="title_slide" role="doc-cover">
+					<h1>Project</h1>
+					<div class="author">
+						<p><a href="https://www.unibo.it/sitoweb/silvio.peroni/en">Silvio Peroni</a></p>
+						<p class="contact">
+							<i class="fa fa-envelope" aria-hidden="true"></i> <a href="mailto:silvio.peroni@unibo.it">silvio.peroni@unibo.it</a>
+							<i class="ai ai-orcid" aria-hidden="true"></i> <a href="https://orcid.org/0000-0003-0530-4305">0000-0003-0530-4305</a>
+							<i class="fa fa-twitter" aria-hidden="true"></i> <a href="https://twitter.com/essepuntato">@essepuntato</a>
+						</p>
+						<p class="sst mtl"><a href="http://www.artshumanitiesculturalheritage.unibo.it/en/programmes/course-unit-catalogue/course-unit/2017/424624">Computational Thinking and Programming (A.Y. 2017/2018)</p>
+						<p class="ssst"><a href="corsi.unibo.it/2cycle/digitalhumanitiesdigitalknowledge/">Second Cycle Degree in Digital Humanities and Digital Knowledge</a></p>
+						<p class="ssst"><a href="http://www.unibo.it/en">Alma Mater Studiorum - Università di Bologna</p>
+						<p class="license"><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"></a> <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a></p>
+					</div>
+				</section>
+				
+				<section>
+					<h2>Scholarly Search Engine (SSE)</h2>
+					<p>The name of the project is <em>Scholarly Search Engine</em></p>
+					<p>It is a software that takes in input a file in a particular format (CSV) and allows one to run particular search operations</p>
+					<p>The input CSV file describes some metadata of existing scholarly articles published in a few academic journals</p>
+				</section>
+				
+				<section>
+					<h2>You need a group</h2>
+					<p>The project must be implemented by a group of people</p>
+					<p class="fragment">You need to</p>
+					<ul>
+						<li class="fragment"><p>form groups of at least 3 and at most 4 people</p></li>
+						<li class="fragment"><p>choose a name for the group (yes: a name) - it will be used to publish the ranks of the best-performing projects (more info later)</p></li>
+						<li class="fragment"><p>communicate the name of the group and its members (including their emails) to me by sending an email at <a href="mailto:silvio.peroni@unibo.it">silvio.peroni@unibo.it</a></p></li>
+					</ul>
+					<p class="fragment">All groups must be ready by next Monday (11 December)</p>
+				</section>
+				
+				<section>
+					<h2>Project stub</h2>
+					<pre class="sssst">from <span class="fragment highlight-red">&lt;group_name></span> import *
+
+class ScholarlySearchEngine():
+  def __init__(self, source_csv_file_path):
+    self.data = <span class="fragment highlight-red">process_data(source_csv_file_path)</span>
+
+  def search(self, query, col, is_number, partial_res=None):
+    result_data = <span class="fragment highlight-red">do_search(self.data, query, cat, is_number, partial_res)</span>
+    return result_data
+	
+  def pretty_print(self, result_data):
+    list_of_strings = <span class="fragment highlight-red">do_pretty_print(self.data, result_data)</span>
+    return list_of_strings
+		
+  def publication_tree(self, author):
+    pub_tree = <span class="fragment highlight-red">do_publication_tree(self.data, author)</span>
+    return pub_tree
+	
+  def top_ten_authors(self):
+    list_of_tuples = <span class="fragment highlight-red">do_top_ten_authors(self.data)</span>
+    return list_of_tuples
+
+  def coauthor_network(self, author):
+    coauth_graph = <span class="fragment highlight-red">do_coauthor_network(self.data, author)</span>
+    return coauth_graph</pre>
+				</section>
+				
+				<section>
+					<h2>Your output</h2>
+					<p class="mbs">You have to develop a Python file named as your group, where spaces are substituted by underscores and the whole file is lowercase</p>
+					<p class="mtn">E.g.: group <em>Best group ever</em>, file <code>best_group_ever.py</code></p>
+					<div class="fragment">
+						<p class="mbs">The import statement must specify the module implemented by the file</p>
+						<p class="mtn">E.g.: <code>from best_group_ever import *</code></p>
+					</div>
+					<p class="fragment">Each group has to implement the six functions that have been highlighted in red in the previous slide</p>
+					<p class="fragment">An example of input will be provided for testing the software</p>
+				</section>
+				
+				<section>
+					<h2>process_data</h2>
+					<p><code>def process_data(source_csv_file_path)</code></p>
+					<p>It takes in input a comma separated value (CSV) file, and return a data structure containing all the data included in the CSV is some form</p>
+					<p>The data can be preprocessed, changed according to some empirical rule, ordered in a certain way, etc.</p>
+					<p>These data will be automatically provided in input to the other functions</p>
+				</section>
+				
+				<section>
+					<h2>Example of CSV data</h2>
+					<table class="sssst">
+						<tr><th>title</th><th>authors</th><th>doi</th><th>abstract</th><th>categories</th><th>keywords</th><th>journal</th><th>volume</th><th>references</th><th>figures</th><th>tables</th><th>year</th></tr>
+						<tr><td>The appropriation of GitHub for curation</td><td>Yu, Wu; Na, Wang; Jessica, Kropczynski; John M., Carroll </td><td>10.7717/peerj-cs.134</td><td>GitHub is a widely used online collaborative software [...]</td><td>Human-Computer Interaction; Software Engineering</td><td>    Curation; GitHub; Appropriation</td><td>PeerJ Computer Science</td><td>3</td><td>36</td><td>1</td><td>1</td><td>2017</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+						<tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+					</table>
+					<p class="fragment">authors (list of strings): <em>Given Name 1, Family Name 1; Given Name 2, Family Name 2; ...</em></p>
+					<p class="fragment">categories (list of strings): <em>category 1; category 2; ...</em></p>
+					<p class="fragment">keywords (list of strings): <em>keyword 1; keyword 2; ...</em></p>
+				</section>
+				
+				<section>
+					<h2>do_search</h2>
+					<p class="sst"><code>def do_search(data, query, col, is_number, partial_res=None)</code></p>
+					<div class="sst">
+						<p class="fragment">data: the data returned by <code>process_data</code></p>
+						<p class="fragment">query: the textual query (type: string)</p>
+						<p class="fragment">col: the name of the column of the data in which to search (type: string)</p>
+						<p class="fragment">is_number: says if the content of the column (and, implicitly, of the query) should be interpreted as numbers instead of simple strings (type: boolean)</p>
+						<p class="fragment">partial_res: if not <code>None</code>, they are a reduced set of data on which the query should be applied</p>
+					</div>
+					<p class="fragment">Return a selection of the data processed before which answer to the query</p>
+				</section>
+				
+				<section>
+					<h2>Kinds of query</h2>
+					<p>The query is a string that actually can contains a quite complex set of operations, according to the following ones:</p>
+					<ul>
+						<li>
+							<p>boolean operator: and, or, not<br/><code>&lt;tokens 1> &lt;operator> &lt;tokens 2></code></p>
+						</li>
+						<li>
+							<p>comparison operator: <, >, <=, >=<br/><code>&lt;operator> &lt;tokens></code></p>
+						</li>
+					</ul>
+					<div class="fragment">
+						<p class="st mbn">Examples:</p>
+						<ul class="sst mtn">
+							<li><p>World Wide Web and not Artificial Intelligence: search for the field containing <q>World Wide Web</q> and not containing <q>Artificial Intelligence</q></p></li>
+							<li><p>< 2016 or > 2017: search for the field containing a value lesser than <q>2016</q> or greater than <q>2017</q></p></li>
+						</ul>
+					</div>
+				</section>
+				
+				<section>
+					<h2>Wild cards and rules</h2>
+					<p>Multiple wildcards <q>*</q> can be used, e.g. <q>World*Web</q> looks for all the string that matches with the word <q>World</q> followed by zero or more characters, followed by the word <q>Web</q> (examples: <q>World Wide Web</q>, <q>World Spider Web</q>, etc.)</p>
+					<p class="fragment">All searches are case insensitive – e.g. searching for <q>World</q> will match also strings that contain <q>world</q></p>
+					<p class="fragment">It must be possible to execute another <code>do_search</code> on the partial data returned by a previous execution of the same function</p>
+				</section>
+				
+				<section>
+					<h2>do_pretty_print</h2>
+					<p><code>do_pretty_print(data, result_data)</code></p>
+					<div>
+						<p class="fragment">data: the data returned by <code>process_data</code></p>
+						<p class="fragment">result_data: the set of data returned by a previous run of the function <code>do_query</code></p>
+					</div>
+					<div class="fragment">
+						<p class="mbs">Return a list of strings for each of the result contained in <code>result_data</code> according to the following format:</p>
+						<p class="sst mtn mbn">&lt;Family Name 1> &lt;Given Name Initials 1>, [...], &lt;Family Name N> &lt;Given Name Initials N>. (&lt;year>). &lt;title>. &lt;journal> &lt;volume>. https://doi.org/&lt;doi></p>
+						<p class="fragment mts sst">E.g.: Wu Y, Wang N, Kropczynski J, Carroll JM. (2017) The appropriation of GitHub for curation. PeerJ Computer Science 3. https://doi.org/10.7717/peerj-cs.134</p>
+					</div>
+				</section>
+				
+				<section>
+					<h2>do_publication_tree</h2>
+					<p><code>do_publication_tree(data, author)</code></p>
+					<div class="sst">
+						<p class="fragment">data: the data returned by <code>process_data</code></p>
+						<p class="fragment">author: the complete name (i.e. given name and family name) of the author for which one wants to retrieve its publication tree</p>
+					</div>
+					<p class="fragment">Return all the publications written by such author described by the following tree:</p>
+					<ul class="sst">
+						<li class="fragment"><p>root node: author name</p></li>
+						<li class="fragment"><p>children of root node: as many node as many years of author's publication</p></li>
+						<li class="fragment"><p>children of an year node: the result of the <code>do_pretty_print</code> function applied to the particular article written by the author and published in that year</p></li>
+					</ul>
+				</section>
+				
+				<section>
+					<h2>do_top_ten_authors</h2>
+					<p><code>do_top_ten_authors(data)</code></p>
+					<div>
+						<p class="fragment">data: the data returned by <code>process_data</code></p>
+					</div>
+					<p class="fragment">Return a list of tuples with two items each, where the first item is a string representing the author full name and the second item is the number of papers it has published</p>
+					<p class="fragment">The tuple in the list are sorted in descending order, starting from the author with most publication</p>
+				</section>
+				
+				<section>
+					<h2>do_coauthor_network</h2>
+					<p><code>do_coauthor_network(data, author)</code></p>
+					<div class="sst">
+						<p class="fragment">data: the data returned by <code>process_data</code></p>
+						<p class="fragment">author: the complete name (i.e. given name and family name) of the author for which one wants to retrieve its coauthor network</p>
+					</div>
+					<p class="fragment">Return a graph having a central node for the input author and a series of additional connected nodes for each other person who co-authored a paper with the input author, where the weight of the arc connecting the input author with his co-author is the number of paper they have co-authored together</p>
+				</section>
+				
+				<section>
+					<h2>Submission</h2>
+					<p>The project, i.e. the implementation of the six functions including any additional ancillary function developed, must be included in a single file named as your group, e.g. <code>best_group_ever.py</code></p>
+					<p>The file must be sent by email to me at <a href="mailto:silvio.peroni@unibo.it">silvio.peroni@unibo.it</a></p>
+					<p class="fragment">Submission: 2 days before the exam session (the whole group must attend the session) – e.g. send the project the 21st of January for discussing it on the session of the 23rd of January</p>
+					<p class="fragment">Your project will be compared with the others in terms of efficiency (i.e. time needed for addressing specific tasks)</p>
+				</section>
+				
+				<section>
+					<h2>Evaluation</h2>
+					<p>Maximum score = c-score + e-score + o-score = 16</p>
+					<p>All projects will run on a large CSV file</p>
+					<p class="fragment">Correctness of the result: c-score <= 4</p>
+					<p class="fragment mbs">Efficiency of the software: e-score <= 4; projects ranked according to the time spent for addressing various tasks</p>
+					<ol class="fragment mll sst mtn">
+						<li><p>e-score = 4</p></li>
+						<li><p>e-score = 3</p></li>
+						<li><p>e-score = 2</p></li>
+					</ol>
+					<p class="fragment mbs">Oral colloquium: -8 <= o-score <= 8; it is a personal score, each member of the group has its own</p>
+					<p class="fragment sst mtn">At least 2 for passing the exam, otherwise an additional effort is required (new function)</p>
+				</section>
+				
+				<section class="title_slide">
+					<h2>
+						END
+						<span class="subtitle">Project</span>
+					</h2>
+					<div class="author">
+						<p><a href="https://www.unibo.it/sitoweb/silvio.peroni/en">Silvio Peroni</a></p>
+						<p class="contact">
+							<i class="fa fa-envelope" aria-hidden="true"></i> <a href="mailto:silvio.peroni@unibo.it">silvio.peroni@unibo.it</a>
+							<i class="ai ai-orcid" aria-hidden="true"></i> <a href="https://orcid.org/0000-0003-0530-4305">0000-0003-0530-4305</a>
+							<i class="fa fa-twitter" aria-hidden="true"></i> <a href="https://twitter.com/essepuntato">@essepuntato</a>
+						</p>
+						<p class="sst mtl"><a href="http://www.artshumanitiesculturalheritage.unibo.it/en/programmes/course-unit-catalogue/course-unit/2017/424624">Computational Thinking and Programming (A.Y. 2017/2018)</p>
+						<p class="ssst"><a href="corsi.unibo.it/2cycle/digitalhumanitiesdigitalknowledge/">Second Cycle Degree in Digital Humanities and Digital Knowledge</a></p>
+						<p class="ssst"><a href="http://www.unibo.it/en">Alma Mater Studiorum - Università di Bologna</p>
+					</div>
+				</section>
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

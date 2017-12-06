@@ -314,6 +314,10 @@ ul ul {
     background-color:white !important;
 }
 
+.cr {
+	color: red;
+}
+
 .cw {
 	color: white;
 }
