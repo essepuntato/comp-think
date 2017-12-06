@@ -1,0 +1,127 @@
+<html xmlns="http://www.w3.org/1999/xhtml" prefix="schema: http://schema.org/ prism: http://prismstandard.org/namespaces/basic/2.0/"><head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/rash.css">
+
+  <!-- JQuery -->
+  <script src="js/jquery.min.js"></script>
+
+  <!-- Bootstrap.js -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <!-- Rash.js -->
+  <script src="js/rash.js"></script>
+
+  <!-- Local MathJax -->
+  <script src="js/MathJax/MathJax.js"></script>
+
+  <title>Organising information: trees</title>
+  
+  
+  
+  
+  
+<meta about="mailto:silvio.peroni@unibo.it" typeof="schema:Person" property="schema:name" name="dc.creator" content="Silvio Peroni"><meta about="mailto:silvio.peroni@unibo.it" property="schema:email" content="silvio.peroni@unibo.it"><link about="mailto:silvio.peroni@unibo.it" property="schema:affiliation" href="#affiliation_1"><meta about="#affiliation_1" typeof="schema:Organization" property="schema:name" content="Digital and Semantic Publishing Laboratory, Department of Computer Science and Engineering, University of Bologna, Bologna, Italy"><meta property="prism:keyword" content="tree"><meta property="prism:keyword" content="Gabriel Garcia Marquez"><meta property="prism:keyword" content="Buendia family"><meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0"></head>
+
+<body>
+<section role="doc-abstract" id="doc-abstract">
+<h1>Abstract</h1>
+<p>These lecture notes introduce a new data structure for defining hierarchical relations: the tree. The historic hero introduced in these notes is Gabriel Garc&#xED;a M&#xE1;rquez, who was one of the most notable writers in Spanish of the 20<sup>th</sup> century.</p>
+<p><strong>Copyright notice.</strong> This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. You are free to share (i.e. copy and redistribute the material in any medium or format) and adapt (e.g. remix, transform, and build upon the material) for any purpose, even commercially, under the following terms: attribution, i.e. you must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. The licensor cannot revoke these freedoms as long as you follow the license terms.</p>
+</section>
+<section id="section1">
+<h1>Historic hero:&#xA0;Gabriel Garc&#xED;a M&#xE1;rquez</h1>
+<p><a href="https://en.wikipedia.org/wiki/Gabriel_Garc%C3%ADa_M%C3%A1rquez" rel="noopener noreferrer">Gabriel Garc&#xED;a M&#xE1;rquez</a>&#xA0;(shown in <a href="#img_1">&#xA0;</a>) was a Colombian novelist, and he was one the most notable writers in Spanish of the 20<sup>th</sup> century. He won the Nobel Prize for Literature in 1982. While, as a journalist, he wrote several non-fictional works, he is mainly known for his novels, such as&#xA0;<a href="https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude" rel="noopener noreferrer"><em></em><i>Cien a&#xF1;os de soledad</i> <em>(</em><i>One Hundred Years of Solitude</i> in English)</a> and&#xA0;<a href="https://en.wikipedia.org/wiki/Love_in_the_Time_of_Cholera" rel="noopener noreferrer"><em>El amor en los tiempos del c&#xF3;lera</em> (<em>Love in the Time of Cholera</em> in English)</a>.</p>
+<figure id="img_1">
+<p><img src="img/marquez.jpg" alt="img/marquez.jpg"></p>
+<figcaption>A portrait of&#xA0;Gabriel Garc&#xED;a M&#xE1;rquez. Picture by&#xA0;Jose Lara, source:&#xA0;<a href="https://en.wikipedia.org/wiki/File:Gabriel_Garcia_Marquez.jpg">https://en.wikipedia.org/wiki/File:Gabriel_Garcia_Marquez.jpg</a>.</figcaption>
+</figure>
+<p>Several of his works mention the fictional town of <a href="https://en.wikipedia.org/wiki/Macondo" rel="noopener noreferrer">Macondo</a>, which is the main setting of one of his book, i.e.&#xA0;<em>One Hundred Years of Solitude</em>, which narrates the story of the Buendia family. In particular, the story introduces the life of seven different generation of people of the same family, and follows its adventures and, often,&#xA0;misfortunes.</p>
+<p>In the Italian edition of this novel, published by Mondadori <a href="#biblioentry_1">&#xA0;</a>, at the very beginning of the book is depicted a family tree of the various generations. While it provides a few spoilers about some future events, it is actually very useful to follow the story of the family, since several Buendia people often share the same name, and it is not so easy to follow the story if it is not clear to whom the narrator is actually referring to.</p>
+<p>Gracia Marquez is the second Latin American writer we have used in this course in order to introduce specific topics related to the Computational Thinking and Computer Science domains. In fact, trees (such as family trees) are particular kinds of structures that allow one to define a hierarchy of values that can be used for further tasks or computations. Actually, it is not the first time we have adopted it, even if they were not mentioned explicitly. In particular, in the lecture of the <a href="https://en.wikipedia.org/wiki/Dynamic_programming" rel="noopener noreferrer">dynamic programming</a> algorithms, we have already used a tree for showing the execution of the recursive calls to the Fibonacci algorithm implemented by means of the divide and conquer approach.</p>
+<p>In addition, as Digital Humanists, you will have to deal (or are dealing) with trees, in particular when we consider the Markup Language domains. Languages such as the <a href="http://www.tei-c.org/Guidelines/P5/" rel="noopener noreferrer">one provided by the Text Encoding Initiative (TEI)</a>&#xA0;and the <a href="https://www.w3.org/TR/html5/" rel="noopener noreferrer">Hypertext Markup Language (HTML)</a> are peculiar examplars of <a href="https://en.wikipedia.org/wiki/XML" rel="noopener noreferrer">XML-like</a> languages which allows one to construct hierarchies of markup elements for structurally and semantically annotating a text.</p>
+</section>
+<section id="section2">
+<h1>Trees</h1>
+<p>A <em><a href="https://en.wikipedia.org/wiki/Tree_(data_structure)" rel="noopener noreferrer">tree</a></em> is a data structure that simulates a hierarchical tree, composed by a set of nodes related to each other by a particular hierarchical parent-child relation. As shown in <a href="#img_2">&#xA0;</a>, this data structure usually follows a top-down presentation order, contrarily to the actual real organisation of the plant. In fact, the originating (or starting) node is called&#xA0;<em>root node</em> and is usually placed at the very top of the tree, while the terminating nodes, called <em>leaf nodes</em>, are actually placed at the very bottom. Taking into consideration a central node of a tree, e.g. the yellow one highlighted in&#xA0;<a href="#img_2">&#xA0;</a>, we can name precisely all the other nodes surrounding it, in particular:</p>
+<ul>
+<li>
+<p>the&#xA0;<em>parent node</em> of a given one is a node directly connected to another one when moving close to the root node;</p>
+</li>
+<li>
+<p><span style="font-size: 12pt;">a&#xA0;</span><em style="font-size: 12pt;">child node</em><span style="font-size: 12pt;"> of a given one is a node directly connected to another one when moving away from the root node;</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;">a&#xA0;</span><em style="font-size: 12pt;">sibling node</em><span style="font-size: 12pt;"> of a given one is a node that shares the same parent node;</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;">an&#xA0;</span><em style="font-size: 12pt;">ancestor node</em><span style="font-size: 12pt;"> of a given one is a node that is reachable by following the path from child to parent repeatedly;</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;">a&#xA0;</span><em style="font-size: 12pt;">descendant node</em><span style="font-size: 12pt;"> of a given one is a node that is reachable by following the path from parent to a child repeatedly.</span></p>
+</li>
+</ul>
+<figure id="img_2">
+<p><img src="img/tree.png" alt="img/tree.png"></p>
+<figcaption>A tree with the typical nomenclature of its nodes considering the one highlighted in yellow as the focus. The bold border is used to identify the root node of the tree, while a dashed border is used to indicate the leaf nodes of a tree &#x2013; i.e. those nodes that do not have any child.</figcaption>
+</figure>
+<p>In ThyMopani (well, Python...) a tree is basically a set of nodes linked together according to parent-child relationships. While there is no built-in implementation of the tree data structure in Python, there are some external packages that are very well suited for the task. Among those, one of the most famous one is <a href="https://github.com/c0fec0de/anytree" rel="noopener noreferrer"><em>anytree</em></a>.</p>
+<p>This package allows one to create a node of a tree by means of the constructor&#xA0;<code>def Node(name, parent=None)</code>. Thus, each node must specify a name (as a string) and a parent &#x2013; if the parent is not specified then it will assume <em>None</em> as value and it is implicitly defined as the root node of a tree. In anytree, the constructor is the main mechanism for defining a tree by simply stating the parent relations during the definition of new nodes.</p>
+<figure id="listing_1">
+<pre><code>from anytree import Node
+
+&#x200B;root&#xA0;=&#xA0;Node(&quot;html&quot;)
+
+head&#xA0;=&#xA0;Node(&quot;head&quot;,&#xA0;root)
+title = Node(&quot;title&quot;, head)
+
+body&#xA0;=&#xA0;Node(&quot;body&quot;,&#xA0;root)
+paragraph_1&#xA0;=&#xA0;Node(&quot;p&quot;, body)</code><br>paragraph_2 = Node(&quot;p&quot;, body)</pre>
+<figcaption>A simple tree depicting the main structure of the HTML markup.</figcaption>
+</figure>
+<p>It is worth mentioning that the siblings of a certain parent are actually ordered among them. The order is defined by the order of insertion as a child of that particular parent. For instance, in the example in&#xA0;<a href="#listing_1">&#xA0;</a>,&#xA0;<code>paragraph_1</code> comes before&#xA0;<code>paragraph_2</code>&#xA0;in the siblings of the node&#xA0;<code>body</code>.&#xA0;</p>
+<p>The advantages of using anytree are that it makes available a lot of facilities for accessing various information associated to a node. In particular:</p>
+<ul>
+<li>
+<p><code>&#x200B;&lt;node&gt;.children</code> returns a tuple listing all the children of a node;</p>
+</li>
+<li>
+<p><code>&#x200B;&lt;node&gt;.parent</code> returns the parent of a node;</p>
+</li>
+<li>
+<p><code>&#x200B;&lt;node&gt;.descendants</code> returns a tuple listing all the descendants of a node (including its children);</p>
+</li>
+<li>
+<p><code>&#x200B;&lt;node&gt;.ancestors</code> returns a tuple listing all the ancestors of a node (including its parent);</p>
+</li>
+<li>
+<p><code>&#x200B;&lt;node&gt;.siblings</code> returns a tuple listing all the siblings of a node;</p>
+</li>
+<li>
+<p><code>&#x200B;&lt;node&gt;.root</code> returns the root node of the tree where a node is contained.</p>
+</li>
+</ul>
+<p>It is worth mentioning that the variable defining the children and the parent of a node can be updated by assigning to them a particular collection (e.g. a list or a tuple) of nodes. For instance, we can invert the ordering of the two paragraphs defined as children of the node&#xA0;<code>body</code> in&#xA0;<a href="#listing_1">&#xA0;</a>&#xA0;as follows:</p>
+<pre><code>body.children = (paragraph_2, paragraph_1)</code></pre>
+</section>
+<section id="section3">
+<h1>Exercises</h1>
+<ol>
+<li>
+<p>Define your family tree by using the Python anytree package.</p>
+</li>
+<li>
+<p>Look at the documentation of the anytree package online, and see if there is some mechanism to visualize the tree in a readable form. If so, apply such visualization to your family tree defined in the previous point.</p>
+</li>
+</ol>
+</section>
+<section id="doc-bibliography" role="doc-bibliography">
+<h1>References</h1>
+<ul>
+<li role="doc-biblioentry" id="biblioentry_1">
+<p>Garcia Marquez, G. (1967). Cent&apos;anni di solitudine. Mondadori, edizione 2017. ISBN:&#xA0;978-8804675983</p>
+</li>
+</ul>
+</section></body></html>
