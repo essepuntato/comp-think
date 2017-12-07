@@ -1,0 +1,233 @@
+<html xmlns="http://www.w3.org/1999/xhtml" prefix="schema: http://schema.org/ prism: http://prismstandard.org/namespaces/basic/2.0/"><head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/rash.css">
+
+  <!-- JQuery -->
+  <script src="js/jquery.min.js"></script>
+
+  <!-- Bootstrap.js -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <!-- Rash.js -->
+  <script src="js/rash.js"></script>
+
+  <!-- Local MathJax -->
+  <script src="js/MathJax/MathJax.js"></script>
+
+  <title>Backtracking algorithms</title>
+  
+  
+  
+  
+  
+<meta about="mailto:silvio.peroni@unibo.it" typeof="schema:Person" property="schema:name" name="dc.creator" content="Silvio Peroni"><meta about="mailto:silvio.peroni@unibo.it" property="schema:email" content="silvio.peroni@unibo.it"><link about="mailto:silvio.peroni@unibo.it" property="schema:affiliation" href="#affiliation_1"><meta about="#affiliation_1" typeof="schema:Organization" property="schema:name" content="Digital and Semantic Publishing Laboratory, Department of Computer Science and Technologies, University of Bologna, Bologna, Italy"><meta property="prism:keyword" content="AlphaGo"><meta property="prism:keyword" content="backtracking"><meta property="prism:keyword" content="peg solitaire"><meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0"></head>
+
+<body>
+<section role="doc-abstract" id="doc-abstract">
+<h1>Abstract</h1>
+<p>These lecture notes introduce an algorithmic technique that is usually adopted in constrained computational problems such as those ones related to the resolution of abstract strategy board games, such as the peg solitaire. The historic hero introduced in these notes is AlphaGo, an artificial intelligence developed by Google DeepMind for playing the game of Go.</p>
+<p><strong>Copyright notice.</strong> This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. You are free to share (i.e. copy and redistribute the material in any medium or format) and adapt (e.g. remix, transform, and build upon the material) for any purpose, even commercially, under the following terms: attribution, i.e. you must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. The licensor cannot revoke these freedoms as long as you follow the license terms.</p>
+</section>
+<section id="section1">
+<h1>Historic hero: AlphaGo</h1>
+<p><a href="https://en.wikipedia.org/wiki/AlphaGo">AlphaGo</a>&#xA0;(its logo is shown in <a href="#img_1">&#xA0;</a>) is an artificial intelligence developed by Google DeepMind for playing a particular board game, i.e. <a href="https://en.wikipedia.org/wiki/Go_(game)">Go</a>. As already introduced in one of the first lectures, Go is a very ancient abstract strategy board game, which particularly known for being very complex to play by a computer, due to its large solution space.</p>
+<figure id="img_1">
+<p><img src="img/alphago.png" alt="img/alphago.png"></p>
+<figcaption>The logo of AlphaGo. Source:&#xA0;<a href="https://en.wikipedia.org/wiki/File:Alphago_logo_Reversed.svg">https://en.wikipedia.org/wiki/File:Alphago_logo_Reversed.svg</a>.</figcaption>
+</figure>
+<p>Several artificial intelligence applications have been developed in the past in order to play to Go automatically. However, all of them showed their limits when tested with human expert players of the game. In fact, no Go software was able to beat a human master, since the approach adopted by those systems, even if sophisticated, was not enough for emulating the actual skills of expert human players.</p>
+<p>In 2015, a particular department within Google declared to have developed the best artificial intelligence for playing Go, and suggested to test it in an international match against one of the most strongest Go players in Europe, <a href="https://en.wikipedia.org/wiki/Fan_Hui">Fan Hui</a>. At the time of the game, Fan Hui was a professional 2 dan player (out of 9 dan). The match was organised in five sessions, and a player had to win at least three sessions out of five for winning the match. AlphaGo beat Fan Hui <a href="https://en.wikipedia.org/wiki/AlphaGo_versus_Fan_Hui">5-0</a>, and has become the first artificial intelligence to beat a professional human player of the game. The outcomes of the match were announced in January 2016 simultaneously with the publication of the Nature article explaining the algorithm <a href="#biblioentry_1">&#xA0;</a>.</p>
+<p>In March 2016, AlphaGo was engaged against&#xA0;<a href="https://en.wikipedia.org/wiki/Lee_Sedol">Lee Sedol</a>, a professional 9 dan South Korean Go player, one of the best player in the world. All the five sessions of the match were broadcasted live in streaming video, so as to allow people to follow the various games. AlphaGo beat Lee Sedol <a href="https://en.wikipedia.org/wiki/AlphaGo_versus_Lee_Sedol">4-1</a>. Finally, in May 2017, AlphaGo was involved in a match in three sessions against the top-ranked player of the game, the Chinese&#xA0;<a href="https://en.wikipedia.org/wiki/Ke_Jie">Ke Jie</a>. Even this time, AlphaGo beat Ke Jie <a href="https://en.wikipedia.org/wiki/AlphaGo_versus_Ke_Jie">3-0</a>. As a consequence of this match, Google DeepMind decided to retire AlphaGo definitely from the scenes.</p>
+<p>Several professional players have stated that&#xA0;AlphaGo seemed to use quite original moves if compared with the other professional players. In addition, as a consequence of the results AlphaGo gained in the aforementioned matches, as well as in several secondary games, it was formally recognised as a professional 9 dan player by Chinese Weiqi Association.</p>
+<p>A final article about the latest evolution of the system, <a href="https://en.wikipedia.org/wiki/AlphaGo_Zero">AlphaGo Zero</a>, has been published in Nature the 18th of October 2017 <a href="#biblioentry_2">&#xA0;</a>. In this article, the authors introduce the best version of Alpha Go that they have developed, which has been trained without using any existing human knowledge &#x2013; i.e. the matches between human champions that have been archived in the past, that have been actually used for training AlphaGo. In fact, it was trained against itself, and it reached a superhuman performance after only 40 days of self-training. The new AlphaGo Zero beat AlphaGo 100-0.</p>
+</section>
+<section id="section2">
+<h1>Tree of choices</h1>
+<p>Usually, all the algorithms for finding a solution to abstract strategy board games are based on a tree, where each node represents a possible move that can be done on the board. Thus, the idea is that one comes to a particular node after having executed a precise sequence of moves, and from that node, one can have available an additional set of possible valid moves to perform so as to approach the solution. Of course, in order to choose to follow a particular move, i.e. to step into a particular child node of the tree, one could also check if executing that move could bring to a solution to our problem or it lands to a dead-end. In this latter case, one could re-consider some previous choices and, eventually, could change strategy looking for some other, more promising, moves to follow.</p>
+<p>Technically speaking, in the Computational Thinking domain, this approach is called <a href="https://en.wikipedia.org/wiki/Backtracking">backtracking</a>. In practice, backtracking algorithms try to find a solution to a particular computational problem by identifying possible candidate solutions incrementally, and it abandons partial candidates once it is clear that they won&apos;t be able to provide a solution to the problem. The usual steps of a backtracking algorithm can be defined as follows, and consider a particular node of the tree of choices as input:</p>
+<ol>
+<li>
+<p><strong>[leaf-win]</strong> if the current node is a leaf and it represents a solution to the problem, then return the sequence of all the moves that have generated the successful situation; otherwise,</p>
+</li>
+<li>
+<p><strong style="font-size: 12pt;">[leaf-lose]</strong><span style="font-size: 12pt;"> if the current node is a leaf but it is not a solution to the problem, then return no solution back the parent node; otherwise,</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><strong style="font-size: 12pt;">[recursive-step]</strong><span style="font-size: 12pt;">&#xA0;apply recursively the whole approach&#xA0;for each child of the current node, until one of these recursive executions returns a solution &#x2013; if none of them provides a solution, return no solution back the parent node of the current one.</span></p>
+</li>
+</ol>
+<p>In the next section, we illustrate the application of this technique for solving a particular board game: the peg solitaire.</p>
+</section>
+<section id="section3">
+<h1>Peg solitaire</h1>
+<p>The <a href="https://en.wikipedia.org/wiki/Peg_solitaire">peg solitaire</a>&#xA0;is a board game for one person only which involves the movement of some pegs on board containing holes. Usually, the starting situation has the entire board is filled up with pegs except for the central position which is empty. While there are different standard shapes for the board of the game, as illustrated in&#xA0;<a href="#img_2">&#xA0;</a>, in this lecture we use the English version &#x2013; i.e. the number 4 in <a href="#img_2">&#xA0;</a>.&#xA0;&#xA0;</p>
+<figure id="img_2">
+<p><img src="img/peg.png" alt="img/peg.png"></p>
+<figcaption>Possible standard shapes for the board of the peg solitaire &#x2013; the number 4 is the English one, which is the one we are considering in this lecture. Figure by Julio Reis, source:&#xA0;<a href="https://commons.wikimedia.org/wiki/File:Peg_Solitaire_game_board_shapes.svg">https://commons.wikimedia.org/wiki/File:Peg_Solitaire_game_board_shapes.svg</a>.</figcaption>
+</figure>
+<p>The goal of the game is to come to the opposite of the starting situation, where the whole board is full of holes except the central position which must contain a peg. This is possible by applying repeatedly the same rule:&#xA0;moving orthogonally a peg over an adjacent peg into a hole two position away, removing the jumped peg from the board. An example of valid moves is illustrated in <a href="#img_3">&#xA0;</a>.</p>
+<figure id="img_3">
+<p><img src="img/move.png" alt="img/move.png"></p>
+<figcaption>An example of two consecutive valid moves on an English board. Source:&#xA0;<a href="https://ece.uwaterloo.ca/~dwharder/aads/Algorithms/Backtracking/Peg_solitaire/">https://ece.uwaterloo.ca/~dwharder/aads/Algorithms/Backtracking/Peg_solitaire/</a>.</figcaption>
+</figure>
+<p>The goal of this lecture is to develop an algorithm for finding a solution to the peg solitaire. In particular, the computational problem we want to address can be defined as follows:</p>
+<p><strong>Computational problem:</strong> find a sequence of moves that allows one to solve the peg solitaire.</p>
+<p>A reasonable approach for finding a solution to this computational problem is based entirely on backtracking. In particular, it should be organised according to the following steps:</p>
+<ol>
+<li>
+<p><strong>[leaf-win]</strong> if the last move has brought to a situation where there is only one peg and it is positioned in the central position, then a solution has been found and the sequence of moves executed for coming to this solution is returned; otherwise,</p>
+</li>
+<li>
+<p><strong style="font-size: 12pt;">[leaf-lose]</strong><span style="font-size: 12pt;"> if the last move has brought to a situation where there are no possible moves, then recreate the previous status of the board as if the last move was not executed at all, and return no solutions; otherwise,</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;"><strong>[recursive-step]</strong>&#xA0;apply recursively the algorithm for each possible valid move executable according to the current status of the board, until one of these recursive executions of the algorithm returns a solution &#x2013; if none of them provides a solution, recreate the previous status of the board as if the last move was not executed at all, and return no solutions.</span></p>
+</li>
+</ol>
+<p><span>The first thing we have to take into account for implementing the aforementioned rules in ThyMopani/Python is to find a way for representing all the possible position of the peg solitaire board in a way that is computationally sound. To this end, we use a tuple of two elements, depicting x-axis and y-axis values, as representative of a certain position. The collection of all these tuples, shown in <a href="#listing_2">&#xA0;</a>,&#xA0;represents our board from a purely computational point of view.</span></p>
+<figure id="listing_2">
+<pre><code>&#xA0;           (2,0) (3,0) (4,0)
+            (2,1) (3,1) (4,1)
+(0,2) (1,2) (2,2) (3,2) (4,2) (5,2) (6,2)
+(0,3) (1,3) (2,3) (3,3) (4,3) (5,3) (6,3)
+(0,4) (1,4) (2,4) (3,4) (4,4) (5,4) (6,4)
+            (2,5) (3,5) (4,5)
+            (2,6) (3,6) (4,6)&#x200B;</code></pre>
+<figcaption>The representation of all the position available in a peg solitaire as a collection of tuple of two elements.</figcaption>
+</figure>
+<p>According to this organisation, we use two sets for representing a particular status of the board, i.e.:</p>
+<ul>
+<li>
+<p>the set <em>pegs</em>&#xA0;that includes all the pegs available on the board &#x2013; in the initial status, this set includes all the position except the central one, i.e. <code>(3, 3)</code>;</p>
+</li>
+<li>
+<p>the set&#xA0;<em>holes</em> that includes all the positions without any peg on the board &#x2013; in the initial status, this set includes just one position, i.e. <code>(3, 3)</code>.</p>
+</li>
+</ul>
+<p>The initial configuration of the solitaire is provided by the particular ancillary algorithm introduced in&#xA0;<a href="#listing_5">&#xA0;</a>, i.e. <code>def create_english_peg_board()</code>. The result of the execution of this algorithm is a tuple of two elements, wherein the first position there is the set of all the pegs at the initial state, while in the second position there is the set of all the available holes at the initial state.&#xA0;As a side note, we use the compact constructor for defining lists on-the-fly in Python, i.e.&#xA0;<code>[&lt;obj_1&gt;, &lt;obj_2&gt;, &lt;obj_3&gt;, ...]</code>. For instance, the list <code>my_list = [42, 15]</code>&#xA0;can be obtained as well by applying the following operations:&#xA0;<code>my_list = list()</code>,&#xA0;<code>my_list.append(42)</code>,&#xA0;<code>my_list.append(15)</code>.&#xA0;</p>
+<figure id="listing_5">
+<pre><code>&#x200B;def create_english_peg_board():
+    initial_hole = (3, 3)
+    holes = set()  # create the set of all the available holes
+    holes.add(initial_hole)
+
+    pegs = set()  # create the set of all the available pegs
+    full = [0, 1, 2, 3, 4, 5, 6]
+    reduced = [2, 3, 4]
+    pegs.update(product(full, reduced))
+    pegs.update(product(reduced, full))
+    pegs.remove(initial_hole)
+
+    return (pegs, holes)</code></pre>
+<figcaption>The algorithm used for initialising the board of an English peg solitaire. The function&#xA0;<code>&#x200B;product</code> is <a href="https://docs.python.org/3/library/itertools.html#itertools.product" rel="noopener noreferrer">defined</a> in the Python package&#xA0;<code>&#x200B;itertools</code> and returns the <a href="https://en.wikipedia.org/wiki/Cartesian_product" rel="noopener noreferrer">Cartesian product</a> of two or more collections of objects. For instance,&#xA0;<code>&#x200B;product([0, 1], [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;])</code>&#xA0;returns a collection composed by the following tuples:&#xA0;<code>&#x200B;(0, &quot;a&quot;)</code>,&#xA0;<code>&#x200B;(0, &quot;b&quot;)</code>,&#xA0;<code>&#x200B;(0, &quot;c&quot;)</code>,&#xA0;<code>&#x200B;(1, &quot;a&quot;)</code>,&#xA0;<code>&#x200B;(1, &quot;b&quot;)</code>,&#xA0;<code>&#x200B;(1, &quot;c&quot;)</code>.</figcaption>
+</figure>
+<p>Another important algorithm we would like to have concerns to take all the possible moves one can do according to the current configuration of the board defined by the sets&#xA0;<em>pegs</em> and&#xA0;<em>holes</em>. The approach used, described in&#xA0;<a href="#listing_3">&#xA0;</a> and named <code>def valid_moves(pegs, holes)</code>, try to find all the possible moves in the proximity of each hole. In particular, starting from a hole defined by the coordinates&#xA0;<code>(x, y)</code>, it looks for a vertical or horizontal sequence of two pegs that create the condition for performing a valid move.</p>
+<figure id="listing_3">
+<pre><code>def valid_moves(pegs, holes):
+    result = []
+
+    for x, y in holes:
+        if (x-1, y) in pegs and (x-2, y) in pegs:
+            result.append(Node({&quot;move&quot;: (x-2, y), &quot;in&quot;: (x, y), &quot;remove&quot;: (x-1, y)}))
+        if (x+1, y) in pegs and (x+2, y) in pegs:
+            result.append(Node({&quot;move&quot;: (x+2, y), &quot;in&quot;: (x, y), &quot;remove&quot;: (x+1, y)}))
+        if (x, y-1) in pegs and (x, y-2) in pegs:
+            result.append(Node({&quot;move&quot;: (x, y-2), &quot;in&quot;: (x, y), &quot;remove&quot;: (x, y-1)}))
+        if (x, y+1) in pegs and (x, y+2) in pegs:
+            result.append(Node({&quot;move&quot;: (x, y+2), &quot;in&quot;: (x, y), &quot;remove&quot;: (x, y+1)}))
+
+    return result&#x200B;</code></pre>
+<figcaption>The algorithm used for retrieving all the valid moves starting from a particular configuration of the solitaire board.</figcaption>
+</figure>
+<p>Each move found is described by a particular small dictionary with the following three keys:</p>
+<ul>
+<li>
+<p><em>move</em>, which indicates the peg one wants to move;</p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"><em>in</em>, which indicates the position where the selected peg is placed after the move (i.e. the hole in consideration);</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;"><em>remove</em>, which indicates the peg that is removed from the board as consequence of the move.</span></p>
+</li>
+</ul>
+<p>As highlighted in&#xA0;<a href="#listing_3">&#xA0;</a>, we use the compact constructor for defining dictionaries on-the-fly in Python, i.e.&#xA0;<code>{&lt;key_1&gt;: &lt;value_1&gt;, &lt;key_2&gt;: &lt;value_2&gt;, ...}</code>.&#xA0;For instance, the dictionary <code>&#x200B;my_dict = {&quot;a&quot;: 1, &quot;b&quot;: 2}</code> can be obtained as well by applying the following operations: <code>&#x200B;my_dict = dict()</code>, <code>&#x200B;my_dict[&quot;a&quot;] = 1</code>, <code>&#x200B;my_dict[&quot;b&quot;] = 2</code>.</p>
+<p>Each dictionary defining a move is then encapsulated as the name of a tree node. In particular, every node is created by using the constructor defined by the package&#xA0;<em>anytree</em> we have introduced in the previous lecture. The algorithm in&#xA0;<a href="#listing_3">&#xA0;</a> returns a list of all the possible valid moves&#xA0;according to the particular configuration of the board.</p>
+<p>Finally, we need two additional algorithm that takes a move defined by a tree node and a particular configuration of the board as input, and returns the new configuration as if the move is applied or if the move is undone respectively. These algorithms, i.e.&#xA0;<code>def apply_move(node, pegs, holes)</code>&#xA0;and&#xA0;<code>def undo_move(node, pegs, holes)</code>, are defined in <a href="#listing_4">&#xA0;</a>.</p>
+<figure id="listing_4">
+<pre><code>def apply_move(node, pegs, holes):
+    move = node._name  # get the move encapsulated in the node
+
+    old_pos = move[&quot;move&quot;]
+    new_pos = move[&quot;in&quot;]
+    eat_pos = move[&quot;remove&quot;]
+
+    pegs.remove(old_pos)
+    pegs.remove(eat_pos)
+    holes.add(old_pos)
+    holes.add(eat_pos)
+
+    pegs.add(new_pos)
+    holes.remove(new_pos)
+
+
+def undo_move(node, pegs, holes):
+    move = node._name  # get the move encapsulated in the node
+
+    old_pos = move[&quot;move&quot;]
+    new_pos = move[&quot;in&quot;]
+    eat_pos = move[&quot;remove&quot;]
+
+    pegs.add(old_pos)
+    pegs.add(eat_pos)
+    holes.remove(old_pos)
+    holes.remove(eat_pos)
+
+    pegs.remove(new_pos)
+    holes.add(new_pos)&#x200B;</code></pre>
+<figcaption>The two algorithms responsible for applying and undoing a particular move on the board. The method&#xA0;<code>&#x200B;&lt;node&gt;._name</code>&#xA0;used in the code is able to return the actual name of a particular tree node &#x2013; which, in this case, is the dictionary defining the move.</figcaption>
+</figure>
+<p>We have now all the ingredients for implementing the actual algorithm for finding a solution of the peg solitaire, according to the backtracking principles introduced at the beginning of this section. The final algorithm is introduced in&#xA0;<a href="#listing_1">&#xA0;</a>.&#xA0;</p>
+<figure id="listing_1">
+<pre><code>def solve(pegs, holes, last_move=Node(&quot;start&quot;)):
+    result = None
+
+    if len(pegs) == 1 and (3, 3) in pegs:  # leaf-win step
+        result = last_move
+    else:
+        last_move.children = valid_moves(pegs, holes)  # leaf-lose step if no moves are possible
+        possible_moves = deque(last_move.children)
+
+        while result == None and len(possible_moves) &gt; 0:  # recursive-step applied to all the children
+            current_move = possible_moves.pop()
+            apply_move(current_move, pegs, holes)
+            result = solve(pegs, holes, current_move)
+            if result == None:
+                undo_move(current_move, pegs, holes)
+
+    return result&#x200B;</code></pre>
+<figcaption>The final algorithm for looking for a sequence of moves that depicts a solution to the peg solitaire computational problem.</figcaption>
+</figure>
+</section>
+<section id="section4">
+<h1>Exercises</h1>
+<ol>
+<li>
+<p>Try to propose some variation to the algorithm in&#xA0;<a href="#listing_1">&#xA0;</a> in order to make it more efficient.&#xA0;</p>
+</li>
+</ol>
+</section>
+<section id="doc-bibliography" role="doc-bibliography">
+<h1>References</h1>
+<ul>
+<li role="doc-biblioentry" id="biblioentry_1">
+<p>Silver, D., Huang, A., Maddison, C. J., Guez, A., Sifre, L., van den Driessche, G., Schrittwieser, J., Antonoglou, I., Panneershelvam, V. (2016). Mastering the game of Go with deep neural networks and tree search. Nature, 529 (7587): 484.489. DOI: <a href="https://doi.org/10.1038/nature16961">https://doi.org/10.1038/nature16961</a>, OA available at&#xA0;<a href="http://web.iitd.ac.in/~sumeet/Silver16.pdf">http://web.iitd.ac.in/~sumeet/Silver16.pdf</a></p>
+</li>
+<li role="doc-biblioentry" id="biblioentry_2">
+<p>Silver, D., Schrittwieser, J., Simonyan, K., Antonoglou, I, Huang, A., Guez, A., Hubert, T., Baker, L., Lai, M., Bolton, A., Chen, Y., Lillicrap, T., Hui, F., Sifre, L., van den Driessche, G., Graepel, T., Hassabis, D. (2017). Mastering the game of Go without human knowledge. Nature, 550 (7676): 354-359. DOI: <a href="https://doi.org/10.1038/nature24270">https://doi.org/10.1038/nature24270</a>, OA available at&#xA0;<a href="https://www.gwern.net/docs/rl/2017-silver.pdf">https://www.gwern.net/docs/rl/2017-silver.pdf</a></p>
+</li>
+</ul>
+</section></body></html>

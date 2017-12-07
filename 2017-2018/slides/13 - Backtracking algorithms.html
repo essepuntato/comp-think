@@ -127,9 +127,9 @@
 				<section>
 					<h2>Descriptive solution</h2>
 					<ol>
-						<li><p><strong>[leaf-win]</strong> if last move brought to only one peg in the board in central position, then a solution has been found, otherwise</li>
-						<li class="fragment"><p><strong>[leaf-lose]</strong> if last move brought to only one peg in non-central position, then recreate previous status of the board and see if there are other paths available, otherwise</p></li>
-						<li class="fragment"><p><strong>[recursive-step]</strong> apply recursively the algorithm for each possible valid move executable according to the current status of the board, until one of these recursive executions of the algorithm returns a solution – if none of them provide a solution, recreate the previous status of the board and continue the search</p></li>
+						<li><p><strong>[leaf-win]</strong> if last move brought to only one peg in the board in central position, then a solution has been found and return it, otherwise</li>
+						<li class="fragment"><p><strong>[leaf-lose]</strong> if last move brought to a situation where no additional moves are possible, then recreate previous status of the board and return no solutions, otherwise</p></li>
+						<li class="fragment"><p><strong>[recursive-step]</strong> apply recursively the algorithm for each possible valid move executable according to the current status of the board, until one of these recursive executions of the algorithm returns a solution – if none of them provide a solution, recreate the previous status of the board and return no solutions</p></li>
 					</ol>
 				</section>
 				
