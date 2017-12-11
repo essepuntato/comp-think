@@ -185,7 +185,7 @@ my_graph.add_edge(3,4)</code></pre>
 				<section>
 					<h2>Attributes</h2>
 					<p class="mbs">Additional information can be specified to nodes and edges by means of Python named parameters</p>
-					<p class="mtn">E.g.: <code>my_graph(1, 2, weight=4)</code></p>
+					<p class="mtn">E.g.: <code>my_graph.add_edge(1, 2, weight=4)</code></p>
 					<p class="fragment"><code>&lt;graph>.nodes()</code> and <code>&lt;graph>.edges()</code> return particular kind of lists (called <code>NodeView</code> and <code>EdgeView</code> respectively) that can be iterated by means of a foreach loop as usual - but no attributes of nodes/edges will be returned</p>
 					<p class="fragment">Such attribution is explicit if we call <code>nodes()</code> and <code>edges()</code> by specifying the named parameter <code>data</code> as <em>True</em>, e.g.​<code>&lt;graph>.nodes(data=True)</code></p>
 				</section>

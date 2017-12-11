@@ -1,0 +1,188 @@
+<html xmlns="http://www.w3.org/1999/xhtml" prefix="schema: http://schema.org/ prism: http://prismstandard.org/namespaces/basic/2.0/"><head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/rash.css">
+
+  <!-- JQuery -->
+  <script src="js/jquery.min.js"></script>
+
+  <!-- Bootstrap.js -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <!-- Rash.js -->
+  <script src="js/rash.js"></script>
+
+  <!-- Local MathJax -->
+  <script src="js/MathJax/MathJax.js"></script>
+
+  <title>Organising information: graphs</title>
+  
+  
+  
+  
+  
+<meta about="mailto:silvio.peroni@unibo.it" typeof="schema:Person" property="schema:name" name="dc.creator" content="Silvio Peroni"><meta about="mailto:silvio.peroni@unibo.it" property="schema:email" content="silvio.peroni@unibo.it"><link about="mailto:silvio.peroni@unibo.it" property="schema:affiliation" href="#affiliation_1"><meta about="#affiliation_1" typeof="schema:Organization" property="schema:name" content="Digital and Semantic Publishing Laboratory, Department of Computer Science and Engineering, University of Bologna, Bologna, Italy"><meta property="prism:keyword" content="Euler"><meta property="prism:keyword" content="K&#xF6;nigsberg"><meta property="prism:keyword" content="graph"><meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0"></head>
+
+<body>
+<section role="doc-abstract" id="doc-abstract">
+<h1>Abstract</h1>
+<p>These lecture notes introduce the last data structure presented in this course, i.e. the <em>graph</em>. The historic hero introduced in these notes is Leonhard Euler, a great scientist of the 18<sup>th</sup> century who introduced for the very first time a new mathematical field called graph theory.</p>
+<p><strong>Copyright notice.</strong> This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. You are free to share (i.e. copy and redistribute the material in any medium or format) and adapt (e.g. remix, transform, and build upon the material) for any purpose, even commercially, under the following terms: attribution, i.e. you must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. The licensor cannot revoke these freedoms as long as you follow the license terms.</p>
+</section>
+<section id="section1">
+<h1>Historic hero: Euler</h1>
+<p>Leonhard Euler (shown in <a href="#img_1">&#xA0;</a>) was one of the most important men of Science of the whole history. His contributions in Mathematics, Physics, Astronomy, Logics, among the others, were disruptive and even started pretty new disciplines that were not explored at all before his contributions. He spent most of his life in Saint Petersburg in Russia. Among the mathematical problems he dealt with, there is one related to a particular funny story that he solved by initiating a new field in mathematics called <a href="https://en.wikipedia.org/wiki/Graph_theory"><em>graph theory</em></a>.</p>
+<figure id="img_1">
+<p><img src="img/euler.jpg" alt="img/euler.jpg"></p>
+<figcaption>A portrait of Leonard Euler by Emanuel Handmann. Picture by Oursana, source:&#xA0;<a href="https://en.wikipedia.org/wiki/File:Leonhard_Euler.jpg">https://en.wikipedia.org/wiki/File:Leonhard_Euler.jpg</a>.</figcaption>
+</figure>
+<p>The (mathematical) story told about the <a href="https://en.wikipedia.org/wiki/Seven_Bridges_of_K%C3%B6nigsberg">seven bridges of the city of&#xA0;K&#xF6;nigsberg</a>, illustrated in&#xA0;<a href="#img_2">&#xA0;</a>. The problem could be stated as follows: is it possible to walk around the city and to cross each of the bridges once and only once? Several people have tried to propose a solution to this enigma before Euler, but he was able to demonstrate it by means of a purely mathematical (and non-debatable) proof <a href="#biblioentry_1">&#xA0;</a>.</p>
+<figure id="img_2">
+<p><img src="img/bridges.png" alt="img/bridges.png"></p>
+<figcaption>A representation of the seven bridges in K&#xF6;nigsberg. Figure by Bogdan Giu&#x15F;c&#x103;, source: <a href="https://commons.wikimedia.org/wiki/File:Konigsberg_bridges.png">https://commons.wikimedia.org/wiki/File:Konigsberg_bridges.png</a>.</figcaption>
+</figure>
+<p>In order to do that, he abstractly described the four lands in K&#xF6;nigsberg divided by the river as <em>nodes</em> of a network, where each <em>edge</em> between two nodes actually represents one of the bridges of the city. The illustration about his abstract representation is introduced in&#xA0;<a href="#img_3">&#xA0;</a>. By using this abstract notion, known as&#xA0;<em>graph</em>, he was able to demonstrate that there is&#xA0;<em>no solution</em> to the aforementioned problem of the seven bridges of K&#xF6;nigsberg.</p>
+<figure id="img_3">
+<p><img src="img/graph.png" alt="img/graph.png"></p>
+<figcaption>An abstract representation of the&#xA0;seven bridges in K&#xF6;nigsberg by means of a graph.</figcaption>
+</figure>
+<p>The solution of the problem was entirely based on the following intuition. The idea was that each node, excepting the starting node and the final node, should have an even number of edges. This is a practical implication derived from the moves that one has to do to enter and then go out from a node. In fact, an edge is followed every time one enters in a node, and another edge is needed to go out from that node as well. Thus, at least, each non-starting and non-ending node must have mandatorily an even number of edges for being satisfactorily traversed one or more times. However, all the nodes in&#xA0;<a href="#img_3">&#xA0;</a> have an odd number of edges, which contradicts the aforementioned requirement.</p>
+</section>
+<section id="section2">
+<h1>Graphs</h1>
+<p><a href="https://en.wikipedia.org/wiki/Graph_(abstract_data_type)">Graphs</a> are one of the main data structure in Computer Science and Computational Thinking. They are used to describe in abstract terms several well-known situations like routes between cities, connections to people you know in social networks, and the organisation of links between webpages on the Web. Graphs are entirely derived from the mathematical structure invented by Euler, as illustrated in&#xA0;<a href="#section1">&#xA0;</a>. In particular, we can distinguish two different kinds of graphs: <a href="http://mathinsight.org/definition/undirected_graph"><em>undirected</em> graphs</a> (like the one used by Euler for solving the seven bridge of K&#xF6;nigsberg problem), where an edge can be traversed in one way or the other indifferently, and <a href="http://mathinsight.org/definition/directed_graph"><em>directed</em> graphs</a>, where the edge has a clear specification of the node-to-node direction that can be followed.</p>
+<p>While in Python, as it happens for the trees, there is not a built-in class defining this type of objects, there are several external libraries that implement them. Among the most used and famous, there is <a href="https://networkx.github.io/">NetworkX</a>, which makes available the common constructs for creating and traversing graphs, as well as additional functions for analysing them for different purposes, such as for the analysis of social networks.</p>
+<section id="section3">
+<h1>Undirected graph</h1>
+<p>An undirected graph can be created by means of the constructor <code>&#x200B;def Graph()</code>. When a new graph is created, it will be used for creating all the nodes and all the edges. It is worth mentioning that the NetworkX package allows us to associate as a node any possible immutable object definable in Python, that can be, thus, connected by means of one or more edges. In particular, it is possible to execute the following methods on a graph object:</p>
+<ul>
+<li>
+<p><code>&#x200B;&lt;graph&gt;.add_node(&lt;node&gt;)</code> adds&#xA0;<code>&lt;node&gt;</code> as a node of the graph &#x2013; note that, if a node with that value is already present, the method has no effect on the graph;</p>
+</li>
+<li>
+<p><code>&#x200B;&lt;graph&gt;.add_edge(&lt;node_1&gt;, &lt;node_2&gt;)</code>&#xA0;adds and edge between <code>&lt;node_1&gt;</code> and <code>&lt;node_2&gt;</code>&#xA0;&#x2013; note that, since we are dealing with undirected graphs, inverting the position of the input nodes does not change the result;</p>
+</li>
+<li>
+<p><code>&#x200B;&lt;graph&gt;.remove_node(&lt;node&gt;)</code> removes <code>&lt;node&gt;</code>&#xA0;from the graph as well as all the edges that involve it directly;</p>
+</li>
+<li>
+<p><code>&#x200B;&lt;graph&gt;.remove_edge(&lt;node_1&gt;, &lt;node_2&gt;)</code> removes the particular edge between the two nodes specified.</p>
+</li>
+</ul>
+<p>An example of a graph is depicted in <a href="#listing_1">&#xA0;</a>.&#xA0;It creates a structure similar to the one introduced in&#xA0;<a href="#img_3">&#xA0;</a> except that it is not possible to create multiple arcs between two nodes. Thus, using this specific constructor it is not possible to create the same structure requested by Euler for solving the mathematical problem introduced in <a href="#section1">&#xA0;</a>.&#xA0;</p>
+<figure id="listing_1">
+<pre><code>from networkx import Graph
+
+# create a new graph
+my_graph = Graph()
+
+# create four nodes
+my_graph.add_node(1)
+my_graph.add_node(2)
+my_graph.add_node(3)&#x200B;
+my_graph.add_node(4)
+
+# create five edges
+my_graph.add_edge(1,2)
+my_graph.add_edge(1,3)
+my_graph.add_edge(1,4)
+my_graph.add_edge(2,3)
+my_graph.add_edge(3,4)</code></pre>
+<figcaption>A simple undirected graph with four nodes and five edges.</figcaption>
+</figure>
+<p>In order to enable the creation of multiple edges between two nodes, we have to use a different kind of undirected graph by means of the constructor&#xA0;<code>def MultiGraph()</code>. This particular graph accepts multiple edges between nodes by calling several times the method <code>&#x200B;&lt;graph&gt;.add_edge(&lt;node_1&gt;, &lt;node_2&gt;)</code>, and the method&#xA0;&#x200B;<code>&#x200B;&lt;graph&gt;.remove_node(&lt;node&gt;)</code> will actually remove just one of the added edges and not all of them. An example of this kind of graphs, that maps precisely the one introduced in&#xA0;<a href="#img_3">&#xA0;</a>, is shown in&#xA0;<a href="#listing_2">&#xA0;</a>.&#xA0;</p>
+<figure id="listing_2">
+<pre><code>from networkx import MultiGraph&#x200B;
+
+# create a new graph
+my_graph = MultiGraph()
+
+# create four nodes
+my_graph.add_node(1)
+my_graph.add_node(2)
+my_graph.add_node(3)&#x200B;
+my_graph.add_node(4)
+
+# create seven edges
+my_graph.add_edge(1,2)
+my_graph.add_edge(1,2)
+my_graph.add_edge(1,3)
+my_graph.add_edge(1,4)
+my_graph.add_edge(1,4)
+my_graph.add_edge(2,3)
+my_graph.add_edge(3,4)</code></pre>
+<figcaption>Another undirected graph that maps precisely the situation depicted in&#xA0;<a href="#img_3">&#xA0;</a>, since it allows the creation of multiple arcs between the same two nodes.&#xA0;</figcaption>
+</figure>
+<p>There are at least two additional methods that are fundamental in order understand to a graph is composed and which nodes are linked with the others. They are&#xA0;<code>&lt;graph&gt;.nodes()</code> and&#xA0;<code>&lt;graph&gt;.edges()</code>&#xA0;that return particular kind of lists (called&#xA0;<code>NodeView</code>&#xA0;and&#xA0;<code>EdgeView</code> respectively) that can be iterated by means of a foreach loop as usual. It is also possible to understand what are the nodes to which a target node is linked with by means of the adjacency variable&#xA0;<code>&lt;graph&gt;.adj[&lt;node&gt;]</code>. This operation returns an <code>&#x200B;AtlasView</code>, i.e. a dictionary containing all the nodes that can be reached starting from&#xA0;<code>&lt;node&gt;</code>, where each key of the dictionary actually represent one of these nodes.</p>
+<p>The value associated with each node, in this case, is actually another dictionary which is initialised empty if one did not specify any additional information explicitly. This information, or <em>attribute</em> as it is called in NetworkX, can be specified when one build the edge connecting the two nodes by using one or more pairs of a parameter and the value assigned to him via&#xA0;<code>=</code>, as shown in <a href="#listing_3">&#xA0;</a>. The same kind of assignments can be done also to nodes. In addition, these information can be also shown by executing the aforementioned methods&#xA0;<em>nodes()</em> and&#xA0;<em>edges()</em> by specifying the named parameter&#xA0;<code>data</code> as&#xA0;<em>True</em>, i.e.&#xA0;<code>&#x200B;&lt;graph&gt;.nodes(data=True)</code> and&#xA0;<code>&#x200B;&lt;graph&gt;.edges(data=True)</code>. This use of naming explicitly the parameters in Python when one wants to execute a method (or a function) is totally admissible by Python, as explained in <a href="https://docs.python.org/3/glossary.html#term-argument">its documentation</a>.</p>
+<figure id="listing_3">
+<pre><code>&#x200B;# create a new graph
+my_graph = Graph()  # it works also with MultiGraph
+
+my_graph.add_node(1)  # no additional information
+my_graph.add_node(2, name=&quot;John&quot;, surname=&quot;Doe&quot;)  # additional data specified
+my_graph.add_node(3)
+
+my_graph.nodes()
+# This returns NodeView (tuple) with all the nodes without showing any 
+# additional information, i.e.:
+# NodeView((1, 2, 3))
+
+my_graph.nodes(data=True)
+# This returns a NodeDataView (dictionary) with all the nodes showing 
+# additional information, i.e.:
+# NodeDataView({1: {}, 2: {&apos;name&apos;: &apos;John&apos;, &apos;surname&apos;: &apos;Doe&apos;}, 3: {}})
+
+my_graph.add_edge(1, 2)  # no additional information
+my_graph.add_edge(1, 3, weight=4)  # additional data specified
+
+my_graph.edges()
+# This returns an EdgeView (list of two-item tuples) with all the edges 
+# without showing any additional information, i.e.:
+# EdgeView([(1, 2), (1, 3)])
+
+my_graph.edges(data=True)
+# This returns an EdgeDataView (list of three-item tuples) with all the 
+# nodes showing additional information, i.e.:
+# EdgeDataView([(1, 2, {}), (1, 3, {&apos;weight&apos;: 4})])
+
+my_graph.adj[1]
+#&#xA0;This&#xA0;returns&#xA0;an AtlasView (dictionary) containing all the nodes that are
+# reachable from an input one, including the additional information about the
+# edges if present, i.e.:
+#&#xA0;AtlasView({2: {}, 3: {&apos;weight&apos;: 4}})</code></pre>
+<figcaption>The use of additional data for enriching nodes and edges of graphs.</figcaption>
+</figure>
+<p></p>
+</section>
+<section id="section4">
+<h1>Directed graph</h1>
+<p>According to the NetworkX package, a directed graph can be created with the constructor <code>&#x200B;def DiGraph()</code>. It shares exactly the same methods presented for the undirected graphs in <a href="#section3">&#xA0;</a>. However, in this case, the order between&#xA0;<code>&lt;node_1&gt;</code>&#xA0;and&#xA0;<code>&lt;node_2&gt;</code>&#xA0;in the methods for adding and removing an edge is meaningful, since an edge specifies now a particular direction: <code>&lt;node_1&gt;</code>&#xA0;is the source node, while <code>&lt;node_2&gt;</code> is the target node.</p>
+<p>In addition, it is possible to specify more than one edge between two nodes by using the constructor <code>&#x200B;def MultiDiGraph()</code>. For instance,&#xA0;<a href="#img_4">&#xA0;</a> shows what is the abstract diagram of the graph implemented in <a href="#listing_2">&#xA0;</a>&#xA0;if the constructor <code>MultiDiGraph</code>&#xA0;would be used instead of&#xA0;<code>MultiGraph</code>.</p>
+<figure id="img_4">
+<p><img src="img/digraph.png" alt="img/digraph.png"></p>
+<figcaption>The diagram of the graph depicted in&#xA0;<a href="#img_3">&#xA0;</a>&#xA0;and implemented in <a href="#listing_2">&#xA0;</a>&#xA0;if a&#xA0;<code>&#x200B;MultiDiGraph</code>&#xA0;is used instead of a&#xA0;<code>&#x200B;MultiGraph</code>.</figcaption>
+</figure>
+</section>
+</section>
+<section id="section5">
+<h1>Exercises</h1>
+<ol>
+<li>
+<p>Consider the list of co-authors of Tim Berners-Lee as illustrated in the write box at <a href="http://dblp.uni-trier.de/pers/hd/b/Berners=Lee:Tim">http://dblp.uni-trier.de/pers/hd/b/Berners=Lee:Tim</a>. Build an undirected graph that contains Tim Berners Lee as the central node and that is linked to other five nodes representing his top-five co-authors. In addition, specify the&#xA0;<em>weight</em> of each edge as an attribute, where the value of the weight is the number of bibliographic resources (articles, proceedings, etc.) Tim Berners-Lee has coauthored with the person linked by that edge.</p>
+</li>
+<li>
+<p><span style="font-size: 12pt;">Create a directed graph which relates the actors <a href="http://www.imdb.com/name/nm0000093/" rel="noopener noreferrer">Brad Pitt</a>, <a href="http://www.imdb.com/name/nm1200692/" rel="noopener noreferrer">Eva Green</a>, <a href="http://www.imdb.com/name/nm0000123/" rel="noopener noreferrer">George Clooney</a>, <a href="http://www.imdb.com/name/nm0001876/" rel="noopener noreferrer">Catherine Zeta-Jones</a>, <a href="http://www.imdb.com/name/nm0000136/" rel="noopener noreferrer">Johnny Depp</a>, and <a href="http://www.imdb.com/name/nm0000307/" rel="noopener noreferrer">Helena Bonham Carter</a> to the following movies: <a href="http://www.imdb.com/title/tt0349903/" rel="noopener noreferrer"><em>Ocean&apos;s Twelve</em></a>, <a href="http://www.imdb.com/title/tt0137523/" rel="noopener noreferrer"><em>Fight Club</em></a>, <a href="http://www.imdb.com/title/tt1077368/" rel="noopener noreferrer"><em>Dark Shadows</em></a>.</span></p>
+</li>
+</ol>
+</section>
+<section id="doc-bibliography" role="doc-bibliography">
+<h1>References</h1>
+<ul>
+<li role="doc-biblioentry" id="biblioentry_1">
+<p>Euler, L. (1741).&#xA0;Solutio problematis ad geometriam situs pertinentis.&#xA0;Commentarii academiae scientiarum Petropolitanae, 8 (1741): 128-140.&#xA0;<a href="http://eulerarchive.maa.org//docs/originals/E053.pdf" rel="noopener noreferrer">http://eulerarchive.maa.org//docs/originals/E053.pdf</a> (last visited 10 December 2017)</p>
+</li>
+</ul>
+</section></body></html>
