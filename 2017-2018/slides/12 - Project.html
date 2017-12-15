@@ -72,7 +72,7 @@ class ScholarlySearchEngine():
     self.data = <span class="fragment highlight-red">process_data(source_csv_file_path)</span>
 
   def search(self, query, col, is_number, partial_res=None):
-    result_data = <span class="fragment highlight-red">do_search(self.data, query, cat, is_number, partial_res)</span>
+    result_data = <span class="fragment highlight-red">do_search(self.data, query, col, is_number, partial_res)</span>
     return result_data
 	
   def pretty_print(self, result_data):
