@@ -1,0 +1,136 @@
+<html xmlns="http://www.w3.org/1999/xhtml" prefix="schema: http://schema.org/ prism: http://prismstandard.org/namespaces/basic/2.0/"><head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/rash.css">
+  <!-- Local MathJax -->
+  <!-- <script src="js/MathJax/MathJax.js"></script> -->
+
+  <!-- online MathJax -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_SVG"></script>
+
+  <!-- JQuery -->
+  <script src="js/jquery.min.js"></script>
+
+  <!-- Bootstrap.js -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <!-- Rash.js -->
+  <script src="js/rash.js"></script>
+
+  <title>Greedy algorithms</title>
+  
+  
+  
+  
+  
+<meta about="mailto:silvio.peroni@unibo.it" typeof="schema:Person" property="schema:name" name="dc.creator" content="Silvio Peroni"><meta about="mailto:silvio.peroni@unibo.it" property="schema:email" content="silvio.peroni@unibo.it"><link about="mailto:silvio.peroni@unibo.it" property="schema:affiliation" href="#affiliation_1"><meta about="#affiliation_1" typeof="schema:Organization" property="schema:name" content="Digital and Semantic Publishing Laboratory, Department and Computer Science and Engineering, University of Bologna, Bologna, Italy"><meta property="prism:keyword" content="greedy algorithms"><meta property="prism:keyword" content="Olivetti"><meta property="prism:keyword" content="typewriter"><meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0"></head>
+
+<body>
+<section role="doc-abstract" id="doc-abstract">
+<h1>Abstract</h1>
+<p>These lecture notes introduce the last kind of algorithms of the course, i.e. the <em>greedy algorithms</em>. The historic hero introduced in these notes is Adriano Olivetti, who was one of the most important innovators in the field of typewriting and electronic computers.</p>
+<p><strong>Copyright notice.</strong> This work is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. You are free to share (i.e. copy and redistribute the material in any medium or format) and adapt (e.g. remix, transform, and build upon the material) for any purpose, even commercially, under the following terms: attribution, i.e. you must give appropriate credit, provide a link to the license, and indicate if changes were made. You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use. The licensor cannot revoke these freedoms as long as you follow the license terms.</p>
+</section>
+<section id="section1">
+<h1>Historic hero: Adriano Olivetti</h1>
+<p><a href="https://en.wikipedia.org/wiki/Adriano_Olivetti">Adriano Olivetti</a> (shown in <a href="#img_1">&#xA0;</a>) was an engineer and&#xA0;entrepreneur, who was a son of <a href="https://en.wikipedia.org/wiki/Camillo_Olivetti">Camillo Olivetti</a>, the founder of the company named after him. He was known all over the world for being the manufacturer of Olivetti typewriters, calculators, and computers.</p>
+<figure id="img_1">
+<p><img src="img/olivetti.jpg" alt="img/olivetti.jpg"></p>
+<figcaption>A portrait of Adriano Olivetti. Source:&#xA0;<a href="https://commons.wikimedia.org/wiki/File:Adriano_Olivetti_1957.jpg">https://commons.wikimedia.org/wiki/File:Adriano_Olivetti_1957.jpg</a>.</figcaption>
+</figure>
+<p>His idea of company profits was (and still is) very distinctive since he believed that all such profits had to be reinvested for the benefits of the society at large. This utopic idea of management was personally tested by him in his company, where he decreased the working hours, increased the salaries, and transformed the company space in a lively and comfortable environment for all the employees and the related families. In fact, the main Olivetti campus included a nursery school, a library for the employees, and other additional services for making the life of the people working in the company sustainable and enjoyable.</p>
+<figure id="img_2">
+<p><img src="img/typewriter.jpg" alt="img/typewriter.jpg"></p>
+<figcaption>A picture of the Olivetti Lettera 32. Picture by Feen, source: <a href="https://commons.wikimedia.org/wiki/File:Olivetti_Lettera_32.JPG">https://commons.wikimedia.org/wiki/File:Olivetti_Lettera_32.JPG</a>.</figcaption>
+</figure>
+<p>After his death, his heritage and vision have been continued by his son, Roberto Olivetti. Among the most important items produced during Roberto Olivetti&apos;s leadership, there were several typewriters, such as the <a href="https://en.wikipedia.org/wiki/Olivetti_Lettera_32">Olivetti Lettera 32</a> shown in <a href="#img_2">&#xA0;</a>, and in particular the in the first desktop computer in the whole history, i.e. the <a href="https://en.wikipedia.org/wiki/Programma_101">Programma 101</a> (shown in <a href="#img_3">&#xA0;</a>). For that period, the Programma 101 was a very cheap programmable electronic computer, that could be placed and used easily on a common desk, while the other computers of that age were quite expansive and very huge in terms of physical infrastructure. Programma 101 could be programmed by a programming language very similar to the Assembly. Its simplicity of use was one of the main reason for being so much appreciated (and sold) in the United States for personal and scientific uses as well (e.g. see <a href="#biblioentry_1">&#xA0;</a>) &#x2013; it is worth mentioning that even the NASA had used it to plan the <a href="https://en.wikipedia.org/wiki/Apollo_11">Apollo 11</a> landing on the Moon.</p>
+<figure id="img_3">
+<p><img src="img/programma101.jpg" alt="img/programma101.jpg"></p>
+<figcaption>A picture of Programma 101. Picture by Camilla Rossi-Linnemann, source:&#xA0;<a href="https://commons.wikimedia.org/wiki/File:Olivetti_Programma_101_-_Museo_scienza_e_tecnologia_Milano.jpg">https://commons.wikimedia.org/wiki/File:Olivetti_Programma_101_-_Museo_scienza_e_tecnologia_Milano.jpg</a>.</figcaption>
+</figure>
+<p></p>
+</section>
+<section id="section2">
+<h1>Greedy algorithms</h1>
+<p>A&#xA0;<a href="https://en.wikipedia.org/wiki/Greedy_algorithm"><em>greedy algorithm</em></a> is an approach that, at every stage of execution of a particular algorithm where we are seeking for possible candidates for constructing the solution to a computational problem, makes always the choice that is optimal (i.e. the best one) at that particular moment. For certain kinds of problems, this behaviour allows us to reach the best possible solution to the computational problem in consideration. For instance, if you have to determine the minimum number of euro coins needed for making a change, then a greedy algorithm will return even an optimal solution overall:</p>
+<ol>
+<li>
+<p>consider the coins to choose for the change as ordered in a decrescent way, from the highest value (i.e. 2 euros) to the lowest one (i.e. 1 cent);</p>
+</li>
+<li>
+<p><span style="font-size: 12pt;">for each kind of value, add in the candidate set of the solution as much coins of that value as possible until their sum is lesser than the remaining of the change to give;</span></p>
+</li>
+<li>
+<p><span style="font-size: 12pt;"></span><span style="font-size: 12pt;">if the change value is reached, return it.</span></p>
+</li>
+</ol>
+<p>However, sometimes it is possible that the solution found, while it provides a correct solution to the problem, is just a sub-optimal solution.&#xA0;For instance, driving from Florence to Bologna, we can encounter a crossroad with two signs indicating two different routes to get to Bologna. The left route allows us to get to Bologna by travelling for 42 kilometres. On the other hand, the right route allows us to get to Bologna by travelling for 56 kilometres. A pure greedy approach would select the left route since at the moment seems the most convenient scenario. However, the approach does not predict&#xA0;the existence of possible traffic in the left road and, consequently, it would be possible to arrive in Bologna even after a car that takes the right route.</p>
+<p>There are two main characteristics that a computational problem should show so as to be sure that the application of a greedy approach will bring to an optimal solution to the problem. The first one is that the&#xA0;<em>greedy choice property</em> should be guaranteed. This property means that, at a certain step, we can choose the best candidate for improving the set of candidates bringing to a solution.</p>
+<p>The other characteristic is that the problem as an&#xA0;<a href="https://en.wikipedia.org/wiki/Optimal_substructure"><em>optimal substructure</em></a>. This means that the optimal solution to a computational problem can be built by considering the optimal solutions to its subproblems. For instance, the previous example of the travel from Florence to Bologna does not have an optimal substructure because there can be accidents that are encountered because an optimal subsolution has been taken at certain point.</p>
+</section>
+<section id="section3">
+<h1>Line wrap</h1>
+<p>Understanding where to break a line in a page, i.e. <a href="https://en.wikipedia.org/wiki/Line_wrap_and_word_wrap">line wrap</a>, is one of the most simple and relevant problems one has to tackle when dealing with documents, either in print or digital forms. For instance, when a person is using a typewriter for writing a document, at a certain point, after she has written a bunch of characters, there is a mandatory action to take which is the carriage and return operation, that is performed mechanically on the typewriter itself. Basically speaking, when the writer notices that the page has no more space for imprinting a new word on that line, the configuration of the typewriter is initialised again in order to start from the very beginning of the left border but in the following line.</p>
+<figure id="img_4">
+<p><img src="img/wrap.png" alt="img/wrap.png"></p>
+<figcaption>A screenshot depicting how <a href="https://www.openoffice.org/">OpenOffice Writer</a> deals with line wrap.</figcaption>
+</figure>
+<p>In modern tools, such as wordprocessors, the line wrap is totally handled by an algorithm that takes care of choosing when there is enough space to put that word in the current line. Generally speaking, we can describe the problem in the following manner:</p>
+<p><strong>Computational problem:</strong>&#xA0;break a text into lines such that it will fit in the available width of a page.</p>
+<p>A greedy approach is very efficient and effective for addressing the aforementioned computational problem. It would proceed as follows:</p>
+<ol>
+<li>
+<p>For each word in the input text, see if there is enough space in the line for adding that word;</p>
+</li>
+<li>
+<p>If there is space, add the word to the line; otherwise,</p>
+</li>
+<li>
+<p>Declare finished the current line, and add the word as the first token of the following line.</p>
+</li>
+</ol>
+<p>In order to implement this algorithm, we need to introduce two ancillary methods for strings, in particular for tokenising and recomposing strings. The first of these methods is <code>&#x200B;&lt;string&gt;.split(&lt;string_separator&gt;)</code>. This method allows us to separate the string executing it according to a specific set of characters the string may contain, specified by the parameter <code>&#x200B;&lt;string_separator&gt;</code>. For instance, if we have the variable&#xA0;<code>my_string</code> assigned to&#xA0;<code>&quot;a b c&quot;</code>, the execution of the aforementioned method, i.e.&#xA0;<code>my_string.split(&quot; &quot;)</code>, returns the following list:&#xA0;<code>[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]</code>.</p>
+<p>The other method we need, i.e.&#xA0;<code>&#x200B;&lt;string_separator&gt;.join(&lt;list_of_strings&gt;)</code>,&#xA0;implements the opposite operation, i.e. it would be able to concatenate the string in a list again, according to a particular sequence of characters. For instance, if we have the list&#xA0;<code>my_list = [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]</code>, the execution of the aforementioned method, i.e. <code>&#x200B;&quot; &quot;.join(my_list)</code>, returns the following string: <code>&quot;a b c&quot;</code>.</p>
+<p>We now have all the ingredients for implementing our algorithm for the line-wrap. In particular, it is introduced in&#xA0;<a href="#listing_1">&#xA0;</a>.&#xA0;</p>
+<figure id="listing_1">
+<pre><code>def line_wrap(text, line_width):
+    result = []  # the list of all the lines of a document
+
+    space_left = line_width  # the maximum available space per a specific line 
+    line = []  # the current line that is built
+
+    for word in text.split(&quot; &quot;):
+        word_len = len(word)
+
+        if word_len + 1 &gt; space_left:  # we consider the length of the word plus one space character
+            result.append(&quot; &quot;.join(line))
+            line = [word]
+            space_left = line_width - word_len
+        else:
+            line.append(word)
+            space_left = space_left - word_len + 1
+
+    result.append(&quot; &quot;.join(line))  # we add the remaning line to the document
+
+    return &quot;\n&quot;.join(result)&#x200B;</code></pre>
+<figcaption>The implementation of the algorithm for calculating the line-wrap problem in Python.</figcaption>
+</figure>
+</section>
+<section id="section4">
+<h1>Exercises</h1>
+<ol>
+<li>
+<p>Implement the informal algorithm introduced in&#xA0;<a href="#section2">&#xA0;</a> for returning the minimum amount of coins for a change.&#xA0;</p>
+</li>
+</ol>
+</section>
+<section id="doc-bibliography" role="doc-bibliography">
+<h1>References</h1>
+<ul>
+<li role="doc-biblioentry" id="biblioentry_1">
+<p>Hardt, J. (1972).&#xA0;A Computer Program for Calculating Blood Acid-Base Parameters on an Olivetti &quot;Programma 101&quot; Desk Computer. Clinical Chemistry, 18 (7):&#xA0;658-661. <a href="http://clinchem.aaccjnls.org/content/18/7/658/tab-article-info" rel="noopener noreferrer">http://clinchem.aaccjnls.org/content/18/7/658/tab-article-info</a> (last visited 15 December 2017)&#xA0;</p>
+</li>
+</ul>
+</section></body></html>

@@ -145,7 +145,7 @@
 					<div class="fragment mtl">
 						<p class="mbs"><code>&lt;string_separator>.join(&lt;list_of_strings>)</code></p>
 						<p class="mts mbn">It returns a string composed by all the strings in the list separated by <code>&lt;string_separator></code></p>
-						<p class="fragment mtn sst">Example: <code>" ".join(["a", "b", "c"])</code> returns the list <code>"a b c"</code></p>
+						<p class="fragment mtn sst">Example: <code>" ".join(["a", "b", "c"])</code> returns the string <code>"a b c"</code></p>
 					</div>
 				</section>
 				
@@ -158,7 +158,6 @@
 
     for word in text.split(" "):
         word_len = len(word)
-
         if word_len + 1 <= space_left:
             line.append(word)
             space_left = space_left - word_len + 1
@@ -167,6 +166,7 @@
             line = [word]
             space_left = line_width - word_len
 
+    result.append(" ".join(line))
     return "\n".join(result)</code></pre>
 				</section>
 				
