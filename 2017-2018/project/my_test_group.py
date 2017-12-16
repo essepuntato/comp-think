@@ -17,7 +17,7 @@ def do_pretty_print(data, result_data):
 
 
 def do_publication_tree(data, author):
-    return None
+    return None  # Suggestion: use the anytree package for creating the tree
 
 
 def do_top_ten_authors(data):
@@ -25,4 +25,4 @@ def do_top_ten_authors(data):
 
 
 def do_coauthor_network(data, author):
-    return None
+    return None  # Suggestion: use the networkx package for creating the graph
