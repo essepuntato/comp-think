@@ -26,4 +26,4 @@ This space contains all the material related to the [Computational Thinking and 
 
 All the material for the laboratory lectures is available in a sister GitHub repository: https://github.com/marilenadaquino/computational_thinking/.
 
-The additional material about the project of the course is described at https://github.com/essepuntato/comp-think/blob/master/README.md.
+The additional material about the project of the course is described at https://github.com/essepuntato/comp-think/blob/master/2017-2018/project/README.md.
