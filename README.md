@@ -27,3 +27,5 @@ This space contains all the material related to the [Computational Thinking and 
 All the material for the laboratory lectures is available in a sister GitHub repository: https://github.com/marilenadaquino/computational_thinking/.
 
 The additional material about the project of the course is described at https://github.com/essepuntato/comp-think/blob/master/2017-2018/project/README.md.
+
+All the algorithms introduced in the various lecture notes as well as all the exercises that required the creation of an algorithm are now available at https://github.com/essepuntato/comp-think/tree/master/2017-2018/lecture-notes/python, implemented as Python files.
