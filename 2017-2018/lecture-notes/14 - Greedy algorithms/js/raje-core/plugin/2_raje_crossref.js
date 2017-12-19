@@ -155,7 +155,7 @@ tinymce.PluginManager.add('raje_crossref', function (editor, url) {
     getAllReferenceableFigures: function () {
       let figures = []
 
-      $('figure:has(p:has(img)),figure:has(p:has(svg))').each(function () {
+      $(`${figurebox_selector},${FIGURE_IMAGE_SELECTOR}`).each(function () {
         figures.push({
           reference: $(this).attr('id'),
           text: $(this).find('figcaption').text()
@@ -361,10 +361,10 @@ function references() {
 
 function updateReferences() {
 
-  if ($('span.cgen[data-rash-original-content]').length) {
+  if ($('span.cgen[data-rash-original-content],sup.cgen.fn').length) {
 
     // Restore all saved content
-    $('span.cgen[data-rash-original-content]').each(function () {
+    $('span.cgen[data-rash-original-content],sup.cgen.fn').each(function () {
 
       // Save original content and reference
       let original_content = $(this).attr('data-rash-original-content')

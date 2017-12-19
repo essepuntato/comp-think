@@ -121,113 +121,34 @@ tinymce.PluginManager.add('raje_section', function (editor, url) {
 
     // instance of the selected element
     let selectedElement = $(tinymce.activeEditor.selection.getNode())
+    let selection = tinymce.activeEditor.selection
 
-    try {
+    let startNode = $(selection.getRng().startContainer)
+    let endNode = $(selection.getRng().endContainer)
 
-      let keycode = e.keyCode
-
-      // Save bounds of current selection (start and end)
-      let startNode = $(tinymce.activeEditor.selection.getRng().startContainer)
-      let endNode = $(tinymce.activeEditor.selection.getRng().endContainer)
-
-      const SPECIAL_CHARS =
-        (keycode > 47 && keycode < 58) || // number keys
-        (keycode > 95 && keycode < 112) || // numpad keys
-        (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
-        (keycode > 218 && keycode < 223); // [\]' (in order)
+    if ((section.cursorInSection(selection) || section.cursorInSpecialSection(selection))) {
 
       // Block special chars in special elements
-      if (SPECIAL_CHARS &&
+      if (checkIfSpecialChar(e.keyCode) &&
         (startNode.parents(SPECIAL_SECTION_SELECTOR).length || endNode.parents(SPECIAL_SECTION_SELECTOR).length) &&
-        (startNode.parents('h1').length > 0 || endNode.parents('h1').length > 0))
-        return false
+        (startNode.parents('h1').length > 0 || endNode.parents('h1').length > 0)) {
 
-      // #################################
-      // ### BACKSPACE && CANC PRESSED ###
-      // #################################
+        e.stopImmediatePropagation()
+        return false
+      }
+
+      /**
+       * Check if BACKSPACE or CANC are pressed
+       */
       if (e.keyCode == 8 || e.keyCode == 46) {
 
-        //let toRemoveSections = section.getSectionsinSelection(tinymce.activeEditor.selection)
-        raje_section_flag = true
-
-        // Prevent remove from header
-        if (selectedElement.is(NON_EDITABLE_HEADER_SELECTOR) ||
-          (selectedElement.attr('data-mce-caret') == 'after' && selectedElement.parent().is(RAJE_SELECTOR)) ||
-          (selectedElement.attr('data-mce-caret') && selectedElement.parent().is(RAJE_SELECTOR)) == 'before')
-          return false
-
-        // If selection isn't collapsed manage delete
+        // If the section isn't collapsed
         if (!tinymce.activeEditor.selection.isCollapsed()) {
-          return section.manageDelete()
-        }
 
-        // If SELECTION STARTS or ENDS in special section
-        else if (startNode.parents(SPECIAL_SECTION_SELECTOR).length || endNode.parents(SPECIAL_SECTION_SELECTOR).length) {
+          // If the selection contains at least a biblioentry
+          if (selectionContent.containsBiblioentries(selection)) {
 
-          let startOffset = tinymce.activeEditor.selection.getRng().startOffset
-          let startOffsetNode = 0
-          let endOffset = tinymce.activeEditor.selection.getRng().endOffset
-          let endOffsetNode = tinymce.activeEditor.selection.getRng().endContainer.length
-
-          // Completely remove the current special section if is entirely selected
-          if (
-            // Check if the selection contains the entire section
-            startOffset == startOffsetNode && endOffset == endOffsetNode &&
-
-            // Check if the selection starts from h1
-            (startNode.parents('h1').length != endNode.parents('h1').length) && (startNode.parents('h1').length || endNode.parents('h1').length) &&
-
-            // Check if the selection ends in the last child
-            (startNode.parents(SPECIAL_SECTION_SELECTOR).children().length == $(tinymce.activeEditor.selection.getRng().endContainer).parentsUntil(SPECIAL_SECTION_SELECTOR).index() + 1)) {
-
-          }
-
-          // Remove the current special section if selection is at the start of h1 AND selection is collapsed 
-          if (tinymce.activeEditor.selection.isCollapsed() && (startNode.parents('h1').length || startNode.is('h1')) && startOffset == 0) {
-
-            tinymce.activeEditor.undoManager.transact(function () {
-
-              // Remove the section and update 
-              selectedElement.parent(SPECIAL_SECTION_SELECTOR).remove()
-              tinymce.triggerSave()
-
-              // Update references
-              updateReferences()
-              updateIframeFromSavedContent()
-            })
-
-            return false
-          }
-
-          // Chek if inside the selection to remove, there is bibliography
-          let hasBibliography = false
-          $(tinymce.activeEditor.selection.getContent()).each(function () {
-            if ($(this).is(BIBLIOGRAPHY_SELECTOR))
-              hasBibliography = true
-          })
-
-          if (hasBibliography) {
-
-            tinymce.activeEditor.undoManager.transact(function () {
-
-              // Execute normal delete
-              tinymce.activeEditor.execCommand('delete')
-
-              // Update saved content
-              tinymce.triggerSave()
-
-              // Remove selector without hader
-              $(BIBLIOGRAPHY_SELECTOR).remove()
-
-              // Update iframe and restore selection
-              updateIframeFromSavedContent()
-            })
-
-            return false
-          }
-
-          // if selection starts or ends in a biblioentry
-          if (startNode.parents(BIBLIOENTRY_SELECTOR).length || endNode.parents(BIBLIOENTRY_SELECTOR).length) {
+            e.stopImmediatePropagation()
 
             // Both delete event and update are stored in a single undo level
             tinymce.activeEditor.undoManager.transact(function () {
@@ -242,11 +163,101 @@ tinymce.PluginManager.add('raje_section', function (editor, url) {
 
             return false
           }
+
+          // If the selection contains the entire bibliography section
+          if (selectionContent.containsBibliography(selection)) {
+
+            e.stopImmediatePropagation()
+
+            tinymce.activeEditor.undoManager.transact(function () {
+
+              // Execute normal delete
+              $(BIBLIOGRAPHY_SELECTOR).remove()
+              updateReferences()
+
+              // Update iframe and restore selection
+              updateIframeFromSavedContent()
+            })
+
+            return false
+          }
+
+          // Restructure the entire body if the section isn't collapsed and not inside a special section
+          if (!section.cursorInSpecialSection(selection)) {
+            e.stopImmediatePropagation()
+            section.manageDelete()
+          }
         }
 
+        // If the section is collapsed
+        if (tinymce.activeEditor.selection.isCollapsed()) {
 
+          // If the selection is inside a special section
+          if (section.cursorInSpecialSection(selection)) {
+
+            // Remove special section if the cursor is at the beginning
+            if ((startNode.parents('h1').length || startNode.is('h1')) && tinymce.activeEditor.selection.getRng().startOffset == 0) {
+
+              e.stopImmediatePropagation()
+              section.deleteSpecialSection(selectedElement)
+              return false
+            }
+
+            // if the cursor is at the beginning of a empty p inside its biblioentry, remove it and update the references
+            if (selectionContent.isAtBeginningOfEmptyBiblioentry(selection)) {
+
+              e.stopImmediatePropagation()
+
+              tinymce.activeEditor.undoManager.transact(function () {
+
+                // Execute normal delete
+                tinymce.activeEditor.execCommand('delete')
+                tinymce.triggerSave()
+                updateReferences()
+
+                // Update iframe and restore selection
+                updateIframeFromSavedContent()
+              })
+
+              return false
+            }
+
+            // 
+            if (selectionContent.isAtBeginningOfEmptyEndnote(selection)) {
+
+              e.stopImmediatePropagation()
+
+              tinymce.activeEditor.undoManager.transact(function () {
+
+                let endnote = selectedElement.parents(ENDNOTE_SELECTOR)
+
+                // If the current endnote is the last one remove the entire footnotes section
+                if (!endnote.prev(ENDNOTE_SELECTOR).length && !endnote.next(ENDNOTE_SELECTOR).length)
+                  $(ENDNOTES_SELECTOR).remove()
+
+                else {
+                  tinymce.activeEditor.execCommand('delete')
+                  tinymce.triggerSave()
+                }
+
+                updateReferences()
+
+                // Update iframe and restore selection
+                updateIframeFromSavedContent()
+              })
+
+              return false
+            }
+          }
+        }
+
+        // Prevent remove from header
+        if (selectedElement.is(NON_EDITABLE_HEADER_SELECTOR) ||
+          (selectedElement.attr('data-mce-caret') == 'after' && selectedElement.parent().is(RAJE_SELECTOR)) ||
+          (selectedElement.attr('data-mce-caret') && selectedElement.parent().is(RAJE_SELECTOR)) == 'before')
+          return false
       }
-    } catch (exception) {}
+    }
 
     // #################################
     // ######### ENTER PRESSED #########
@@ -986,5 +997,40 @@ section = {
         })
       }
     }
+  },
+
+  /**
+   * 
+   */
+  deleteSpecialSection: function (selectedElement) {
+
+    tinymce.activeEditor.undoManager.transact(function () {
+
+      // Remove the section and update 
+      selectedElement.parent(SPECIAL_SECTION_SELECTOR).remove()
+      tinymce.triggerSave()
+
+      // Update references
+      updateReferences()
+      updateIframeFromSavedContent()
+    })
+  },
+
+  /**
+   * 
+   */
+  cursorInSection: function (selection) {
+
+    return $(selection.getNode()).is(SECTION_SELECTOR) || Boolean($(selection.getNode()).parents(SECTION_SELECTOR).length)
+  },
+
+  /**
+   * 
+   */
+  cursorInSpecialSection: function (selection) {
+
+    return $(selection.getNode()).is(SPECIAL_SECTION_SELECTOR) ||
+      Boolean($(selection.getRng().startContainer).parents(SPECIAL_SECTION_SELECTOR).length) ||
+      Boolean($(selection.getRng().endContainer).parents(SPECIAL_SECTION_SELECTOR).length)
   }
 }
