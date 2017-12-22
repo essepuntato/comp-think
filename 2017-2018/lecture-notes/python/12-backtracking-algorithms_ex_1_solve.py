@@ -102,7 +102,7 @@ def undo_move(node, pegs, holes):
 
 if __name__ == "__main__":
     pegs, holes, end_position = create_square_solitaire()
-    print("Solution for the square peg solitaire:\n", solve(pegs, holes, end_position))
+    print("Solution for the square peg solitaire:\n", solve(pegs, holes, end_position, no_win=list()))
 
     pegs, holes, end_position = create_english_peg_board()
-    print("Solution for the English peg solitaire:\n", solve(pegs, holes, end_position))
+    print("Solution for the English peg solitaire:\n", solve(pegs, holes, end_position, no_win=list()))
