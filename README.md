@@ -23,6 +23,7 @@ This space contains all the material related to the [Computational Thinking and 
 1. Second partial examination test: text ([PDF](https://rawgit.com/essepuntato/comp-think/master/2017-2018/exams/second-partial-examination.pdf))
 1. Greedy algorithms: slides ([HTML](https://rawgit.com/essepuntato/comp-think/master/2017-2018/slides/15%20-%20Greedy%20algorithms.html), [PDF](https://rawgit.com/essepuntato/comp-think/master/2017-2018/slides/15%20-%20Greedy%20algorithms.pdf)), lecture notes ([HTML](https://rawgit.com/essepuntato/comp-think/master/2017-2018/lecture-notes/14%20-%20Greedy%20algorithms/index.html))
 1. Ask a thesis: slides ([HTML](https://rawgit.com/essepuntato/comp-think/master/2017-2018/slides/16%20-%20Ask%20a%20thesis.html), [PDF](https://rawgit.com/essepuntato/comp-think/master/2017-2018/slides/16%20-%20Ask%20a%20thesis.pdf))
+1. Exercises on algorithms: lecture notes ([HTML](https://rawgit.com/essepuntato/comp-think/master/2017-2018/lecture-notes/15%20-%20Exercises%20on%20algorithms/index.html))
 
 All the material for the laboratory lectures is available in a sister GitHub repository: https://github.com/marilenadaquino/computational_thinking/.
 

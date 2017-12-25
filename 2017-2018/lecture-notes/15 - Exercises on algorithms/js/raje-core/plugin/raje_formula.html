@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap 101 Template</title>
+
+  <style>
+    body {
+      padding: 20px
+    }
+
+    .outputWrapper,
+    .inputWrapper {
+      height: 150px;
+      border: 1px solid #E7E7E7;
+      margin-bottom: 15px;
+      line-height: 150px
+    }
+
+    #formula_input {
+      height: 150px;
+      line-height: 150px;
+      text-align: center
+    }
+
+    .row {
+      position: relative
+    }
+
+    .row .label {
+      position: absolute;
+      left: 20px;
+      top: -7.5px;
+    }
+
+    #formula_submit {
+      margin-top: 20px
+    }
+
+    .dropdown-formula {
+      margin: 12px 5px!important;
+    }
+
+    .dropdown-formula a {
+      text-align: center;
+      color: #777
+    }
+
+    .dropdown-formula a:hover {
+      cursor: pointer;
+      color: #333
+    }
+  </style>
+
+  <link rel="stylesheet" href="../../../css/bootstrap.min.css">
+
+  <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_SVG">
+  </script>
+
+  <script src="../../tinymce/tinymce.min.js">
+  </script>
+
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Operations
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="+">``+``</a>
+                      <a class="col-xs-4" data-formula="*">``*``</a>
+                      <a class="col-xs-4" data-formula="**">``**``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="xx">``xx``</a>
+                      <a class="col-xs-4" data-formula="-:">``-:``</a>
+                      <a class="col-xs-4" data-formula="@">``@``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="//">``//``</a>
+                      <a class="col-xs-4" data-formula="\\">``\\``</a>
+                      <a class="col-xs-4" data-formula="oplus">``oplus``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="^^">``^^``</a>
+                      <a class="col-xs-4" data-formula="^^^">``^^^``</a>
+                      <a class="col-xs-4" data-formula="otimes">``otimes``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="vv">``vv``</a>
+                      <a class="col-xs-4" data-formula="vvv">``vvv``</a>
+                      <a class="col-xs-4" data-formula="odot">``odot``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="nn">``nn``</a>
+                      <a class="col-xs-4" data-formula="nnn">``nnn``</a>
+                      <a class="col-xs-4" data-formula="sum">``sum``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="uu">``uu``</a>
+                      <a class="col-xs-4" data-formula="uuu">``uuu``</a>
+                      <a class="col-xs-4" data-formula="prod">``prod``</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Misc
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="2/3">``x/y``</a>
+                      <a class="col-xs-4" data-formula="2^3">``x^y``</a>
+                      <a class="col-xs-4" data-formula="sqrt x">``sqrt x``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="root(3)(x)">``root(y)(x)``</a>
+                      <a class="col-xs-4" data-formula="int">``int``</a>
+                      <a class="col-xs-4" data-formula="oint">``oint``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="del">``del``</a>
+                      <a class="col-xs-4" data-formula="grad">``grad``</a>
+                      <a class="col-xs-4" data-formula="+-">``+-``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="O/">``O/``</a>
+                      <a class="col-xs-4" data-formula="oo">``oo``</a>
+                      <a class="col-xs-4" data-formula="aleph">``aleph``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula=":.">``:.``</a>
+                      <a class="col-xs-4" data-formula=":'">``:'``</a>
+                      <a class="col-xs-4" data-formula="|...|">``|...|``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="CC">``CC``</a>
+                      <a class="col-xs-4" data-formula="NN">``NN``</a>
+                      <a class="col-xs-4" data-formula="QQ">``QQ``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="RR">``RR``</a>
+                      <a class="col-xs-4" data-formula="ZZ">``ZZ``</a>
+                      <a class="col-xs-4" data-formula='"hi"'>``"hi"``</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Relation symbols
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="=">``=``</a>
+                      <a class="col-xs-4" data-formula="!=">``!=``</a>
+                      <a class="col-xs-4" data-formula='<'>``>``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula=">">``>``</a>
+                      <a class="col-xs-4" data-formula="<=">``
+                        <=``</a>
+                          <a class="col-xs-4" data-formula='>='>``>=``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <!-- Auto indent breaks the content without unicode -->
+                      <a class="col-xs-4" data-formula="-<">``-&lt;``</a>
+                      <a class="col-xs-4" data-formula="-<=">``-&lt;=``</a>
+                      <a class="col-xs-4" data-formula='>-'>``>-``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula=">-=">``>-=``</a>
+                      <a class="col-xs-4" data-formula="in">``in``</a>
+                      <a class="col-xs-4" data-formula='!in'>``!in``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="sub">``sub``</a>
+                      <a class="col-xs-4" data-formula="sup">``sup``</a>
+                      <a class="col-xs-4" data-formula='sube'>``sube``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="supe">``supe``</a>
+                      <a class="col-xs-4" data-formula="-=">``-=``</a>
+                      <a class="col-xs-4" data-formula='~='>``~=``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="~~">``~~``</a>
+                      <a class="col-xs-4" data-formula="prop">``prop``</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logical symbols
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="and">``and``</a>
+                      <a class="col-xs-4" data-formula="or">``or``</a>
+                      <a class="col-xs-4" data-formula="if">``if``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="=>">``=>``</a>
+                      <a class="col-xs-4" data-formula="<=>">``
+                        <=>``</a>
+                      <a class="col-xs-4" data-formula="not">``not``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="AA">``AA``</a>
+                      <a class="col-xs-4" data-formula="EE">``EE``</a>
+                      <a class="col-xs-4" data-formula="_|_">``_|_``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-4" data-formula="TT">``TT``</a>
+                      <a class="col-xs-4" data-formula="|--">``|--``</a>
+                      <a class="col-xs-4" data-formula="|==">``|==``</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Formulas
+                  <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-6" data-formula="sin(x)">``sin(x)``</a>
+                      <a class="col-xs-6" data-formula="cos(x)">``cos(x)``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-6" data-formula="tan(x)">``tan(x)``</a>
+                      <a class="col-xs-6" data-formula="sec(x)">``sec(x)``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-6" data-formula="ln(x)">``ln(x)``</a>
+                      <a class="col-xs-6" data-formula="log_(y)(x)">``log_(y)(x)``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-6" data-formula="exp(x)">``exp(x)``</a>
+                      <a class="col-xs-6" data-formula="f(x)">``f(x)``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-6" data-formula="[[a,b],[c,d]]">``[[a,b],[c,d]]``</a>
+                      <a class="col-xs-6" data-formula="((a),(b))">``((a),(b))``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-6" data-formula="lim_(N->oo)">``lim_(N->oo)``</a>
+                      <a class="col-xs-6" data-formula="sum_(i=0)^N">``sum_(i=0)^N``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-6" data-formula="f'(x) = dy/dx">``f'(x) = dy/dx``</a>
+                      <a class="col-xs-6" data-formula="(dq)/(dp)">``(dq)/(dp)``</a>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row dropdown-formula">
+                      <a class="col-xs-12" data-formula="{(2x,+,17y,=,23),(x,-,y,=,5):}">``{(2x,+,17y,=,23),(x,-,y,=,5):}``</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+      </nav>
+    </div>
+    <div class="row outputWrapper">
+      <span class="label label-primary">Output</span>
+      <div class="form-group text-center">
+        <p id="formula_output" class="rash-math">````</p>
+      </div>
+    </div>
+    <div class="row">
+      <span class="label label-success">Input</span>
+      <input type="text" id="formula_input" class="form-control" autofocus>
+    </div>
+    <div class="row">
+      <button class="btn btn-success" id="formula_submit">Add formula</button>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="../../jquery.min.js">
+  </script>
+
+  <script type="text/javascript" src="../../bootstrap.min.js">
+  </script>
+
+  <script>
+    let arg
+
+    $(window).load(function () {
+      MathJax.Hub.Config({
+        SVG: {
+          useGlobalCache: false
+        },
+        asciimath2jax: {
+          // delimiters for AsciiMath formulas
+          delimiters: [
+            ['``', '``']
+          ]
+        }
+      })
+
+      MathJax.Hub.processSectionDelay = 0;
+
+      // Formula modification dialog
+      arg = top.tinymce.activeEditor.windowManager.getParams();
+
+      if (arg.formula_val) {
+        $('#formula_input').val(arg.formula_val)
+        $('#formula_output').html(`\`\`${arg.formula_val}\`\``)
+      }
+    })
+
+    $('.dropdown-formula a').on('click', function () {
+      let dataFormula = $(this).attr('data-formula')
+      $('#formula_input').val($('#formula_input').val() + dataFormula)
+      updateOutput()
+    })
+
+    $('#formula_submit').on('click', function () {
+
+      let formulaSVG = $('#formula_output').find('svg')
+
+      formulaSVG.attr('role', 'math')
+      formulaSVG.attr('data-math-original-input', $('#formula_input').val())
+      formulaSVG.attr('data-mathml', $('#formula_output').find('*[data-mathml]').attr('data-mathml'))
+
+      // Save input
+      var output = {
+        formula_svg: formulaSVG,
+        formula_id: (arg && arg.formula_id) ? arg.formula_id : null
+      }
+
+      // Passing data and close window
+      window.parent.tinyMCE.get('raje_root').formula_output = output
+      window.parent.tinyMCE.activeEditor.windowManager.close()
+    })
+
+    $('#formula_input').on('input propertychange paste', function () {
+      updateOutput()
+    })
+
+    function updateOutput() {
+      MathJax.Hub.Queue([
+        'Text',
+        MathJax.Hub.getAllJax($('#formula_output')[0])[0],
+        $('#formula_input').val()
+      ])
+    }
+  </script>
+</body>
+
+</html>

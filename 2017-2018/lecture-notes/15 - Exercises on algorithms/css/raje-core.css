@@ -1,0 +1,136 @@
+@font-face {
+  font-family: 'raje-icons';
+  src:  url('../fonts/raje-icons.eot?57dsvg');
+  src:  url('../fonts/raje-icons.eot?57dsvg#iefix') format('embedded-opentype'),
+    url('../fonts/raje-icons.ttf?57dsvg') format('truetype'),
+    url('../fonts/raje-icons.woff?57dsvg') format('woff'),
+    url('../fonts/raje-icons.svg?57dsvg#raje-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+table.mce-item-table,
+.mce-item-table td,
+.mce-item-table th,
+.mce-item-table caption {
+  border: 1px solid black!important
+}
+
+header.page-header.container.cgen:hover {
+  cursor: pointer
+}
+
+section ol>li,
+section ul>li {
+  margin: 0 0 10px
+}
+
+ol ol,
+ul ul,
+ol ol ol,
+ul ul ul {
+  margin-top: 10px
+}
+
+pre>code[data-mce-selected]{
+  background: none!important
+}
+
+li.hidden-list-style {
+  list-style-type: none
+}
+
+i.mce-i-icon-anchor:before {
+  content: "\f13d";
+  font-family: FontAwesome;
+}
+
+i.mce-i-icon-footnotes:before {
+  content: "\e900";
+  font-family: 'raje-icons' !important;
+}
+
+i.mce-i-icon-inline-code:before {
+  content: "\e901";
+  font-family: 'raje-icons' !important;
+}
+
+i.mce-i-icon-block-code:before {
+  content: "\e905";
+  font-family: 'raje-icons' !important;
+}
+
+i.mce-i-icon-block-quote:before {
+  content: "\e906";
+  font-family: 'raje-icons' !important;
+}
+
+i.mce-i-icon-inline-formula:before {
+  content: "\e902";
+  font-family: 'raje-icons' !important;
+}
+
+i.mce-i-icon-inline-quote:before {
+  content: "\e904";
+  font-family: 'raje-icons' !important;
+}
+
+i.mce-i-icon-formula:before {
+  content: "\e903";
+  font-family: 'raje-icons' !important;
+}
+
+i.mce-i-icon-table:before {
+  content: "\f0ce";
+  font-family: FontAwesome;
+}
+
+i.mce-i-icon-image:before {
+  content: "\f03e";
+  font-family: FontAwesome;
+}
+
+i.mce-i-icon-listing:before {
+  content: "\f022";
+  font-family: FontAwesome;
+}
+
+i.mce-i-icon-listing:before {
+  content: "\f022";
+  font-family: FontAwesome;
+}
+
+i.mce-i-icon-ol:before {
+  content: "\f0cb";
+  font-family: FontAwesome;
+}
+
+i.mce-i-icon-ul:before {
+  content: "\f0ca";
+  font-family: FontAwesome;
+}
+
+figure[id] span[contenteditable=false]:hover {
+  cursor: pointer!important
+}
+
+@media (min-width:768px) {
+  .mce-toolbar-grp {
+    margin: 0 auto!important;
+    width: 750px!important;
+  }
+}
+
+@media (min-width:992px) {
+  .mce-toolbar-grp {
+    margin: 0 auto!important;
+    width: 970px!important;
+  }
+}
+
+@media (min-width:1200px) {
+  .mce-toolbar-grp {
+    margin: 0 auto!important;
+    width: 1170px!important;
+  }
+}
