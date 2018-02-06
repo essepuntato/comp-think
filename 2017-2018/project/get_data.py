@@ -6,6 +6,7 @@ from lxml import etree
 from time import sleep
 from random import randint
 from csv import writer
+import re
 
 
 class PeerJDownloader(object):
@@ -55,6 +56,11 @@ class PeerJDownloader(object):
                     self.log.warning("Document number %s does not exist" % str(idx))
                     count_404 += 1
 
+    @staticmethod
+    def n(s):
+        return re.sub("\s+", " ", s).strip()
+
+
     def extract_from_downloaded(self):
         result = [("title", "authors", "doi", "abstract", "categories", "keywords", "journal",
                    "volume", "references", "figures", "tables", "year")]
@@ -68,23 +74,24 @@ class PeerJDownloader(object):
                         self.log.info("Process file '%s'" % file_path)
                         title = "".join(xml.xpath("//front//article-meta//article-title//text()"))
                         authors = "; ".join(
-                            ["%s, %s" % (author.xpath("./given-names")[0].text, author.xpath("./surname")[0].text)
+                            ["%s, %s" % (self.n(author.xpath("./given-names")[0].text),
+                                         self.n(author.xpath("./surname")[0].text))
                              for author in
                              xml.xpath("//front//article-meta//contrib-group[@content-type='authors']//name")])
-                        doi = xml.xpath("//front//article-meta//article-id[@pub-id-type='doi']")[0].text
-                        abstract = "".join(xml.xpath("//front//article-meta//abstract//p//text()"))
+                        doi = self.n(xml.xpath("//front//article-meta//article-id[@pub-id-type='doi']")[0].text)
+                        abstract = self.n("".join(xml.xpath("//front//article-meta//abstract//p//text()")))
                         categories = "; ".join(
-                            [category.text for category in
+                            [self.n(category.text) for category in
                              xml.xpath("//front//article-meta//subj-group[@subj-group-type='categories']//subject")])
                         keywords = "; ".join(
-                            [keyword.text for keyword in
+                            [self.n(keyword.text) for keyword in
                              xml.xpath("//front//article-meta//kwd-group[@kwd-group-type='author']//kwd")])
-                        journal = xml.xpath("//front//journal-meta//journal-title")[0].text
-                        volume = xml.xpath("//front//article-meta//volume")[0].text
-                        references = len(xml.xpath("//back//ref-list//ref"))
-                        figures = len(xml.xpath("//body//fig"))
-                        tables = len(xml.xpath("//body//table-wrap"))
-                        year = xml.xpath("//front//article-meta//pub-date//year")[0].text
+                        journal = self.n(xml.xpath("//front//journal-meta//journal-title")[0].text)
+                        volume = self.n(xml.xpath("//front//article-meta//volume")[0].text)
+                        references = str(len(xml.xpath("//back//ref-list//ref")))
+                        figures = str(len(xml.xpath("//body//fig")))
+                        tables = str(len(xml.xpath("//body//table-wrap")))
+                        year = self.n(xml.xpath("//front//article-meta//pub-date//year")[0].text)
 
                         result.append((title, authors, doi, abstract, categories, keywords, journal,
                                        volume, references, figures, tables, year))
@@ -103,6 +110,8 @@ if __name__ == "__main__":
     arg_parser.add_argument("-m", "--max", dest="max", type=int,
                             help="The max number of failure the script must have before to stop trying "
                                  "to download the sources")
+    arg_parser.add_argument("-e", "--existing", dest="exist", action="store_true", default=False,
+                            help="Process only the XML in the dir if they already exist")
 
     args = arg_parser.parse_args()
 
@@ -119,7 +128,9 @@ if __name__ == "__main__":
         out_dir = args.out_dir
 
     pj = PeerJDownloader(base_url, max_tentative, out_dir)
-    pj.download_peerj_sources()
+
+    if not args.exist:
+        pj.download_peerj_sources()
     csv = pj.extract_from_downloaded()
     with open(out_dir + sep + "result.csv", "w") as f:
         csv_writer = writer(f)

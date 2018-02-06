@@ -7,7 +7,7 @@ def ari(text):
     num_word = len(text.split())
     num_sent = len(re.sub("[^\\.]", "", text))
     ari_value = (4.71 * (num_char / num_word)) + (0.5 * (num_word / num_sent)) - 21.43
-    return math.floor(ari_value)
+    return math.ceil(ari_value)
 
 if __name__ == "__main__":
     my_text = "Semantic Publishing involves the use of Web and Semantic Web technologies and standards for the " \

@@ -1,4 +1,7 @@
 get_data.py
 sample_xml/
 __pycache__/
-0*
+students/
+data_full.csv
+full_xml/
+__init__.py
